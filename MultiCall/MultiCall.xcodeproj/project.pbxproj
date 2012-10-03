@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D317473160B618E00ADE1B6 /* DialNumberModel.m */; };
+		1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */; };
+		1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */; };
+		1D35063915E8EDCC007608E5 /* Settings_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */; };
+		1D35063D15E8EDD4007608E5 /* Multicall_Disable 60X60.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063A15E8EDD3007608E5 /* Multicall_Disable 60X60.png */; };
+		1D35063E15E8EDD4007608E5 /* Settings_Disable60X60.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063B15E8EDD3007608E5 /* Settings_Disable60X60.png */; };
+		1D35063F15E8EDD4007608E5 /* Groups_Disable60X60.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063C15E8EDD3007608E5 /* Groups_Disable60X60.png */; };
+		1D4C960D15E74C6A0057C130 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D4C960C15E74C690057C130 /* Entitlements.plist */; };
+		1D59D30015F21AA500175BFD /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59D2FF15F21AA500175BFD /* Model.m */; };
+		1D59D30315F2340800175BFD /* CallmeonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59D30215F2340800175BFD /* CallmeonModel.m */; };
+		1D5A459415EDEC64006F3906 /* CallmeonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5A459215EDEC64006F3906 /* CallmeonView.m */; };
+		1D5A459515EDEC64006F3906 /* CallmeonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5A459315EDEC64006F3906 /* CallmeonView.xib */; };
+		1D6E760415DF62F3004B4A4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760315DF62F3004B4A4A /* UIKit.framework */; };
+		1D6E760615DF62F3004B4A4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760515DF62F3004B4A4A /* Foundation.framework */; };
+		1D6E760815DF62F3004B4A4A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760715DF62F3004B4A4A /* CoreGraphics.framework */; };
+		1D6E760E15DF62F3004B4A4A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E760C15DF62F3004B4A4A /* InfoPlist.strings */; };
+		1D6E761015DF62F3004B4A4A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E760F15DF62F3004B4A4A /* main.m */; };
+		1D6E761415DF62F3004B4A4A /* MulticallAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D6E761315DF62F3004B4A4A /* MulticallAppDelegate.m */; };
+		1D6E761C15DF62F3004B4A4A /* first.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E761B15DF62F3004B4A4A /* first.png */; };
+		1D6E761E15DF62F3004B4A4A /* first@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E761D15DF62F3004B4A4A /* first@2x.png */; };
+		1D6E762315DF62F3004B4A4A /* second.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E762215DF62F3004B4A4A /* second.png */; };
+		1D6E762515DF62F3004B4A4A /* second@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6E762415DF62F3004B4A4A /* second@2x.png */; };
+		1D733AEE15F5E299006AFC0D /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D733AED15F5E299006AFC0D /* Message.m */; };
+		1D73F58C161329C300C3C66D /* Add-Member-Butt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D73F58B161329C300C3C66D /* Add-Member-Butt.png */; };
+		1D73F58E161335C500C3C66D /* NewGroupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D73F58D161335C500C3C66D /* NewGroupView.xib */; };
+		1D936B0C1603227500DD7E54 /* PhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D936B0A1603227500DD7E54 /* PhoneViewController.m */; };
+		1D936B0D1603227500DD7E54 /* PhoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D936B0B1603227500DD7E54 /* PhoneViewController.xib */; };
+		1DD3CBCC15EF50BC00779E9C /* Icon_Bright_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */; };
+		1DD3CBCD15EF50BC00779E9C /* Icon_Bright_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */; };
+		1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */; };
+		1DD7AA4015FF576F00A581BD /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7AA3E15FF576F00A581BD /* AddressBook.framework */; };
+		1DD7AA4115FF576F00A581BD /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7AA3F15FF576F00A581BD /* AddressBookUI.framework */; };
+		1DD7AA4415FF5E0700A581BD /* PeoplePickerNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7AA4315FF5E0700A581BD /* PeoplePickerNavigationController.m */; };
+		1DD7AA4715FF61DF00A581BD /* ContactModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7AA4615FF61DF00A581BD /* ContactModel.m */; };
+		1DD7AA4A15FF61F100A581BD /* CallModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7AA4915FF61F100A581BD /* CallModel.m */; };
+		1DD7AA4D15FF61FF00A581BD /* GroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD7AA4C15FF61FF00A581BD /* GroupModel.m */; };
+		1DDCFD83161C2EAF0082FCC1 /* PhoneNumberFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDCFD82161C2EAF0082FCC1 /* PhoneNumberFormatter.m */; };
+		1DDCFD85161C6D140082FCC1 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */; };
+		1DEF507A15E8B4B1002B90DE /* CallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF507815E8B4B1002B90DE /* CallView.m */; };
+		1DEF507B15E8B4B1002B90DE /* CallView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF507915E8B4B1002B90DE /* CallView.xib */; };
+		1DEF507F15E8B4D9002B90DE /* Recents.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF507D15E8B4D8002B90DE /* Recents.m */; };
+		1DEF508015E8B4D9002B90DE /* Recents.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF507E15E8B4D8002B90DE /* Recents.xib */; };
+		1DEF508415E8B4F1002B90DE /* GroupsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF508215E8B4F1002B90DE /* GroupsView.m */; };
+		1DEF508515E8B4F1002B90DE /* GroupsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF508315E8B4F1002B90DE /* GroupsView.xib */; };
+		1DEF508915E8B504002B90DE /* NewGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF508715E8B504002B90DE /* NewGroupView.m */; };
+		1DEF508E15E8B51B002B90DE /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEF508C15E8B51B002B90DE /* SettingsView.m */; };
+		1DEF508F15E8B51B002B90DE /* SettingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF508D15E8B51B002B90DE /* SettingsView.xib */; };
+		1DEF509115E8B561002B90DE /* Mainwindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509015E8B561002B90DE /* Mainwindow.xib */; };
+		1DEF509615E8B899002B90DE /* Add_Multicall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509515E8B899002B90DE /* Add_Multicall.png */; };
+		1DEF509815E8B8A4002B90DE /* Contact.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509715E8B8A4002B90DE /* Contact.png */; };
+		1DEF509A15E8B8BE002B90DE /* Group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509915E8B8BE002B90DE /* Group.png */; };
+		1DEF509D15E8B8CE002B90DE /* Number.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509B15E8B8CE002B90DE /* Number.png */; };
+		1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */; };
+		1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */; };
+		1DFD002B1600B4CE00C38D8C /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00281600B4CE00C38D8C /* red.png */; };
+		1DFD00371600BBE100C38D8C /* red1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00361600BBE100C38D8C /* red1.png */; };
+		1DFD00391600BBE600C38D8C /* Green1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00381600BBE600C38D8C /* Green1.png */; };
+		1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003A1600C0F300C38D8C /* shad_01.png */; };
+		1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003B1600C0F300C38D8C /* shad_02.png */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1D317472160B618E00ADE1B6 /* DialNumberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberModel.h; sourceTree = "<group>"; };
+		1D317473160B618E00ADE1B6 /* DialNumberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberModel.m; sourceTree = "<group>"; };
+		1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable 30x30.png"; sourceTree = "<group>"; };
+		1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Groups_Disable 30X30.png"; sourceTree = "<group>"; };
+		1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings_Disable 30X30.png"; sourceTree = "<group>"; };
+		1D35063A15E8EDD3007608E5 /* Multicall_Disable 60X60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable 60X60.png"; sourceTree = "<group>"; };
+		1D35063B15E8EDD3007608E5 /* Settings_Disable60X60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Settings_Disable60X60.png; sourceTree = "<group>"; };
+		1D35063C15E8EDD3007608E5 /* Groups_Disable60X60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Groups_Disable60X60.png; sourceTree = "<group>"; };
+		1D4C960C15E74C690057C130 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		1D59D2FE15F21AA500175BFD /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
+		1D59D2FF15F21AA500175BFD /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
+		1D59D30115F2340800175BFD /* CallmeonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallmeonModel.h; sourceTree = "<group>"; };
+		1D59D30215F2340800175BFD /* CallmeonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallmeonModel.m; sourceTree = "<group>"; };
+		1D5A459115EDEC64006F3906 /* CallmeonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallmeonView.h; sourceTree = "<group>"; };
+		1D5A459215EDEC64006F3906 /* CallmeonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallmeonView.m; sourceTree = "<group>"; };
+		1D5A459315EDEC64006F3906 /* CallmeonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallmeonView.xib; sourceTree = "<group>"; };
+		1D6E75FF15DF62F3004B4A4A /* MultiCall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiCall.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6E760315DF62F3004B4A4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1D6E760515DF62F3004B4A4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D6E760715DF62F3004B4A4A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		1D6E760B15DF62F3004B4A4A /* MultiCall-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MultiCall-Info.plist"; sourceTree = "<group>"; };
+		1D6E760D15DF62F3004B4A4A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1D6E760F15DF62F3004B4A4A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1D6E761115DF62F3004B4A4A /* MultiCall-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MultiCall-Prefix.pch"; sourceTree = "<group>"; };
+		1D6E761215DF62F3004B4A4A /* MulticallAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MulticallAppDelegate.h; sourceTree = "<group>"; };
+		1D6E761315DF62F3004B4A4A /* MulticallAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MulticallAppDelegate.m; sourceTree = "<group>"; };
+		1D6E761B15DF62F3004B4A4A /* first.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first.png; sourceTree = "<group>"; };
+		1D6E761D15DF62F3004B4A4A /* first@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first@2x.png"; sourceTree = "<group>"; };
+		1D6E762215DF62F3004B4A4A /* second.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second.png; sourceTree = "<group>"; };
+		1D6E762415DF62F3004B4A4A /* second@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second@2x.png"; sourceTree = "<group>"; };
+		1D733AEC15F5E299006AFC0D /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		1D733AED15F5E299006AFC0D /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		1D73F58B161329C300C3C66D /* Add-Member-Butt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Add-Member-Butt.png"; sourceTree = "<group>"; };
+		1D73F58D161335C500C3C66D /* NewGroupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewGroupView.xib; sourceTree = "<group>"; };
+		1D936B091603227500DD7E54 /* PhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneViewController.h; sourceTree = "<group>"; };
+		1D936B0A1603227500DD7E54 /* PhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneViewController.m; sourceTree = "<group>"; usesTabs = 0; };
+		1D936B0B1603227500DD7E54 /* PhoneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneViewController.xib; sourceTree = "<group>"; };
+		1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Bright_57.png; sourceTree = "<group>"; };
+		1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Bright_114.png; sourceTree = "<group>"; };
+		1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		1DD7AA3E15FF576F00A581BD /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		1DD7AA3F15FF576F00A581BD /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		1DD7AA4215FF5E0700A581BD /* PeoplePickerNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeoplePickerNavigationController.h; sourceTree = "<group>"; };
+		1DD7AA4315FF5E0700A581BD /* PeoplePickerNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeoplePickerNavigationController.m; sourceTree = "<group>"; };
+		1DD7AA4515FF61DF00A581BD /* ContactModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactModel.h; sourceTree = "<group>"; };
+		1DD7AA4615FF61DF00A581BD /* ContactModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContactModel.m; sourceTree = "<group>"; };
+		1DD7AA4815FF61F100A581BD /* CallModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallModel.h; sourceTree = "<group>"; };
+		1DD7AA4915FF61F100A581BD /* CallModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallModel.m; sourceTree = "<group>"; };
+		1DD7AA4B15FF61FF00A581BD /* GroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupModel.h; sourceTree = "<group>"; };
+		1DD7AA4C15FF61FF00A581BD /* GroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupModel.m; sourceTree = "<group>"; };
+		1DDCFD81161C2EAF0082FCC1 /* PhoneNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumberFormatter.h; sourceTree = "<group>"; };
+		1DDCFD82161C2EAF0082FCC1 /* PhoneNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberFormatter.m; sourceTree = "<group>"; };
+		1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1DEF507715E8B4B1002B90DE /* CallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallView.h; sourceTree = "<group>"; };
+		1DEF507815E8B4B1002B90DE /* CallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallView.m; sourceTree = "<group>"; };
+		1DEF507915E8B4B1002B90DE /* CallView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallView.xib; sourceTree = "<group>"; };
+		1DEF507C15E8B4D8002B90DE /* Recents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recents.h; sourceTree = "<group>"; };
+		1DEF507D15E8B4D8002B90DE /* Recents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recents.m; sourceTree = "<group>"; };
+		1DEF507E15E8B4D8002B90DE /* Recents.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Recents.xib; sourceTree = "<group>"; };
+		1DEF508115E8B4F1002B90DE /* GroupsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsView.h; sourceTree = "<group>"; };
+		1DEF508215E8B4F1002B90DE /* GroupsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsView.m; sourceTree = "<group>"; };
+		1DEF508315E8B4F1002B90DE /* GroupsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GroupsView.xib; sourceTree = "<group>"; };
+		1DEF508615E8B504002B90DE /* NewGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGroupView.h; sourceTree = "<group>"; };
+		1DEF508715E8B504002B90DE /* NewGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGroupView.m; sourceTree = "<group>"; };
+		1DEF508B15E8B51B002B90DE /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
+		1DEF508C15E8B51B002B90DE /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
+		1DEF508D15E8B51B002B90DE /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
+		1DEF509015E8B561002B90DE /* Mainwindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Mainwindow.xib; sourceTree = "<group>"; };
+		1DEF509515E8B899002B90DE /* Add_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add_Multicall.png; sourceTree = "<group>"; };
+		1DEF509715E8B8A4002B90DE /* Contact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact.png; sourceTree = "<group>"; };
+		1DEF509915E8B8BE002B90DE /* Group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Group.png; sourceTree = "<group>"; };
+		1DEF509B15E8B8CE002B90DE /* Number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Number.png; sourceTree = "<group>"; };
+		1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Place_Multicall.png; sourceTree = "<group>"; };
+		1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_but_w_txt.png; sourceTree = "<group>"; };
+		1DFD00281600B4CE00C38D8C /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
+		1DFD00361600BBE100C38D8C /* red1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red1.png; sourceTree = "<group>"; };
+		1DFD00381600BBE600C38D8C /* Green1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green1.png; sourceTree = "<group>"; };
+		1DFD003A1600C0F300C38D8C /* shad_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_01.png; sourceTree = "<group>"; };
+		1DFD003B1600C0F300C38D8C /* shad_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_02.png; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D6E75FC15DF62F3004B4A4A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D6E760815DF62F3004B4A4A /* CoreGraphics.framework in Frameworks */,
+				1DD7AA4015FF576F00A581BD /* AddressBook.framework in Frameworks */,
+				1DD7AA4115FF576F00A581BD /* AddressBookUI.framework in Frameworks */,
+				1D6E760415DF62F3004B4A4A /* UIKit.framework in Frameworks */,
+				1D6E760615DF62F3004B4A4A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D59D2FD15F21A2700175BFD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1D59D2FE15F21AA500175BFD /* Model.h */,
+				1D59D2FF15F21AA500175BFD /* Model.m */,
+				1D59D30115F2340800175BFD /* CallmeonModel.h */,
+				1D59D30215F2340800175BFD /* CallmeonModel.m */,
+				1DD7AA4515FF61DF00A581BD /* ContactModel.h */,
+				1DD7AA4615FF61DF00A581BD /* ContactModel.m */,
+				1DD7AA4815FF61F100A581BD /* CallModel.h */,
+				1DD7AA4915FF61F100A581BD /* CallModel.m */,
+				1DD7AA4B15FF61FF00A581BD /* GroupModel.h */,
+				1DD7AA4C15FF61FF00A581BD /* GroupModel.m */,
+				1D317472160B618E00ADE1B6 /* DialNumberModel.h */,
+				1D317473160B618E00ADE1B6 /* DialNumberModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1D6E75F415DF62F2004B4A4A = {
+			isa = PBXGroup;
+			children = (
+				1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */,
+				1DEF509015E8B561002B90DE /* Mainwindow.xib */,
+				1D6E760915DF62F3004B4A4A /* MultiCall */,
+				1D6E760215DF62F3004B4A4A /* Frameworks */,
+				1D6E760015DF62F3004B4A4A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D6E760015DF62F3004B4A4A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6E75FF15DF62F3004B4A4A /* MultiCall.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D6E760215DF62F3004B4A4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1DD7AA3E15FF576F00A581BD /* AddressBook.framework */,
+				1DD7AA3F15FF576F00A581BD /* AddressBookUI.framework */,
+				1D6E760315DF62F3004B4A4A /* UIKit.framework */,
+				1D6E760515DF62F3004B4A4A /* Foundation.framework */,
+				1D6E760715DF62F3004B4A4A /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D6E760915DF62F3004B4A4A /* MultiCall */ = {
+			isa = PBXGroup;
+			children = (
+				1DD7AA4215FF5E0700A581BD /* PeoplePickerNavigationController.h */,
+				1DD7AA4315FF5E0700A581BD /* PeoplePickerNavigationController.m */,
+				1D733AEB15F5E239006AFC0D /* Utils */,
+				1D59D2FD15F21A2700175BFD /* Model */,
+				1D6E761215DF62F3004B4A4A /* MulticallAppDelegate.h */,
+				1D6E761315DF62F3004B4A4A /* MulticallAppDelegate.m */,
+				1D6E761B15DF62F3004B4A4A /* first.png */,
+				1D6E761D15DF62F3004B4A4A /* first@2x.png */,
+				1D6E762215DF62F3004B4A4A /* second.png */,
+				1D6E762415DF62F3004B4A4A /* second@2x.png */,
+				1D6E760A15DF62F3004B4A4A /* Supporting Files */,
+				1D4C960C15E74C690057C130 /* Entitlements.plist */,
+				1DEF507715E8B4B1002B90DE /* CallView.h */,
+				1DEF507815E8B4B1002B90DE /* CallView.m */,
+				1DEF507915E8B4B1002B90DE /* CallView.xib */,
+				1DEF507C15E8B4D8002B90DE /* Recents.h */,
+				1DEF507D15E8B4D8002B90DE /* Recents.m */,
+				1DEF507E15E8B4D8002B90DE /* Recents.xib */,
+				1DEF508115E8B4F1002B90DE /* GroupsView.h */,
+				1DEF508215E8B4F1002B90DE /* GroupsView.m */,
+				1DEF508315E8B4F1002B90DE /* GroupsView.xib */,
+				1DEF508615E8B504002B90DE /* NewGroupView.h */,
+				1DEF508715E8B504002B90DE /* NewGroupView.m */,
+				1D73F58D161335C500C3C66D /* NewGroupView.xib */,
+				1DEF508B15E8B51B002B90DE /* SettingsView.h */,
+				1DEF508C15E8B51B002B90DE /* SettingsView.m */,
+				1DEF508D15E8B51B002B90DE /* SettingsView.xib */,
+				1D5A459115EDEC64006F3906 /* CallmeonView.h */,
+				1D5A459215EDEC64006F3906 /* CallmeonView.m */,
+				1D5A459315EDEC64006F3906 /* CallmeonView.xib */,
+				1D936B091603227500DD7E54 /* PhoneViewController.h */,
+				1D936B0A1603227500DD7E54 /* PhoneViewController.m */,
+				1D936B0B1603227500DD7E54 /* PhoneViewController.xib */,
+			);
+			path = MultiCall;
+			sourceTree = "<group>";
+		};
+		1D6E760A15DF62F3004B4A4A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1DEF509215E8B84A002B90DE /* Images */,
+				1D6E760B15DF62F3004B4A4A /* MultiCall-Info.plist */,
+				1D6E760C15DF62F3004B4A4A /* InfoPlist.strings */,
+				1D6E760F15DF62F3004B4A4A /* main.m */,
+				1D6E761115DF62F3004B4A4A /* MultiCall-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1D733AEB15F5E239006AFC0D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1DDCFD81161C2EAF0082FCC1 /* PhoneNumberFormatter.h */,
+				1DDCFD82161C2EAF0082FCC1 /* PhoneNumberFormatter.m */,
+				1D733AEC15F5E299006AFC0D /* Message.h */,
+				1D733AED15F5E299006AFC0D /* Message.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		1DD3CBC915EF508B00779E9C /* Icon Files */ = {
+			isa = PBXGroup;
+			children = (
+				1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */,
+				1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */,
+				1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */,
+			);
+			name = "Icon Files";
+			sourceTree = "<group>";
+		};
+		1DEF509215E8B84A002B90DE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				1DFD00361600BBE100C38D8C /* red1.png */,
+				1DFD003A1600C0F300C38D8C /* shad_01.png */,
+				1DFD003B1600C0F300C38D8C /* shad_02.png */,
+				1D73F58B161329C300C3C66D /* Add-Member-Butt.png */,
+				1DFD00381600BBE600C38D8C /* Green1.png */,
+				1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */,
+				1DFD00281600B4CE00C38D8C /* red.png */,
+				1DD3CBC915EF508B00779E9C /* Icon Files */,
+				1DEF509B15E8B8CE002B90DE /* Number.png */,
+				1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */,
+				1D35063A15E8EDD3007608E5 /* Multicall_Disable 60X60.png */,
+				1D35063B15E8EDD3007608E5 /* Settings_Disable60X60.png */,
+				1D35063C15E8EDD3007608E5 /* Groups_Disable60X60.png */,
+				1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */,
+				1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */,
+				1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */,
+				1DEF509915E8B8BE002B90DE /* Group.png */,
+				1DEF509715E8B8A4002B90DE /* Contact.png */,
+				1DEF509515E8B899002B90DE /* Add_Multicall.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6E75FE15DF62F3004B4A4A /* MultiCall */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6E762815DF62F3004B4A4A /* Build configuration list for PBXNativeTarget "MultiCall" */;
+			buildPhases = (
+				1D6E75FB15DF62F3004B4A4A /* Sources */,
+				1D6E75FC15DF62F3004B4A4A /* Frameworks */,
+				1D6E75FD15DF62F3004B4A4A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MultiCall;
+			productName = MultiCall;
+			productReference = 1D6E75FF15DF62F3004B4A4A /* MultiCall.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D6E75F615DF62F2004B4A4A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+			};
+			buildConfigurationList = 1D6E75F915DF62F2004B4A4A /* Build configuration list for PBXProject "MultiCall" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1D6E75F415DF62F2004B4A4A;
+			productRefGroup = 1D6E760015DF62F3004B4A4A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6E75FE15DF62F3004B4A4A /* MultiCall */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D6E75FD15DF62F3004B4A4A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D6E760E15DF62F3004B4A4A /* InfoPlist.strings in Resources */,
+				1D6E761C15DF62F3004B4A4A /* first.png in Resources */,
+				1D6E761E15DF62F3004B4A4A /* first@2x.png in Resources */,
+				1D6E762315DF62F3004B4A4A /* second.png in Resources */,
+				1D6E762515DF62F3004B4A4A /* second@2x.png in Resources */,
+				1D4C960D15E74C6A0057C130 /* Entitlements.plist in Resources */,
+				1DEF507B15E8B4B1002B90DE /* CallView.xib in Resources */,
+				1DEF508015E8B4D9002B90DE /* Recents.xib in Resources */,
+				1DEF508515E8B4F1002B90DE /* GroupsView.xib in Resources */,
+				1DEF508F15E8B51B002B90DE /* SettingsView.xib in Resources */,
+				1DEF509115E8B561002B90DE /* Mainwindow.xib in Resources */,
+				1DEF509615E8B899002B90DE /* Add_Multicall.png in Resources */,
+				1DEF509815E8B8A4002B90DE /* Contact.png in Resources */,
+				1DEF509A15E8B8BE002B90DE /* Group.png in Resources */,
+				1DEF509D15E8B8CE002B90DE /* Number.png in Resources */,
+				1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */,
+				1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */,
+				1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */,
+				1D35063915E8EDCC007608E5 /* Settings_Disable 30X30.png in Resources */,
+				1D35063D15E8EDD4007608E5 /* Multicall_Disable 60X60.png in Resources */,
+				1D35063E15E8EDD4007608E5 /* Settings_Disable60X60.png in Resources */,
+				1D35063F15E8EDD4007608E5 /* Groups_Disable60X60.png in Resources */,
+				1D5A459515EDEC64006F3906 /* CallmeonView.xib in Resources */,
+				1DD3CBCC15EF50BC00779E9C /* Icon_Bright_57.png in Resources */,
+				1DD3CBCD15EF50BC00779E9C /* Icon_Bright_114.png in Resources */,
+				1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */,
+				1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */,
+				1DFD002B1600B4CE00C38D8C /* red.png in Resources */,
+				1DFD00371600BBE100C38D8C /* red1.png in Resources */,
+				1DFD00391600BBE600C38D8C /* Green1.png in Resources */,
+				1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */,
+				1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */,
+				1D936B0D1603227500DD7E54 /* PhoneViewController.xib in Resources */,
+				1D73F58C161329C300C3C66D /* Add-Member-Butt.png in Resources */,
+				1D73F58E161335C500C3C66D /* NewGroupView.xib in Resources */,
+				1DDCFD85161C6D140082FCC1 /* Default-568h@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D6E75FB15DF62F3004B4A4A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D6E761015DF62F3004B4A4A /* main.m in Sources */,
+				1D6E761415DF62F3004B4A4A /* MulticallAppDelegate.m in Sources */,
+				1DEF507A15E8B4B1002B90DE /* CallView.m in Sources */,
+				1DEF507F15E8B4D9002B90DE /* Recents.m in Sources */,
+				1DEF508415E8B4F1002B90DE /* GroupsView.m in Sources */,
+				1DEF508915E8B504002B90DE /* NewGroupView.m in Sources */,
+				1DEF508E15E8B51B002B90DE /* SettingsView.m in Sources */,
+				1D5A459415EDEC64006F3906 /* CallmeonView.m in Sources */,
+				1D59D30015F21AA500175BFD /* Model.m in Sources */,
+				1D59D30315F2340800175BFD /* CallmeonModel.m in Sources */,
+				1D733AEE15F5E299006AFC0D /* Message.m in Sources */,
+				1DD7AA4415FF5E0700A581BD /* PeoplePickerNavigationController.m in Sources */,
+				1DD7AA4715FF61DF00A581BD /* ContactModel.m in Sources */,
+				1DD7AA4A15FF61F100A581BD /* CallModel.m in Sources */,
+				1DD7AA4D15FF61FF00A581BD /* GroupModel.m in Sources */,
+				1D936B0C1603227500DD7E54 /* PhoneViewController.m in Sources */,
+				1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */,
+				1DDCFD83161C2EAF0082FCC1 /* PhoneNumberFormatter.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		1D6E760C15DF62F3004B4A4A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1D6E760D15DF62F3004B4A4A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1D4C960E15E74F250057C130 /* Ad_Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Karyatech";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7F76A37E-FADF-474F-AE5D-8FA797DC1C89";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Ad_Hoc;
+		};
+		1D4C960F15E74F250057C130 /* Ad_Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Telekonnectors Limited";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
+				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F0FA251-F22D-4940-94AB-33A3A719A398";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Ad_Hoc;
+		};
+		1D6E762615DF62F3004B4A4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1D6E762715DF62F3004B4A4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1D6E762915DF62F3004B4A4A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
+				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		1D6E762A15DF62F3004B4A4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
+				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6E75F915DF62F2004B4A4A /* Build configuration list for PBXProject "MultiCall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6E762615DF62F3004B4A4A /* Debug */,
+				1D6E762715DF62F3004B4A4A /* Release */,
+				1D4C960E15E74F250057C130 /* Ad_Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D6E762815DF62F3004B4A4A /* Build configuration list for PBXNativeTarget "MultiCall" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6E762915DF62F3004B4A4A /* Debug */,
+				1D6E762A15DF62F3004B4A4A /* Release */,
+				1D4C960F15E74F250057C130 /* Ad_Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D6E75F615DF62F2004B4A4A /* Project object */;
+}
