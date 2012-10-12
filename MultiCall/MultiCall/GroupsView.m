@@ -18,6 +18,8 @@
 @implementation GroupsView
 @synthesize delegate=_delegate;
 @synthesize deleteIndexPath;
+@synthesize groupindex;
+@synthesize groupNameArray;
 
 
 
@@ -26,7 +28,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        isPickMode=NO;
+         isPickMode=NO;
     }
     return self;
 }
@@ -55,24 +57,24 @@
     model=nil;
     _delegate=nil;
     
+    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 -(void)dealloc
 {
-    [groupindex release];
     [groupNameArray release];
-    
+    [groupindex release];
     [super dealloc];
 }
--(void)viewWillAppear:(BOOL)animated
+-(void)loadGroupIndex
 {
-    
     [model sortGroups];
+    
     groupindex=[[NSMutableArray alloc]init];
     groupNameArray=[[NSMutableArray alloc]init];
-
-    for(int i=0; i<[model.groups count]-1;i++)
+    
+    for(int i=0; i<[model.groups count];i++)
     {
         groupModel=[[model groups]objectAtIndex:i];
         
@@ -88,9 +90,21 @@
         }
         
     }
-   
+    
     
     [(UITableView *)self.view reloadData];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self loadGroupIndex];
+    if(!isPickMode)
+    {
+    if([[model groups] count]==0)
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+    else
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+    }
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -113,7 +127,18 @@
 }
 -(void)editGroup
 {
-    
+    if(((UITableView *)self.view).editing)
+    {
+        [((UITableView*)self.view) setEditing: NO animated: YES];
+        self.navigationItem.rightBarButtonItem.title=@"Edit";
+    }
+    else
+    {
+        self.navigationItem.leftBarButtonItem.title=@"Done";
+        [(UITableView *)self.view setEditing:YES animated:YES];
+        
+    }
+
 }
 
 
@@ -127,19 +152,20 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"groupView"]autorelease];
         cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
         cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-        cell.backgroundColor=[UIColor whiteColor];
+        cell.backgroundColor=[[UIColor whiteColor]autorelease];
         cell.detailTextLabel.textColor = defaultColor;
         cell.textLabel.textAlignment=UITextAlignmentLeft;
         cell.detailTextLabel.textAlignment=UITextAlignmentRight;
             // cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        if(!isPickMode)
         cell.accessoryType=UITableViewCellAccessoryDetailDisclosureButton;
         
     }
            
     
   
-    
-    NSString *alphabet = [groupindex objectAtIndex:[indexPath section]];
+    NSString *alphabet=nil;
+    alphabet = [groupindex objectAtIndex:[indexPath section]];
     
         //---get all states beginning with the letter---
     NSPredicate *predicate =
@@ -165,21 +191,23 @@
 {
     
         //---get the letter in each section; e.g., A, B, C, etc.---
-    NSString *alphabet = [groupindex objectAtIndex:section];
+    NSString *alphabet; alphabet= [groupindex objectAtIndex:section];
    
         //---get all states beginning with the letter---
     NSPredicate *predicate =
     [NSPredicate predicateWithFormat:@"SELF beginswith[c] %@", alphabet];
-    NSArray *states = [groupNameArray filteredArrayUsingPredicate:predicate];
+    NSArray *states;
+    states= [groupNameArray filteredArrayUsingPredicate:predicate];
     
         //---return the number of states beginning with the letter---
-   
+    NSLog(@"status %@ ,%i",states,[states count]);
     return [states count];
 
 }
     //---set the number of sections in the table---
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
+    NSLog(@"groupindex %@",groupindex);
     return [groupindex count];
     
 }
@@ -189,19 +217,86 @@
     return [groupindex objectAtIndex:section];
 }
 
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+    
+    
+    int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+    NSString * index=[NSString stringWithFormat:@"%@", [cell.textLabel.text substringToIndex: MIN(1, [cell.textLabel.text length])]];
+    GroupModel *gm=[[model groups] objectAtIndex:row];
+    NSLog(@"cell text %@ %@",cell.textLabel.text,index);
+    NSLog(@"indexpat.row %i,%i,%i",indexPath.section,indexPath.row,row);
+    if([[model groups] count] >0)
+    {
+            //     [tableView beginUpdates];
+        NSLog(@"grups %@,%@",[model groups],gm.groupName);
+        [[model groups] removeObject:gm];
+        
+        NSLog(@"grups %@,%i",[model groups],[groupNameArray count]);
+        
+        
+        [groupNameArray removeObject:cell.textLabel.text];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationBottom];
+            //   [tableView endUpdates];
+        
+        NSLog(@"group index %@",groupindex);
+
+             [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject];; //force save
+}
+
+       [self loadGroupIndex];
+}
+
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
         UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
        
-        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
         
-        GroupModel *gm=[[model groups] objectAtIndex:row];
+    int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+    GroupModel *gm=[[model groups] objectAtIndex:row];
+    
+        //  NSLog(@"group Array %u, %@",[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]],[[model groups] objectAtIndex:row]);
+    
+    if(isPickMode)
+    {
+      
         [self.delegate selectedGroup:gm];
         [self dismissModalViewControllerAnimated:YES];
+    }
+    else
+    {
+
         
+//        CallView *cview=[[CallView alloc]init];
+//        [cview selectedGroup:gm];
+//        callViewPicker=[[UINavigationController alloc]initWithRootViewController:cview];
+//        cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+//        callViewPicker.title=@"Add Participants";
+//        [self presentModalViewController:callViewPicker animated:YES];
+//        [callViewPicker release];
+//        [cview release];
+        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+        NewGroupView *groupView = [[NewGroupView alloc]init];
+        groupView->isGroupViewMode=YES;
+        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+        groupView.model = [[model groups] objectAtIndex:row];
+        [self.navigationController pushViewController:groupView animated:YES];
+        [groupView release];
+    }
+    
+   
    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+-(void)callviewpickerdismiss
+{
+    [self. tabBarController setSelectedIndex:1];
+    [callViewPicker dismissModalViewControllerAnimated:YES];
+    
 }
 
 
@@ -209,6 +304,7 @@
 {
     UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
     NewGroupView *groupView = [[NewGroupView alloc]init];
+    groupView->isGroupViewMode=YES;
     int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
     groupView.model = [[model groups] objectAtIndex:row];
     [self.navigationController pushViewController:groupView animated:YES];

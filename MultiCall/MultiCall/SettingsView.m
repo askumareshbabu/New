@@ -36,7 +36,8 @@
 {
     [super viewDidLoad];
     model=[Model singleton];
-    self.navigationItem.leftBarButtonItem=[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(infoView)];
+    if(!isUpdateView)
+    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(infoView)]autorelease];
    
     // Do any additional setup after loading the view from its nib.
 }
@@ -61,23 +62,22 @@
 -(void)loadTextField
 {
     
-    
+    Model *mo=[Model singleton];
     UITextField * txtPinNo=(UITextField *)[_addPinNo viewWithTag:1];
-    txtPinNo.text=@"";
+    txtPinNo.text=mo.Pinno ?:@"";
+   
     
     UITextField *txtPhoneNumber=(UITextField *)[_addPhoneNumber viewWithTag:2];
     for (NSInteger i=0; i<[model.callemeon count];i++) {
         CallmeonModel *callmeModel=[model.callemeon objectAtIndex:i];
         if(callmeModel.isSelected ==YES)
         {
-            txtPhoneNumber.text=callmeModel.CallPhoneNumber ?:@"";
+            txtPhoneNumber.text=callmeModel.CallPhoneNumber ?:mo.PhoneNumber ? :@"";
             
         }
         
     }
-    
-    
-    
+        
 }
 -(void)viewWillAppear:(BOOL)animated
 {
@@ -107,9 +107,7 @@
 #pragma TableView
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
-    NSLog(@"Indexpath %i",indexPath.section);
-    
+    UITableViewCell *cell=nil;
     switch (indexPath.row) {
         case 0:
             cell=_addPinNo;
@@ -117,24 +115,15 @@
         case 1:
             cell=_addPhoneNumber;
             break;
-        
-        default:
-            break;
     }
+   
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 2;
 }
--(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
+
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
@@ -147,6 +136,7 @@
 -(void)done
 {
     [self.view endEditing:YES];
+    [self save];
 }
 
 -(void)keyboardAppear
@@ -167,4 +157,81 @@
     [textField resignFirstResponder];
     return  YES;
 }
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+      int limit=0;
+    if(textField.tag ==1){
+        limit=11;}
+    else
+    {  limit=21;}
+    if([[textField text ]length]  +[string length] - range.length >= limit)
+        
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+/**
+ Save data to Model
+ */
+-(void)save
+{
+        //Model *model =[Model singleton];
+    UITextField *pinno = (UITextField*)[_addPinNo viewWithTag:1];
+    model.Pinno=[pinno.text length] >0 ? pinno.text :nil;
+    NSLog(@"ping no %@",pinno.text);
+    UITextField *phonenumber = (UITextField*)[_addPhoneNumber viewWithTag:2];
+    model.PhoneNumber=[phonenumber.text length] >0? phonenumber.text :nil ;
+    
+    
+        //Empty Validation and length validation
+    NSLog(@"pin length %i", [model.Pinno length]);
+    if(model.Pinno ==NULL)
+    {
+            //Enter PIN No.
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"1"];
+        [alertMsg release];
+        [pinno becomeFirstResponder];
+    }
+    else if([model.PhoneNumber length] == 1)
+    {
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"5"];
+        [alertMsg release];
+        [pinno becomeFirstResponder];
+    }
+    else if(model.PhoneNumber ==NULL)
+    {
+            //Enter Phone Number
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"2"];
+        [alertMsg release];
+        [phonenumber becomeFirstResponder];
+    
+    }
+    else if([model.PhoneNumber length] < 10)
+    {
+            //Enter valid Phone Number;
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"3"];
+        [alertMsg release];
+        [phonenumber becomeFirstResponder];
+        
+    }
+    else
+    {
+            //Saved successfully
+        
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"4"];
+        [alertMsg release];
+        self.navigationItem.rightBarButtonItem =nil;
+        [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+        
+    }
+    
+}
+
 @end

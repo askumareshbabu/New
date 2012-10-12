@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class CallModel;
+
 @interface Model : NSObject
 {
     
@@ -23,12 +25,12 @@
 
 -(id)initWithCoder:(NSCoder *)coder;
 -(void)encodeWithCoder:(NSCoder *)coder;
-
-
+-(void)addRecentscallLog:(CallModel *)cmodel;
  
 -(void)sort;
 -(void)sortGroups;
-
+-(bool)isSettingsPresent;
+-(bool)isCallemeonpresent;
  
 @end
 

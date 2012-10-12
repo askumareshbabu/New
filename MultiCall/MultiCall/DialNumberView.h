@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DialNumberView : UIViewController
-
+@interface DialNumberView : UIViewController<UITextFieldDelegate>
+{
+    int rowCount;
+    int rowstyle;
+}
+@property(nonatomic,retain)id delegate;
+@property(nonatomic,retain)NSMutableArray *arrayRowCount;
+@property(nonatomic,retain)NSMutableArray *saveDialArray;
+@property(retain,nonatomic)UITextField *txtDialNumber;
+-(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId;
 @end

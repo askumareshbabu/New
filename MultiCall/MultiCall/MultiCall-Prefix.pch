@@ -9,8 +9,14 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-    #import "MulticallAppDelegate.h"
-    #import "Message.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "NSStringUtil.h"
+#import "NSDateConvertor.h"
+#import "MulticallAppDelegate.h"
+#import "CustomMessageClass.h"
+
+
+#define DATE_TIME @"dd MMM YYYY HH:mm:ss"
+
 #endif

@@ -11,19 +11,19 @@
 #import "Model.h"
 #import "GroupsView.h"
 #import "ContactModel.h"
+#import "CallView.h"
 
 
 #define defaultColor [UIColor colorWithRed:.196 green:0.3098 blue:0.52 alpha:1.0 ];
 @interface NewGroupView()
--(void)dialNumber:(id)sender;
+
+
 -(void)addContact:(id)sender;
 
     //- (void)didEnterNumber:(NSString*)number;
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker;
 - (void)cePeoplePickerNavigationController:(CEPeoplePickerNavigationController *)peoplePicker didFinishPickingPeople:(NSArray *)people values:(NSDictionary *)valuesArg;
 
--(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value ;
--(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo personId:(int)personId ;
 
 -(void)editmode;
 -(void)saveModel;
@@ -36,7 +36,6 @@
 @synthesize groupNameCell=_groupNameCell;
 @synthesize buttonCell = _buttonCell;
 @synthesize model=_model;
-
 @synthesize lastSelIndexPath;
 @synthesize groupNameExists;
 @synthesize isgroupNameExists;
@@ -67,19 +66,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.formatter=[[PhoneNumberFormatter alloc]init];
+    self.formatter=[[[PhoneNumberFormatter alloc]init]autorelease];
     self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editmode)]autorelease];
     
     // Do any additional setup after loading the view from its nib.
     if(!self.model)
     {
-        isGroupViewMode=NO;
-        GroupModel *mod = [[GroupModel alloc]init];
+            //  isGroupViewMode=NO;
+        GroupModel *mod = [[[GroupModel alloc]init]autorelease];
         self.model = mod;
         contactsTemp= [[NSMutableArray alloc]init];
         [self loadGroupName];
-        
-        [mod release];
         
     }
     
@@ -103,7 +100,7 @@
 - (void)viewDidUnload
 {
     [self setGroupNameCell:nil];
-    [contactsTemp release];
+    
     [self setButtonCell:nil];
     [super viewDidUnload];
     self.formatter=nil;
@@ -137,12 +134,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     if([contactsTemp count]){
-       if(!isGroupViewMode ==YES)
+        if(!isGroupViewMode ==YES)
        [self enableSave];
     }
        else
            [self disableSave];
     
+        
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -153,7 +151,7 @@
     UITextField *txtGroupName=(UITextField *)[_groupNameCell viewWithTag:1];
     txtGroupName.text=self.model.groupName ?:@"";
     if(![txtGroupName.text isEqualToString:@""]){
-        isGroupViewMode=YES;
+            // isGroupViewMode=YES;
         self.groupNameExists=self.model.groupName;}
     else
         [txtGroupName becomeFirstResponder];
@@ -171,7 +169,7 @@
 }
 -(void)editmode
 {
-    isGroupViewMode=NO;
+        // isGroupViewMode=NO;
     if(((UITableView*)self.view).editing){
         
         [((UITableView*)self.view) setEditing: NO animated: YES];
@@ -202,29 +200,45 @@
             ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) Cmodel.personId);
             if(person){ //crashing sometimes so defensive
                 ABRecordID iden = ABRecordGetRecordID(person);
-                NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.contactInfo,Cmodel.contactType, nil];
+                NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.name,Cmodel.contactInfo,Cmodel.contactType, nil];
                 [values setObject:arr forKey:KEY_FOR_SELECTION(iden)];
-                CFRelease(person);
+                person=nil;
+               
             }
-        }else //dailed nos
-        {
-                // [values setObject:Cmodel.contactInfo forKey:KEY_FOR_SELECTION(Cmodel.personId)];
         }
+        
     }
     
     CEPeoplePickerNavigationController *picker = [[CEPeoplePickerNavigationController alloc] initWithValues:values];
     picker.peoplePickerDelegate = self;
     [self presentModalViewController:picker animated:YES];
     [picker release];
+    values =NULL;
+    if(ab)
+        CFRelease(ab);
 }
 -(IBAction)placeMultiCallClicked
 {
     NSLog(@"place multicall clicked");
+   
+    CallView *cview=[[CallView alloc]init];
+    [cview selectedPlaceGroup:contactsTemp];
+    groupscallpicker=[[UINavigationController alloc]initWithRootViewController:cview];
+    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(groupscallpickerpickerdismiss)]autorelease];
+    groupscallpicker.title=@"Add Participants";
+    [self presentModalViewController:groupscallpicker animated:YES];
+    [groupscallpicker release];
+    [cview release];
+    
+}
+-(void)groupscallpickerpickerdismiss
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 #pragma TableView
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    UITableViewCell *cell=nil;
     
     switch (indexPath.section) {
         case 0:
@@ -239,11 +253,11 @@
             cell=_buttonCell;
            
                 //Removing the border so i used this
-         _buttonCell.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero] autorelease];
+         _buttonCell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
             UIButton* addMember = [UIButton buttonWithType:UIButtonTypeCustom];
             [addMember setFrame:CGRectMake(0, 0, 140, 45)];
             
-            UIButton* placeMulitCall = [UIButton buttonWithType:UIButtonTypeCustom];
+            UIButton* placeMulitCall =[UIButton buttonWithType:UIButtonTypeCustom];
             [placeMulitCall setFrame:CGRectMake(160, 0, 140, 45)];
             
                 // [addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
@@ -254,6 +268,10 @@
             [_buttonCell.contentView addSubview:placeMulitCall];
             [addMember addTarget:self action:@selector(addMemberClicked) forControlEvents:UIControlEventTouchUpInside];
             [placeMulitCall addTarget:self action:@selector(placeMultiCallClicked) forControlEvents:UIControlEventTouchUpInside];
+            if(isGroupViewMode == NO)
+                [placeMulitCall setEnabled:NO];
+            else
+                [placeMulitCall setEnabled:YES];
                 //   [addMember release];
                 //  [placeMulitCall release];
             break;
@@ -276,6 +294,7 @@
                 }
                 
                 ContactModel *contact = [contactsTemp objectAtIndex:indexPath.row];
+                NSLog(@"groups contacts temp %@",contact);
                 if(contact)
                 {
                     cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];// contact.contactInfo;
@@ -285,7 +304,6 @@
                 break;
             }
         }
-                
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -293,15 +311,15 @@
     
     switch (section) {
         case 0:
-            if(isGroupViewMode ==YES)
-                return 0;
-            else
+                //  if(isGroupViewMode ==YES)
+//                return 0;
+//            else
                 return 1;
            
         case 1:
-            if(isGroupViewMode ==YES)
-                return 0;
-            else
+//            if(isGroupViewMode ==YES)
+//                return 0;
+//            else
                 
                 return 1;
         case 2:
@@ -343,10 +361,10 @@
         case 1:
             return UITableViewCellEditingStyleNone;
             case 2:
-            if(!isGroupViewMode ==YES)
+                //if(!isGroupViewMode ==YES)
             return UITableViewCellEditingStyleDelete;
-            else
-                return UITableViewCellEditingStyleNone;
+                // else
+                //   return UITableViewCellEditingStyleNone;
         default:
             return UITableViewCellEditingStyleDelete;
             break;
@@ -356,7 +374,7 @@
 {
     [contactsTemp removeObjectAtIndex:indexPath.row];
         
-    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
     
     if([contactsTemp count])
     {
@@ -383,28 +401,30 @@
 
 -(void)addContact:(id)sender
 {
-    NSMutableDictionary *values =[NSMutableDictionary dictionary];
+    NSMutableDictionary *values =[[NSMutableDictionary alloc]init];
     ABAddressBookRef ab = ABAddressBookCreate();
+    NSLog(@"add contact %@",contactsTemp);
     for(ContactModel *Cmodel in contactsTemp)
     {
         if(Cmodel.name){
-            ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) Cmodel.personId);
+            ABRecordRef person =  ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) Cmodel.personId);
             if(person){ //crashing sometimes so defensive
                 ABRecordID iden = ABRecordGetRecordID(person);
-                NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.contactInfo,Cmodel.contactType, nil];
+                NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.name,Cmodel.contactInfo,Cmodel.contactType, nil];
                 [values setObject:arr forKey:KEY_FOR_SELECTION(iden)];
-                CFRelease(person);
+               if(person)
+                   person=nil;
             }
-        }else //dailed nos
-        {
-                // [values setObject:Cmodel.contactInfo forKey:KEY_FOR_SELECTION(Cmodel.personId)];
         }
     }
-    
+   
     CEPeoplePickerNavigationController *picker = [[CEPeoplePickerNavigationController alloc] initWithValues:values];
     picker.peoplePickerDelegate = self;
     [self presentModalViewController:picker animated:YES];
     [picker release];
+    [values release];
+       if(ab)
+           CFRelease(ab);
     
 }
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker
@@ -422,29 +442,52 @@
     [contactsTemp removeAllObjects];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationLeft];
     
-    NSArray *people=peopleArg;
+        // NSArray *people=peopleArg;
     
-   
-    if([people count])
+    NSLog(@"grpoups people %@",peopleArg);
+//    if([people count])
+//    {
+//        NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
+//        NSLog(@"groups value arg %@",values);
+//        for(int i=0; i<[people count]; i++)
+//        {
+//            ABRecordRef person=[people objectAtIndex:i];
+//            ABRecordID iden=ABRecordGetRecordID(person);
+//            
+//                //NSString * key=KEY_FOR_SELECTION(iden);
+//            NSString * key=KEY_FOR_SELECTION(iden);
+//            
+//            NSMutableArray * dictkeys=[values objectForKey:key];
+//            NSString *name=[dictkeys objectAtIndex:0];
+//            NSString *value=[dictkeys objectAtIndex:1];
+//            NSString * phoneType=[dictkeys objectAtIndex:2];
+//            
+//                //add Contact;
+//                // [self modifyContact:person property:kABPersonPhoneProperty value:value phoneType:phoneType];
+//            [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];
+//            [values removeObjectForKey:key];
+//        }
+//            // [values release];
+//    }
+    if([valuesArg count])
     {
         NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
-        for(int i=0; i<[people count]; i++)
+        NSLog(@"value arg %@",values);
+        NSString *value;NSString * phoneType;NSString *name;
+        for(id key in [values allKeys])
         {
-            ABRecordRef person=[people objectAtIndex:i];
-            ABRecordID iden=ABRecordGetRecordID(person);
-            
-                //NSString * key=KEY_FOR_SELECTION(iden);
-            NSString * key=KEY_FOR_SELECTION(iden);
-            
+                //NSLog(@"key %@",key);
             NSMutableArray * dictkeys=[values objectForKey:key];
-            NSString *value=[dictkeys objectAtIndex:0];
-            NSString * phoneType=[dictkeys objectAtIndex:1];
+                // NSLog(@"dicts %@",dictkeys);
+        
+                name=[dictkeys objectAtIndex:0];
+                value=[dictkeys objectAtIndex:1];
+                phoneType=[dictkeys objectAtIndex:2];
+                
             
-                //add Contact;
-            [self modifyContact:person property:kABPersonPhoneProperty value:value phoneType:phoneType];
-            [values removeObjectForKey:key];
+            [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];  
         }
-            //add Dial Number here
+        [values release];
     }
     [peoplePicker dismissModalViewControllerAnimated:YES];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationLeft];
@@ -465,12 +508,15 @@
     NSString *name=[NSString stringWithFormat:@"%@ %@",firstName?:(CFStringRef)@"",lastName?:(CFStringRef)@""];
     NSString *trimmedName = [name stringByTrimmingCharactersInSet:
                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    [self addContactToModel:trimmedName contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:iden];
-    
+    [self addContactToModel:trimmedName contactInfo:value contactType:phoneType personId:iden];
+    if(firstName)
+        CFRelease(firstName);
+    if(lastName)
+        CFRelease(lastName);
 }
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId
 {
-    ContactModel *contact = [[ContactModel alloc]init];
+    ContactModel *contact = [[[ContactModel alloc]init]autorelease];
     contact.name = name;
     contact.personId=personId;
     contact.contactInfo = contactInfo;
@@ -480,11 +526,9 @@
     if(![contactsTemp containsObject:contact])
     {
         [contactsTemp addObject:contact];
-        [contact release];
+        
          
     }
-    
-    
 }
 
 
@@ -496,7 +540,7 @@
     UITextField *name = (UITextField*)[_groupNameCell viewWithTag:1];
     NSString *trimmedName =[name.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
     
-    NSMutableArray *groupName=[[ NSMutableArray alloc]init];
+    NSMutableArray *groupName=[[[ NSMutableArray alloc]init]autorelease];
     
     for (NSInteger i=0;i<[[[Model singleton]groups]count];i++) {
         
@@ -518,7 +562,7 @@
     else
     {
       
-        Message *alertMsg=[[Message alloc]init];
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"3" MessageNo:@"1"];
         [alertMsg release];
         [name becomeFirstResponder];
@@ -542,7 +586,7 @@
             {
                 
                 self.model.groupName=groupNameExists;
-                Message *alertMsg=[[Message alloc]init];
+                CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                 [alertMsg CustomMessage:@"3" MessageNo:@"4"];
                 [alertMsg release];
                 [name becomeFirstResponder];
@@ -574,7 +618,7 @@
         //NSString *message;
     if(isEditMode){
             //  message= @"Group modified successfully";
-        Message *alertMsg=[[Message alloc]init];
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"3" MessageNo:@"3"];
         [alertMsg release];
         
@@ -583,7 +627,7 @@
     else{
         [[[Model singleton]groups] addObject:self.model];
             //message= @"Group created successfully";
-        Message *alertMsg=[[Message alloc]init];
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"3" MessageNo:@"2"];
         [alertMsg release];
         
@@ -591,7 +635,7 @@
      
     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
     NSLog(@"self.groups %@",self.model.contacts);
-      [self.navigationController popViewControllerAnimated:YES ];
+    [self.navigationController popViewControllerAnimated:YES ];
 }
 
 @end

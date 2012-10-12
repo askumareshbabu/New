@@ -59,8 +59,8 @@ static Model *sharedSingleton=nil;
             // NSLog(@"callmeon %@",self.callemeon);
         self.recentsCall=[coder decodeObjectForKey:@"recentsCalls"]?:[NSMutableArray array];
         self.groups=[coder decodeObjectForKey:@"contactsGroups"]?:[NSMutableArray array];
-        self.Pinno=[coder decodeObjectForKey:@"pinNo"]?:[NSMutableArray array];
-        self.PhoneNumber=[coder decodeObjectForKey:@"PhoneNumber"]?:[NSMutableArray array];
+        self.Pinno=[coder decodeObjectForKey:@"pinNo"]?:[NSString string];
+        self.PhoneNumber=[coder decodeObjectForKey:@"PhoneNumber"]?:[NSString string];
         self.dialNumbers=[coder decodeObjectForKey:@"dialNumbers"]?:[NSMutableArray array];
     }
     if(!sharedSingleton)
@@ -88,5 +88,29 @@ static Model *sharedSingleton=nil;
 {
     NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:nil ascending:YES selector:@selector(compare:)];
     [self.groups sortUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+}
+
+-(bool)isSettingsPresent
+{
+          return ([self.Pinno length] >0 && [self.PhoneNumber length] > 0);
+  
+}
+-(bool)isCallemeonpresent
+{
+    return ([self.callemeon count] > 0);
+}
+-(void)addRecentscallLog:(CallModel *)cmodel
+{
+    
+    for(NSInteger i=0; i< [self.recentsCall count]; i++)
+    {
+        if([[self.recentsCall objectAtIndex:i] isEqual:cmodel])
+        {
+            [self.recentsCall removeObjectAtIndex:i];
+            
+        }
+    }
+   [self.recentsCall insertObject:cmodel atIndex:0];
+
 }
 @end

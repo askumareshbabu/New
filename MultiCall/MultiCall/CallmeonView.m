@@ -65,7 +65,8 @@
         
     }
     self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)]autorelease];
-    
+    [self LoadTextField];
+    [self removeEmptyTableCell];
 }
 -(void)LoadTextField
 {
@@ -292,6 +293,7 @@
         if([cellArray containsObject:@"iPhone"])
         {
             cell=_addiPhoneNumber;
+            _addiPhoneNumber.backgroundColor=[[UIColor whiteColor]autorelease];
             [cellArray removeObject:@"iPhone"];
            
             return cell;
@@ -301,6 +303,7 @@
         if([cellArray containsObject:@"mobile"])
         {
             cell=_addMobileNumber;
+            _addMobileNumber.backgroundColor=[[UIColor whiteColor]autorelease];
             [cellArray removeObject:@"mobile"];
             return cell;
         }
@@ -308,6 +311,7 @@
         if([cellArray containsObject:@"home"])
         {
             cell=_addHomeNumber;
+            _addHomeNumber.backgroundColor=[[UIColor whiteColor]autorelease];
             [cellArray removeObject:@"home"];
             return cell;
         }
@@ -315,6 +319,7 @@
         if([cellArray containsObject:@"work"])
         {
             cell=_addWorkNumber;
+            _addWorkNumber.backgroundColor=[[UIColor whiteColor]autorelease];
             [cellArray removeObject:@"work"];
            
             return  cell;
@@ -323,7 +328,8 @@
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"coung %i",[cellArray count]);
+    
+    NSLog(@"coung %i,%@",[cellArray count],cellArray);
     if(isEditMode)
     return   4;
     
@@ -360,7 +366,7 @@
         isMobileCheckd=NO;
         isHomeChecked=NO;
         isWorkChecked=NO;
-        [self savecheckedNumber];
+    [self savecheckedNumber];
     }
     if([self.checkedIndexPath isEqual:indexPath])
     {
@@ -399,7 +405,7 @@
                 }
                 else{
                     thisCell.accessoryType=UITableViewCellAccessoryNone;
-                    Message * alertMsg=[[Message alloc]init];
+                    CustomMessageClass * alertMsg=[[CustomMessageClass alloc]init];
                     [alertMsg CustomMessage:@"6" MessageNo:@"1"];
                     [alertMsg release];
                     return;

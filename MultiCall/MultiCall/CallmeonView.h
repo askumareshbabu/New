@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CallmeonModel.h"
-#import "Message.h"
+#import "CustomMessageClass.h"
 
 
 @class Model;
@@ -16,7 +16,7 @@
 
 @interface CallmeonView : UIViewController
 {
-bool isEditMode;
+
     bool isPhoneChecked;
     bool isMobileCheckd;
     bool isHomeChecked;
@@ -26,7 +26,8 @@ bool isEditMode;
     NSString * iphone,*mobile,*home,*work;
     
     NSMutableArray *cellArray;
-   
+@public
+    bool isEditMode;
 }
 @property (retain, nonatomic) IBOutlet UITableViewCell *addiPhoneNumber;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addMobileNumber;
@@ -52,6 +53,7 @@ bool isEditMode;
 -(void)LoadTextField;
 -(void)removeEmptyTableCell;
 -(void)saveModel;
-
+-(void)savecheckedNumber;
+-(void)editMode;
 
 @end

@@ -18,7 +18,7 @@
     self = [super init];
     if (self) {
             // Initialization code here.
-        self.contacts=[[NSMutableArray alloc]init];
+        self.contacts=[[[NSMutableArray alloc]init]autorelease];
     }
     
     return self;

@@ -14,10 +14,13 @@
 @interface SettingsView : UIViewController
 {
     Model *model;
+    @public
+    bool isUpdateView;
 }
 @property (retain, nonatomic) IBOutlet UITableViewCell *addPinNo;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addPhoneNumber;
 -(void)loadTextField;
 -(void)done;
+-(void)save;
 
 @end

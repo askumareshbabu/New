@@ -9,46 +9,17 @@
 @implementation PhoneNumberFormatter
 
 - (id)init {
+    self = [super init];
+    if (self){
     //matching top to bottom
     NSArray *usPhoneFormats = [NSArray arrayWithObjects:
-                                //@"+$", //for all starting
-                               //@"+# (###) ###-####", 
-                               //@"1 (###) ###-####",
-                              // @"011 $",
-                               //@"###-####",
-                               //@"####-####",
-                               // @"### $", 
                                @"9$",//for all indian mobile standards
-                               //   @"(###) ###-####", //for all phone formats 
                                @"##########",
-                               //@"## ###-#######", //for mobile formats with country code - 91 9884-086692
                                nil];
-/*
-    NSArray *ukPhoneFormats = [NSArray arrayWithObjects:
-                               @"+44 ##########",
-                               @"00 $",                               
-                               @"0### - ### ####",
-                               @"0## - #### ####",
-                               @"0#### - ######", nil];
-    
-    NSArray *jpPhoneFormats = [NSArray arrayWithObjects:                               
-                               @"+81 ############",
-                               @"001 $",
-                               @"(0#) #######",
-                               @"(0#) #### ####", nil];
-    
-    NSArray *inPhoneFormats = [NSArray arrayWithObjects:
-                               @"(0##) #######",
-                               @"00 $",
-                               @"+91 ##########<", nil];
-*/
     
     predefinedFormats = [[NSDictionary alloc] initWithObjectsAndKeys:
-                         usPhoneFormats, @"us",
-                         //ukPhoneFormats, @"uk",
-                         //jpPhoneFormats, @"jp",
-                         //inPhoneFormats, @"in",
-                         nil];
+                         usPhoneFormats, @"us",nil];
+    }
     return self;
 }
 

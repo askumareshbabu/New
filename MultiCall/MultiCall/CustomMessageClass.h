@@ -1,5 +1,5 @@
 //
-//  Message.h
+//  CustomMessageClass.h
 //  MultiCall
 //
 //  Created by ipod Touch on 20/07/12.
@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Message : NSObject
+@interface CustomMessageClass : NSObject
 
 @property(nonatomic,retain) NSString *MessageContent;
 -(void)CustomMessage:(NSString *)ScreenName MessageNo:(NSString *)MessageNo;
+-(NSString *)currentTime;
 @end

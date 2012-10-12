@@ -9,11 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "CallStatus.h"
 #import "PhoneNumberFormatter.h"
-enum status { CONNECTING, CONNECTED , NOANSWER, COMPLETED, BUSY, FAILED ,CANCELLED, INVALID };
+#import "NSDateConvertor.h"
+
+
+
 NSString * callStatusFromServer;
 //http://www.twilio.com/docs/api/twiml/dial#attributes-timeout
 
 @class ContactModel;
+@class CallModel;
 @class NSURLConnectionExt;
 /**
  Handles the network interface stub for c3ware. Connects using a long lived async HTTP connection to pool and retrive the status of the call
@@ -29,10 +33,10 @@ NSString * callStatusFromServer;
    // NSMutableData *responseData; 
     //NSURLConnection *connection;
     bool isTimeout;
-    NSMutableString *responseData;
+    
     NSURLConnectionExt *multiCall; 
     NSURLConnectionExt *multiCallRes;
-   
+  
     //bool isTimerRunning;
 @private
     id multiCallResponseURL;

@@ -33,6 +33,7 @@
 @property(retain,nonatomic)id delegate;
 
 
-
+-(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId
+;
 
 @end

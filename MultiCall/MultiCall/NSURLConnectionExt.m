@@ -43,7 +43,7 @@
 -(void)timer
 {
     [self cancel];
-    NSError *error = [[NSError alloc]initWithDomain:@"Request timed out" code:10001 userInfo:nil];
+    NSError *error = [[[NSError alloc]initWithDomain:@"Request timed out" code:10001 userInfo:nil]autorelease];
     failureBlock(error);
     
          [timer release];

@@ -19,7 +19,7 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 }
 
 +(id) dateWithYear:(int)year month:(int)month andDay:(int)day {
-	NSDateFormatter *dateFormatter = [NSDate utcFormatterWithFormat:@"yyyy-MM-dd"];
+	NSDateFormatter *dateFormatter = [NSDate utcFormatterWithFormat:@"dd MMM YYYY"];
 	return [dateFormatter dateFromString:[NSString stringWithFormat:@"%d-%d-%d", year, month, day]];	
 }
 
@@ -52,6 +52,7 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 }
 
 -(bool) isBeforeDateTime:(NSDate *)dateTime {
+    NSLog(@"datetime %@",dateTime);
 	return ![self isSameDateTimeThanDateTime:dateTime] && ![self isAfterDateTime:dateTime];
 }
 

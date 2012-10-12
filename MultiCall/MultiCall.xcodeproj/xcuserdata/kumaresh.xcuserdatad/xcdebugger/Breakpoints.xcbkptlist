@@ -7,13 +7,14 @@
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
+         isPathRelative = "1"
          filePath = "MultiCall/CallView.m"
-         timestampString = "370960457.258684"
+         timestampString = "371583219.998605"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "448"
-         endingLineNumber = "448"
-         landmarkName = "-dialnumberarray:"
+         startingLineNumber = "919"
+         endingLineNumber = "919"
+         landmarkName = "-addContactToModel:contactInfo:contactType:personId:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

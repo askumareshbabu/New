@@ -12,21 +12,24 @@
 
 @synthesize dateTime=_dateTime;
 @synthesize contacts=_contacts;
+@synthesize Callduration=_Callduration;
 
 -(id)init
 {
     if(self=[super init]){
-        self.contacts=[[NSMutableArray alloc]init];
+        self.contacts=[[[NSMutableArray alloc]init]autorelease];
     }
     return self;
 }
 -(void)dealloc{
     self.dateTime=nil;
     self.contacts=nil;
+    self.Callduration=nil;
     [super dealloc];
 }
 -(BOOL)isEqual:(id)object
 {
+        // NSLog(@"recents log contcts %@,%@",self.contacts ,((CallModel *)object).contacts);
     if([self.contacts isEqual:((CallModel *)object).contacts])
         return YES;
     else
@@ -38,6 +41,7 @@
     {
         self.dateTime=[aDecoder decodeObjectForKey:@"dateTime"];
         self.contacts=[aDecoder decodeObjectForKey:@"contacts"];
+        self.Callduration=[aDecoder decodeObjectForKey:@"duration"];
     }
     return self;
 }
@@ -45,6 +49,7 @@
 {
     [aCoder encodeObject:_dateTime forKey:@"dateTime"];
     [aCoder encodeObject:_contacts forKey:@"contacts"];
+    [aCoder encodeObject:_Callduration forKey:@"duration"];
 }
 -(NSComparisonResult)compare:(CallModel *)otherObject
 {
@@ -52,6 +57,6 @@
 }
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"%@",self.contacts];
+    return [NSString stringWithFormat:@" %@",self.contacts];
 }
 @end

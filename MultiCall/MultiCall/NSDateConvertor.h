@@ -10,4 +10,5 @@
 
 @interface NSDate (NSDateConvertor)
 - (NSString *)stringFromDateWithFormat:(NSString *)dateFormat ;
+
 @end

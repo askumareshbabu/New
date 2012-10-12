@@ -44,20 +44,19 @@
     model=[Model singleton];
     if(!self.dialNumberModel)
     {
-        DialNumberModel * dialModel=[[DialNumberModel alloc]init];
+        DialNumberModel * dialModel=[[[DialNumberModel alloc]init]autorelease];
         self.dialNumberModel=dialModel;
-        [dialModel release];
-        
+               
     }
-    if(!txtDialNumber)
-        txtDialNumber=[[UITextField alloc ]init];
+    if(!(txtDialNumber))
+        txtDialNumber=[[[UITextField alloc ]init]autorelease];
     
     if(!self.numberarray)
-        self.numberarray=[[NSMutableArray alloc]init];
+        self.numberarray=[[[NSMutableArray alloc]init]autorelease];
     
-    if(!self.insertArray)
+    if(!(self.insertArray))
     {
-        self.insertArray=[[NSMutableArray alloc]init];
+        self.insertArray=[[[NSMutableArray alloc]init]autorelease];
         
          NSLog(@"inserarray %@",insertArray);
         for(NSUInteger i=0; i<[model.dialNumbers count]; i++)
@@ -147,6 +146,7 @@
     return 1;
 }
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
      
@@ -154,19 +154,24 @@
           NSLog(@"dialnumber  count  %i,%i",[insertArray count],lastIndexPathrow);
     // Return the number of rows in the section.
    
-    if(!lastIndexPathrow)
-        return [insertArray count]+1;
-    else if([insertArray count]== lastIndexPathrow){
-
-        return lastIndexPathrow;}
-          else
-       return  lastIndexPathrow;
+//    if(!lastIndexPathrow)
+//        return [insertArray count]+1;
+//    else if([insertArray count]== lastIndexPathrow){
+//
+//        return lastIndexPathrow;}
+//          else
+//       return  lastIndexPathrow;
+    int count=[insertArray count];
+    if(self.editing)count++;
+    return count;
     
    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *v=[tableView visibleCells];
+    NSLog(@"visialb earray %@",v);
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
     NSString *CellIdentifier=[NSString stringWithFormat: @"cell%i", indexPath.row];
@@ -185,12 +190,12 @@
     NSLog(@"CellIdentifier %@",CellIdentifier);
     
      
-    if (cell == nil) {
+        //if (cell == nil) {
          
        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
     
-        cell.backgroundColor=[UIColor whiteColor];
+        cell.backgroundColor=[[UIColor whiteColor]autorelease];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         txtDialNumber = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, 250, 30)];
         txtDialNumber.adjustsFontSizeToFitWidth = YES;
@@ -218,13 +223,14 @@
         }
         txtDialNumber.tag=indexPath.row;
         
-        [txtDialNumber release];
+        
    
     
-        lastIndexPathrow=indexPath.row+1;
-    }
+            lastIndexPathrow=indexPath.row+1;
+        //}
     NSLog(@"insert array %@",insertArray);
     return cell;
+
 }
 
 
@@ -241,25 +247,23 @@
     return YES;
 
 }
+
 -(BOOL)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-         
-        //  NSLog(@" edit indexpatrow %i",indexPath.row);
-        // First figure out how many sections there are
-    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
-    
-        // Then grab the number of rows in the last section
-    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
-        //NSLog(@"last edit indexpatrow %i",lastRowIndex);
-        // int count = [numberarray count];
-    
-        if (indexPath.row == lastRowIndex)
-        
-         return    UITableViewCellEditingStyleNone;
-
+        // No editing style if not editing or the index path is nil.
+    if (self.editing == NO || !indexPath) return UITableViewCellEditingStyleNone;
+        // Determine the editing style based on whether the cell is a placeholder for adding content or already 
+        // existing content. Existing content can be deleted.   
+    if (self.editing && indexPath.row == ([insertArray count])) 
+    {
+        return UITableViewCellEditingStyleInsert;
+    } else 
+    {
         return UITableViewCellEditingStyleDelete;
-
+    }
+    return UITableViewCellEditingStyleNone;
+     
 }
     
 
@@ -277,9 +281,17 @@
         [tableView beginUpdates];
     
         
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
         [tableView endUpdates];
         
+    }
+    else if(editingStyle == UITableViewCellEditingStyleInsert)
+    {
+        [tableView beginUpdates];
+        lastIndexPathrow=lastIndexPathrow+1;
+        [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row +1 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
+        
+        [tableView endUpdates];
     }
     NSLog(@"after delete array %@",insertArray);
    
@@ -299,17 +311,14 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      [detailViewController release];
      */
-   
+    
 }
 
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-        [phoneTableView setEditing:YES animated:YES];
-    [textField becomeFirstResponder];
-        // NSIndexPath *  indexpath=[phoneTableView indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
-        // [phoneTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-  
-}
+    [phoneTableView setEditing:YES animated:YES];
+   
+       }
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
      NSLog(@"insert array %@",insertArray);
@@ -322,55 +331,55 @@
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     
-    NSIndexPath *  indexpath=[phoneTableView indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
-   UITableViewCell * thisCell=[phoneTableView cellForRowAtIndexPath:indexpath];
-    
-    for(UIView *view in thisCell.contentView.subviews){
-        textField =(UITextField *)view;
-        NSInteger lastSectionIndex = [phoneTableView numberOfSections] - 1;
-        NSInteger lastRowIndex = [phoneTableView numberOfRowsInSection:lastSectionIndex] - 1;
-            if(lastIndexPathrow >1 && [textField.text isEqualToString:@""])
-            {
-                    //  NSLog(@"before remove text array %@",insertArray);
-                for(int i=0; i <[insertArray count]; i++)
-                {
-                    if(i == indexpath.row)
-                        [insertArray removeObject:textField.text];
-                }
-
-                 
-            NSLog(@"after remove number array %@",insertArray);
-                 
-               
-                NSLog(@"delete array count %i,lastindexpath %i,%i",[insertArray count],lastIndexPathrow,lastRowIndex);
-               if([insertArray count] != lastRowIndex || [insertArray count] <=lastRowIndex)
-               {
-                  lastIndexPathrow=lastIndexPathrow-1;
-                [phoneTableView beginUpdates];
-                
-                [phoneTableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row
-                                                                                                          inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
-                [phoneTableView endUpdates];
-               }
-            }
-        
-        if(![textField.text isEqualToString:@""])
-        {
-            if(![insertArray containsObject:textField.text])
-                [insertArray addObject:textField.text];
-            else
-            {
-                NSLog(@"already contacts exists");
-                    //textField.text=@"";
-            }
-            
-        }
-    }
-    
-       if([[textField text]length])
-        self.navigationItem.rightBarButtonItem.enabled=YES;
-    
-    NSLog(@"insert array %@",insertArray);
+//    NSIndexPath *  indexpath=[phoneTableView indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+//   UITableViewCell * thisCell=[phoneTableView cellForRowAtIndexPath:indexpath];
+//    
+//    for(UIView *view in thisCell.contentView.subviews){
+//        textField =(UITextField *)view;
+//        NSInteger lastSectionIndex = [phoneTableView numberOfSections] - 1;
+//        NSInteger lastRowIndex = [phoneTableView numberOfRowsInSection:lastSectionIndex] - 1;
+//            if(lastIndexPathrow >1 && [textField.text isEqualToString:@""])
+//            {
+//                    //  NSLog(@"before remove text array %@",insertArray);
+//                for(int i=0; i <[insertArray count]; i++)
+//                {
+//                    if(i == indexpath.row)
+//                        [insertArray removeObject:textField.text];
+//                }
+//
+//                 
+//            NSLog(@"after remove number array %@",insertArray);
+//                 
+//               
+//                NSLog(@"delete array count %i,lastindexpath %i,%i",[insertArray count],lastIndexPathrow,lastRowIndex);
+//               if([insertArray count] != lastRowIndex || [insertArray count] <=lastRowIndex)
+//               {
+//                  lastIndexPathrow=lastIndexPathrow-1;
+//                [phoneTableView beginUpdates];
+//                
+//                [phoneTableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row
+//                                                                                                          inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
+//                [phoneTableView endUpdates];
+//               }
+//            }
+//        
+//        if(![textField.text isEqualToString:@""])
+//        {
+//            if(![insertArray containsObject:textField.text])
+//                [insertArray addObject:textField.text];
+//            else
+//            {
+//                NSLog(@"already contacts exists");
+//                    //textField.text=@"";
+//            }
+//            
+//        }
+//    }
+//    
+//       if([[textField text]length])
+//        self.navigationItem.rightBarButtonItem.enabled=YES;
+//    
+//    NSLog(@"insert array %@",insertArray);
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     
@@ -381,30 +390,30 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
    
-    insertingIndexPath=[phoneTableView indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
-        //  NSLog(@"range length %i",insertingIndexPath.row);
-    NSInteger lastSectionIndex = [phoneTableView numberOfSections] - 1;
-    NSInteger lastRowIndex = [phoneTableView numberOfRowsInSection:lastSectionIndex]-1;
-    if (textField.text.length==1 && range.length==0)
-    {
-        if (![self.numberarray containsObject:[NSString stringWithFormat:@"cell%i",insertingIndexPath.row]]) {
-            [self.numberarray addObject:[NSString stringWithFormat:@"cell%i",insertingIndexPath.row]];
-            editingIndexPath=insertingIndexPath;
-        }
-       
-        NSLog(@"insert array count %i,lastindexpath %i",[insertArray count],lastRowIndex);
-        if([insertArray count]==lastRowIndex)
-        {
-             lastIndexPathrow=lastIndexPathrow +1;
-        [phoneTableView beginUpdates];
-        
-        [phoneTableView insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:lastIndexPathrow-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
-         
-        [phoneTableView endUpdates];
-                //[phoneTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:insertingIndexPath.row-1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
-    }
-    
+//    insertingIndexPath=[phoneTableView indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+//        //  NSLog(@"range length %i",insertingIndexPath.row);
+//    NSInteger lastSectionIndex = [phoneTableView numberOfSections] - 1;
+//    NSInteger lastRowIndex = [phoneTableView numberOfRowsInSection:lastSectionIndex]-1;
+//    if (textField.text.length==1 && range.length==0)
+//    {
+//        if (![self.numberarray containsObject:[NSString stringWithFormat:@"cell%i",insertingIndexPath.row]]) {
+//            [self.numberarray addObject:[NSString stringWithFormat:@"cell%i",insertingIndexPath.row]];
+//            editingIndexPath=insertingIndexPath;
+//        }
+//       
+//        NSLog(@"insert array count %i,lastindexpath %i",[insertArray count],lastRowIndex);
+//        if([insertArray count]==lastRowIndex)
+//        {
+//            lastIndexPathrow=lastIndexPathrow +1;
+//        [phoneTableView beginUpdates];
+//        
+//        [phoneTableView insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:lastIndexPathrow-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
+//         
+//        [phoneTableView endUpdates];
+//                //[phoneTableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:insertingIndexPath.row-1 inSection:0],nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+//        }
+//    }
+//    
     return YES;
 
 
@@ -419,6 +428,7 @@
 
 -(void)done
 {
+    NSLog(@"before delete dailnumber %@",model.dialNumbers);
     [model.dialNumbers removeAllObjects];
          int personid;
          NSString * number;
@@ -427,30 +437,28 @@
     for(NSInteger i=0; i<[insertArray count]; i++)
     {
         number=[insertArray objectAtIndex: i];
-        if(![model.dialNumbers containsObject:insertArray]){
+        NSLog(@"numbers %@",number);
+        NSLog(@"model.dialnumber %@",model.dialNumbers);
+            //if(![model.dialNumbers containsObject:insertArray]){
         if([number length] > 4)
          personid = [[number substringWithRange:NSMakeRange(number.length-5, 4)] intValue];
         else
             personid=[number intValue];
        
            [self addContactToModel:nil contactInfo:number contactType:nil personId:-personid];
-                //  [model.dialNumbers addObject:[NSString stringWithFormat:@"%i %@ %@ %@",personid,@"name",number,@"unKnown"]];
-        }
+            
+            //}
     }
-    
+    [self.delegate dialnumberarray:model.dialNumbers];
     NSLog(@"dailnumbers %@",model.dialNumbers);
     [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
    
-    [self.delegate dialnumberarray:model.dialNumbers];
-    
-    
-    
     [self dismissModalViewControllerAnimated:YES];
      
 }
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId
 {
-    ContactModel *contact = [[ContactModel alloc]init];
+    ContactModel *contact = [[[ContactModel alloc]init]autorelease];
     contact.name = name;
     contact.personId=personId;
     contact.contactInfo = contactInfo;
@@ -460,7 +468,7 @@
     if(![model.dialNumbers containsObject:contact])
     {
         [model.dialNumbers addObject:contact];
-        [contact release];
+        
     }
     
 }

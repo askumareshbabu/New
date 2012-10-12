@@ -12,6 +12,7 @@
     
 }
 @property(nonatomic,retain)NSDate *dateTime;
+@property(nonatomic,retain)NSString * Callduration;
 @property(nonatomic,retain)NSMutableArray *contacts;
 
 

@@ -13,8 +13,10 @@
 #import "NSStringUtil.h"
 #import "Model.h"
 #import "NSURLConnectionExt.h"
-#import "Message.h"
-
+#import "CustomMessageClass.h"
+#import "CallModel.h"
+#import "NSDateConvertor.h"
+#import "CallView.h"
 //#import "NSURLConnection+Blocks.h"
 
 @interface Twilio_Stub()
@@ -24,7 +26,7 @@
 //new code for show the server message
 -(void)passMessageToDelegate:(NSString*)number status:(NSString*)status;
 
--(void)showAlert:(NSString *)str;
+
 -(void)endCall;
 -(bool)checkandProcessCallEnded;
 -(void)updateStatus:(NSString *)resp;
@@ -44,7 +46,7 @@
         delegate = delegateArg;
         isMultiCallActive= NO;
         isTimeout=NO;
-        self.formatter =[[PhoneNumberFormatter alloc] init];
+        self.formatter =[[[PhoneNumberFormatter alloc] init]autorelease];
 
     }
     
@@ -103,7 +105,7 @@
         // Make call and disconnect immediately,MultiCallResponseURL(pin) is NULL so i passed like this
         
         
-        NSString *bodyString = [NSString stringWithFormat:@"pin=%@",model.email]; //pin Number
+        NSString *bodyString = [NSString stringWithFormat:@"pin=%@",model.Pinno]; //pin Number
     
         [request setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
         
@@ -133,12 +135,12 @@
                                                      NSLog(@"Error in ending call %@",error); 
                                                      if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
                                                      {
-                                                     Message *alertMsg=[[Message alloc]init];
+                                                     CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                                      [alertMsg CustomMessage:@"5" MessageNo:@"6"];
                                                      [alertMsg release];
                                                      }else
                                                      {
-                                                         Message *alertMsg=[[Message alloc]init];
+                                                         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                                          [alertMsg CustomMessage:@"5" MessageNo:@"3"];
                                                          [alertMsg release];
                                                      }
@@ -179,7 +181,7 @@
     NSMutableString *numbersToCall =[NSMutableString string];
     for (int i =0;i<[numbers count]; i++) {
         ContactModel *model = [numbers objectAtIndex:i];
-        
+        NSLog(@"numbers %@",numbers);
                         if(i!=0) //the first number is the userphone. add it only to the call monitering list
             
                        [numbersToCall appendFormat:@"%@,%@,", [model.name STRIP_TO_NAME]?:@"",[self.formatter format:[[model.contactInfo prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"]];
@@ -191,7 +193,7 @@
             // [calls addObject:model.contactInfo];
             [calls addObject:phoneNumberwithID];
     }
-    
+    NSLog(@"beofre numbersToCall %@",numbersToCall);
     [numbersToCall deleteCharactersInRange:NSMakeRange([numbersToCall length]-1, 1)];
          NSLog(@"numbersToCall %@",numbersToCall);
     //return;
@@ -201,7 +203,7 @@
         Model *model = [Model singleton];
         [request setHTTPMethod:@"POST"];
         NSString *bodyString = [NSString stringWithFormat:@"pin=%@&userphone=Chairperson,%@&phone=%@",
-                                model.email,[self.formatter format:[[model.phoneNos prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"],numbersToCall]; //emailid
+                                model.Pinno,[self.formatter format:[[model.PhoneNumber prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"],numbersToCall]; //emailid
         NSLog(@"BodyString %@",bodyString);
             // NSLog(@"model.contactinfo %@",model.phoneNos);
         [request setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
@@ -222,7 +224,7 @@
                                   // if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"conference does not exist\""])
                                 if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"3\""])
                               {
-                                  Message *alertMsg=[[Message alloc]init];
+                                  CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
                                        [self endCall];
@@ -233,7 +235,7 @@
                                   // else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"conference is already running\""])
                                 else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"4\""])
                               {
-                                  Message *alertMsg=[[Message alloc]init];
+                                  CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"2"];
                                   [alertMsg release];
                                     [self endCall];
@@ -244,7 +246,7 @@
                                   // else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"Login id invalid\""]) //Login id invalid
                                 else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"2\""]) //Login id invalid
                               {
-                                  Message *alertMsg=[[Message alloc]init];
+                                  CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
                                   [self endCall];
@@ -256,7 +258,7 @@
                                
                                 else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"5\""]) //Speech engines are not active
                               {
-                                  Message *alertMsg=[[Message alloc]init];
+                                  CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"8"];
                                   [alertMsg release];
                                   [self endCall];
@@ -268,8 +270,7 @@
                         else // code 8
                           {
                               
-                                  //[self showAlert:resp];
-                              Message *alertMsg=[[Message alloc]init];
+                              CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                               [alertMsg CustomMessage:@"5" MessageNo:@"7"];
                               [alertMsg release];
                               [self endCall];
@@ -293,8 +294,8 @@
                           NSLog(@"multiCallResponseURL %@ ",multiCallResponseURL);
                           if(multiCallResponseURL!=nil)
                               [self performSelectorOnMainThread:@selector(checkForStatus) withObject:nil waitUntilDone:NO];
-                          else
-                              [self showAlert:@"User details could not be retrived."];
+                              //else
+                                  // [self showAlert:@"User details could not be retrived."];
                       }
                       [resp release];
                       multiCall=nil;
@@ -306,7 +307,7 @@
 //                      [self endCall];
 //                      multiCall=nil;
                       NSLog(@"could not connect reason : %@",[error localizedDescription]);
-                      Message *alertMsg=[[Message alloc]init];
+                      CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                       [alertMsg CustomMessage:@"5" MessageNo:@"3"];
                       [alertMsg release];
                          [self endCall];
@@ -320,7 +321,7 @@
     }else
     {
             //[self showAlert:@"Please ensure Internet connection availability"];
-        Message *alertMsg=[[Message alloc]init];
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"5" MessageNo:@"5"];
         [alertMsg release];
             // [self endCall];
@@ -372,7 +373,7 @@
 {
     if(isMultiCallActive)
     {
-            // Message *alertMsg=[[Message alloc]init];
+            // CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         NSAutoreleasePool *releasepool = [[NSAutoreleasePool alloc]init];
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
         [request setURL:[NSURL URLWithString:C3WARE_RES]];
@@ -409,12 +410,15 @@
                                                                     //[alertMsg release];
                                                             } timeout:60] autorelease];
         [releasepool release];
+        [request release];
         
     }
 }
 
 -(void)updateStatus:(NSString *)resp
 {
+   
+    
     NSString *res = [resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSLog(@"resp first %@",resp);
     if([res length]>0)
@@ -480,6 +484,9 @@
                             // if([callstatus isEqualToString:@"inprogress"])
                         if([callstatus isEqualToString:@"85"])
                         {
+                        
+                                                        
+                            
                             callStatusFromServer=@"inprogress";
                              NSLog(@"Message passing inprogress number %@",number);
                             [self passMessageToDelegate:number status:callStatusFromServer]; 
@@ -498,6 +505,7 @@
                             //else if([callstatus isEqualToString:@"conference"]) //conference
                         else if([callstatus isEqualToString:@"6"]) //conference
                         {
+
                             callStatusFromServer=@"conference";
                                 NSLog(@"Message passing conference number %@",number);
                             [self passMessageToDelegate:number status:callStatusFromServer]; 
@@ -565,14 +573,6 @@
     return isMultiCallActive;
 }
 
-//old code
-//-(void)passMessageToDelegate:(NSString*)number status:(int)status
-//{
-//    dispatch_async( dispatch_get_main_queue(), ^{
-//        [delegate statusForCall:number status:status]; 
-//        [self checkandProcessCallEnded];
-//    });
-//}
 
 //New code for show server message
 -(void)passMessageToDelegate:(NSString*)number status:(NSString*)status
@@ -585,10 +585,12 @@
 
 -(bool)checkandProcessCallEnded
 {
+        //CallView * cview=[[[CallView alloc]init]autorelease];
     if([calls count]==0){
         isMultiCallActive=NO;
         dispatch_async( dispatch_get_main_queue(), ^{
-            [delegate callEnded];
+        [delegate callEnded];
+            
         });
         [self cancelStatusConnection];
         //cancel out pending reconnectors
@@ -599,54 +601,9 @@
                 
         return YES;
     }
-//    else if(isErrorOccured ==YES)
-//    {
-//        isMultiCallActive=NO;
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//    [delegate callEnded];
-//        });
-//        [self cancelStatusConnection];
-//            //cancel out pending reconnectors
-//        if(isTimeout){
-//            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(checkForStatus) object: nil];
-//            isTimeout=NO;
-//        }
-//        return  YES;
-//    }
+
     return NO;
 }
 
--(void)showAlert:(NSString *)str
-{
-    UIAlertView *alert;
-    alert = [[UIAlertView alloc] initWithTitle:@"MultiCall"
-                                       message:str delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil] ;
-    [alert show];
-    [alert release];    
-}
-
-/*
- 1.       conference
- 2.       ringing
- 3.       released
- 4.       exit
- 5.       q&a
- 6.       help
- 7.       compere
- 8.       agent
- 9.       inquiry
- 10.   wait
- 11.   recording
- 12.   question
- 13.   connected to operator
- 14.   connected to chairperson
- 15.   odo room
- 16.   rejected
- 17.   hold by operator
- */
-
-
-
--(void)callEnded{} //not used
-
+-(void)callEnded{}
 @end

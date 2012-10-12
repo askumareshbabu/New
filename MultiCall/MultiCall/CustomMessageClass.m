@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "Message.h"
+#import "CustomMessageClass.h"
 
-@implementation Message
+@implementation CustomMessageClass
 @synthesize MessageContent;
 
 
@@ -37,6 +37,11 @@
         {
             titleName=@"MultiCall";
             MessageContent =@"Unable to make MultiCall. Please connect to a WiFi or use a 3G connection.";
+        }
+        else if([MessageNo isEqualToString:@"4"])
+        {
+            titleName=@"MultiCall";
+            MessageContent =@"Please Add numbers in 'Callmeon' before making a MultiCall.";
         }
         
         
@@ -130,6 +135,11 @@
              titleName=@"MultiCall";
              MessageContent =@"Please hang up the phone call";
          }
+         else if([MessageNo isEqualToString:@"7"])
+         {
+             titleName=@"MultiCall";
+             MessageContent =@"Invalid request";
+         }
        
     }
     if([ScreenName isEqualToString:@"6"])
@@ -147,6 +157,31 @@
     [alert show];
     [alert release];  
     
+}
+
+-(NSString *)currentTime
+{    
+        //Get current time
+    NSString * strCurrentTime;
+    NSDate* now = [NSDate date];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
+    NSInteger hour = [dateComponents hour];
+    NSString *am_OR_pm=@"AM";
+    
+    if (hour>12)
+    {
+        hour=hour%12;
+        
+        am_OR_pm = @"PM";
+    }
+    
+    NSInteger minute = [dateComponents minute];
+    NSInteger second = [dateComponents second];
+    [gregorian release];
+    strCurrentTime=[NSString stringWithFormat:@"%02d:%02d:%02d %@", hour, minute, second,am_OR_pm];
+    NSLog(@"Current Time  %@",[NSString stringWithFormat:@"%02d:%02d:%02d %@", hour, minute, second,am_OR_pm]);
+    return strCurrentTime;
 }
 
 @end

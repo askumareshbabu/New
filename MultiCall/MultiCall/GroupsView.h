@@ -20,9 +20,12 @@
     NSMutableArray *groupNameArray;
     @public
     bool isPickMode;
+    UINavigationController *callViewPicker;
     
 }
 @property(nonatomic,retain) id delegate;
+@property(retain,nonatomic)NSMutableArray *groupindex;
+@property(retain,nonatomic)NSMutableArray *groupNameArray;
 @property(nonatomic,retain)NSIndexPath *deleteIndexPath;
 
 @end

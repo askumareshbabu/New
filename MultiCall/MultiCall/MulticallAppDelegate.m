@@ -27,11 +27,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self loadCustomObject];
-    self.window.rootViewController=self.tabBarController;
-    if(![[[Model singleton]recentsCall]count] >0)
-    {
+        self.window.rootViewController=self.tabBarController;
+       
     [self.tabBarController setSelectedIndex:1];
-    }
+     
     [self.window makeKeyAndVisible];
     
     // Override point for customization after application launch.

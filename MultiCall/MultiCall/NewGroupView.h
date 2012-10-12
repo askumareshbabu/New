@@ -26,7 +26,10 @@
 	/**<  Store contacts temporarily. For saving purposes  */
     NSMutableArray *contactsTemp; //store the editing contact temporarily. for saving purposes
     GroupModel *groupModel;
+    @public
     BOOL  isGroupViewMode;
+    
+    UINavigationController *groupscallpicker;
 }
 
 
@@ -44,16 +47,18 @@
 @property(nonatomic,retain)NSString * isgroupNameExists;
 @property(retain,nonatomic)PhoneNumberFormatter *formatter;
 
--(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value ;
+-(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType;
 
-
+-(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId;
 /**
  Save the meeting to application model.
  */
--(void)saveModel;
+
 /**
  Load the data to local meeting instance and update the UI.
  */
--(void)loadModel;
+
+-(void)loadGroupName;
+-(void)save;
 
 @end

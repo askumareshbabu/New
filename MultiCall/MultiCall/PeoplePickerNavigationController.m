@@ -151,7 +151,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         self.ppnc = aPpnc;
         self.selectedPeople = [NSMutableSet set];
         self.selectedValues = values;
-            NSLog(@"selected values %@",values);
+            // NSLog(@"selected values %@",values);
         // Determine section and section index titles
         // (hardcoded to english, Apple uses per-locale plists)
         
@@ -269,7 +269,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 
 - (NSArray *)allPeopleBySectionStarts:(NSArray *)sectionStarts lastSectionEnd:(NSString *)lastSectionEnd others:(NSArray **)othersPtr
 {
-    NSArray *people = [(NSArray *)ABAddressBookCopyArrayOfAllPeople(self.ppnc.addressBook) autorelease];
+    NSArray *people = [(NSArray *)ABAddressBookCopyArrayOfAllPeople(self.ppnc.addressBook)autorelease];
     
     
     // Create an array of mock persons that represent boundaries.
@@ -308,7 +308,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         for (id personObj in sortedPeopleWithBoundaries) {
             ABRecordRef person = (ABRecordRef)personObj;
             
-            NSString *compositeName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
+            NSString *compositeName = (NSString *)ABRecordCopyCompositeName(person);
             
             NSLog([boundaries containsObject:(id)person] ? @"[%@]" : @" - %@", compositeName);
         }
@@ -340,9 +340,11 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         ABMultiValueRef multiValue = ABRecordCopyValue(person, kABPersonPhoneProperty);
         
         int count = ABMultiValueGetCount(multiValue);
+            if(multiValue)
+                 CFRelease(multiValue);
         NSString *compositeName=NULL;
         if(count >  0)
-           compositeName = [(NSString *)ABRecordCopyCompositeName(person) autorelease];
+           compositeName = (NSString *)ABRecordCopyCompositeName(person);
         
         // Filter out those without any name. Contacts displays them, and we could
         // guess what algorithm it uses, but we'd then risk falling out of sync with
@@ -368,9 +370,11 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         ABRecordID iden = ABRecordGetRecordID(person);
         if([self.selectedValues objectForKey:KEY_FOR_SELECTION(iden)])
             [self.selectedPeople addObject:(id)person];
+        
     }
     
     *othersPtr = otherPeople;
+    
     return groupedPeople;
 }
 
@@ -378,6 +382,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 // times doesn't hurt much.
 - (NSArray *)peopleForSearchString:(NSString *)searchString
 {
+   
     if([searchString isEqualToString:@""]){
        searchString=@"A";
             //  self.searchCacheString=@"A";
@@ -385,11 +390,11 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     
         // NSLog(@"searchstring %@",searchString);
         // NSLog(@"searchcachestring %@",searchCacheString);
-    NSArray *results=[[NSArray alloc]init];
+    NSArray *results;//=[[NSArray alloc]init];
     if (![searchString isEqual:self.searchCacheString]) {
         // Reload needed
         
-        results = [(NSArray *)ABAddressBookCopyPeopleWithName(self.ppnc.addressBook, (CFStringRef)searchString) autorelease];
+        results = (NSArray *)ABAddressBookCopyPeopleWithName(self.ppnc.addressBook, (CFStringRef)searchString);
             
 //    }
 //    else
@@ -398,19 +403,20 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 //    }
     results = [results sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
             //Remove Empty Contact number List form search result
-        NSMutableArray *compositeName=[[NSMutableArray alloc]init];
+        NSMutableArray *compositeName=[[[NSMutableArray alloc]init]autorelease];
 
         for(id elements in results)
         {
                 //NSLog(@"ABRecordRef search %@",elements);
-            ABMultiValueRef multiValue = ABRecordCopyValue(elements, kABPersonPhoneProperty);
+            ABMultiValueRef multiValueempty = ABRecordCopyValue(elements, kABPersonPhoneProperty);
             
-            int count = ABMultiValueGetCount(multiValue);
+            int count = ABMultiValueGetCount(multiValueempty);
             if(count >  0)
             {
                 [compositeName addObject:elements];
             }
-           
+           if(multiValueempty)
+               CFRelease(multiValueempty);
         }
         self.searchCacheString = searchString;
             if(results !=NULL)
@@ -432,19 +438,14 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 
 - (void)doneAction:(id)sender
 {
-    NSArray *people = [self.selectedPeople allObjects];
-        //if([people count])
-        //   {
-    NSArray *sortedPeople = [people sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
+         NSArray *people = [self.selectedPeople allObjects];
+     
+         NSArray *sortedPeople = [people sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
+   
     
     if ([self.ppnc.peoplePickerDelegate respondsToSelector:@selector(cePeoplePickerNavigationController:didFinishPickingPeople:values:)])
-        [self.ppnc.peoplePickerDelegate cePeoplePickerNavigationController:self.ppnc didFinishPickingPeople:sortedPeople values:[NSDictionary dictionaryWithDictionary:self.selectedValues]];
-            NSLog(@"self.selectedvalues %@",self.selectedValues);
-//       }
-//       else
-//       {
-//           [self.ppnc.peoplePickerDelegate cePeoplePickerNavigationControllerDidCancel:self.ppnc];
-//       }
+            [self.ppnc.peoplePickerDelegate cePeoplePickerNavigationController:self.ppnc didFinishPickingPeople:sortedPeople values:[NSDictionary dictionaryWithDictionary:self.selectedValues]];
+        
 }
 
 #pragma mark View lifecycle
@@ -645,7 +646,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         }
         
         
-        cell.textLabel.text=[(NSString *)ABRecordCopyCompositeName(person) autorelease];;
+        cell.textLabel.text=(NSString *)ABRecordCopyCompositeName(person);
        
                          
     }
@@ -690,12 +691,12 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     CEPeoplePickerCell *cell = (CEPeoplePickerCell *)[aTableView cellForRowAtIndexPath:indexPath];
    
     ABRecordID iden = ABRecordGetRecordID(cell.person);
-    ABMultiValueRef multiValue = ABRecordCopyValue(cell.person, kABPersonPhoneProperty);
+    ABMultiValueRef multiValues = ABRecordCopyValue(cell.person, kABPersonPhoneProperty);
     
    
     
-    int count = ABMultiValueGetCount(multiValue);
-   
+    int count = ABMultiValueGetCount(multiValues);
+    
     searchIndexPath=nil;
     
     if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
@@ -713,14 +714,17 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         {
             if(count==1)
             {                
-                NSString *value=(NSString*)ABMultiValueCopyValueAtIndex(multiValue, 0);
-                NSString *phoneType = (NSString*)ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(multiValue, 0));
+                CFStringRef  value=ABMultiValueCopyValueAtIndex(multiValues, 0);
+              CFStringRef compositeName =ABRecordCopyCompositeName(cell.person);
+                CFStringRef phoneType = ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(multiValues, 0));
                
                     // if([[value STRIP_TO_PHONE_NOS] length]>7)
                     //{
                     [self.selectedPeople addObject:(id)cell.person];
-                NSMutableArray *arr=[NSMutableArray arrayWithObjects:value,phoneType, nil];
-                
+                NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,(NSString *)value,(NSString *)phoneType, nil];
+                if(value) CFRelease(value);
+                if(compositeName)CFRelease(compositeName);
+                if(phoneType)CFRelease(phoneType);
                 
                     [self.selectedValues setObject:arr  forKey:KEY_FOR_SELECTION(iden)];
                     cell.accessoryType= UITableViewCellAccessoryCheckmark;
@@ -736,8 +740,8 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
                  NSMutableArray *labels = [NSMutableArray array];
                 for(CFIndex i=0;i<count;i++)
                 {
-                    [values addObject:(NSString*)ABMultiValueCopyValueAtIndex(multiValue,i)];
-                    [labels addObject:(NSString*)ABMultiValueCopyLabelAtIndex(multiValue,i)];
+                    [values addObject:(NSString*)ABMultiValueCopyValueAtIndex(multiValues,i)];
+                    [labels addObject:(NSString*)ABMultiValueCopyLabelAtIndex(multiValues,i)];
                 }
                 
                 [self showActionSheet:labels values:values];
@@ -749,7 +753,8 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 //        {
 //            self.navigationItem.prompt =@"No Contacts found.";
 //        }
-    
+if(multiValues)
+    CFRelease(multiValues);
     }
     return indexPath;
 }
@@ -770,8 +775,9 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     {
         if(cell.person){
             ABMultiValueRef multiValue = ABRecordCopyValue(cell.person, kABPersonPhoneProperty);
-            NSString *value=(NSString*)ABMultiValueCopyValueAtIndex(multiValue, buttonIndex);
-            NSString *phoneType = (NSString*)ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(multiValue, buttonIndex));
+            CFStringRef value=ABMultiValueCopyValueAtIndex(multiValue, buttonIndex);
+            CFStringRef compositeName =ABRecordCopyCompositeName(cell.person);
+            CFStringRef phoneType = ABAddressBookCopyLocalizedLabel(ABMultiValueCopyLabelAtIndex(multiValue, buttonIndex));
             
             //NSString *value =[actionSheet buttonTitleAtIndex:buttonIndex];
             //dictonary does not allow int to be keys - ??
@@ -781,20 +787,16 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
                 [cell setNeedsDisplay];
                 [self.selectedPeople addObject:(id)cell.person];
                 ABRecordID iden = ABRecordGetRecordID(cell.person);
-            NSMutableArray *arr=[NSMutableArray arrayWithObjects:value,phoneType, nil];
+            NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,(NSString *)value,(NSString *)phoneType, nil];
            
-                
-                [self.selectedValues setObject:arr  forKey:KEY_FOR_SELECTION(iden)];
-                // [self.selectedValues setObject:value forKey:KEY_FOR_SELECTION(iden)];
+            if(value)CFRelease(value);
+            if(compositeName)CFRelease(compositeName);
+            if(phoneType)CFRelease(phoneType);
             
-//            }else
-//            {
-//                cell.accessoryType= UITableViewCellAccessoryNone;
-//                [cell setNeedsDisplay];
-//                self.navigationItem.prompt=@"Invalid phone number";
-//                [self performSelector:@selector(hidePrompt) withObject:self afterDelay:3.0];
-//            }
-        }
+            if(multiValue)CFRelease(multiValue);
+            
+                [self.selectedValues setObject:arr  forKey:KEY_FOR_SELECTION(iden)];
+          }
     }
 
     searchIndexPath=nil;

@@ -11,7 +11,7 @@ Simple protocol class for the target delegates to implement it and recive notifi
 //-(void)statusForCall:(NSString *)model status:(int)status;
 
 //new code for show server message
--(void)statusForCall:(NSString *)model status:(NSString*)status;
+-(void)statusForCall:(NSString *)number status:(NSString*)status;
 -(void)callEnded;
 
 @end
