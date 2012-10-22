@@ -64,9 +64,9 @@
         [callme release];
         
     }
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)]autorelease];
+        //self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)]autorelease];
     [self LoadTextField];
-    [self removeEmptyTableCell];
+        // [self removeEmptyTableCell];
 }
 -(void)LoadTextField
 {
@@ -152,34 +152,34 @@
 
            
     //disable the text editing.only selection option
-    if(isEditMode==NO)
-    {
+//    if(isEditMode==NO)
+//    {
         self.txtiPhone.enabled=NO;
         self.txtMobile.enabled=NO;
         self.txtHome.enabled=NO;
         self.txtWork.enabled=NO;
-        
-    }
-    else
-    {
-        self.txtiPhone.enabled=YES;
-        self.txtMobile.enabled=YES;
-        self.txtHome.enabled=YES;
-        self.txtWork.enabled=YES;
-    }
-    if([cellArray count] ==0 || cellArray ==NULL || isEditMode)
-    cellArray=[[NSMutableArray alloc]initWithObjects:@"iPhone",@"mobile",@"home",@"work",nil];
-    else
-        NSLog(@"cellarray %@",cellArray);
+//        
+//    }
+//    else
+//    {
+//        self.txtiPhone.enabled=YES;
+//        self.txtMobile.enabled=YES;
+//        self.txtHome.enabled=YES;
+//        self.txtWork.enabled=YES;
+        // }
+//    if([cellArray count] ==0 || cellArray ==NULL || isEditMode)
+//    cellArray=[[NSMutableArray alloc]initWithObjects:@"iPhone",@"mobile",@"home",@"work",nil];
+//    else
+//        NSLog(@"cellarray %@",cellArray);
        
 }
 -(void)viewWillAppear:(BOOL)animated
 {
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardAppear) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDisAppear) name:UIKeyboardDidHideNotification object:nil];
-    isEditMode=NO;
+        //isEditMode=NO;
     [self LoadTextField];
-    [self removeEmptyTableCell];
+        //[self removeEmptyTableCell];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -290,55 +290,70 @@
 {
         UITableViewCell *cell=nil;
     
-        if([cellArray containsObject:@"iPhone"])
-        {
+//        if([cellArray containsObject:@"iPhone"])
+//        {
+//            cell=_addiPhoneNumber;
+//            _addiPhoneNumber.backgroundColor=[[UIColor whiteColor]autorelease];
+//            [cellArray removeObject:@"iPhone"];
+//           
+//            return cell;
+//           
+//        }
+//    
+//        if([cellArray containsObject:@"mobile"])
+//        {
+//            cell=_addMobileNumber;
+//            _addMobileNumber.backgroundColor=[[UIColor whiteColor]autorelease];
+//            [cellArray removeObject:@"mobile"];
+//            return cell;
+//        }
+//
+//        if([cellArray containsObject:@"home"])
+//        {
+//            cell=_addHomeNumber;
+//            _addHomeNumber.backgroundColor=[[UIColor whiteColor]autorelease];
+//            [cellArray removeObject:@"home"];
+//            return cell;
+//        }
+//             
+//        if([cellArray containsObject:@"work"])
+//        {
+//            cell=_addWorkNumber;
+//            _addWorkNumber.backgroundColor=[[UIColor whiteColor]autorelease];
+//            [cellArray removeObject:@"work"];
+//           
+//            return  cell;
+//        }
+    switch (indexPath.row) {
+        case 0:
             cell=_addiPhoneNumber;
-            _addiPhoneNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-            [cellArray removeObject:@"iPhone"];
-           
-            return cell;
-           
-        }
-    
-        if([cellArray containsObject:@"mobile"])
-        {
+            break;
+            case 1:
             cell=_addMobileNumber;
-            _addMobileNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-            [cellArray removeObject:@"mobile"];
-            return cell;
-        }
-
-        if([cellArray containsObject:@"home"])
-        {
+            break;
+            case 2:
             cell=_addHomeNumber;
-            _addHomeNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-            [cellArray removeObject:@"home"];
-            return cell;
-        }
-             
-        if([cellArray containsObject:@"work"])
-        {
+            break;
+            case 3:
             cell=_addWorkNumber;
-            _addWorkNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-            [cellArray removeObject:@"work"];
-           
-            return  cell;
-        }
+            break;
+        
+    }
             return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-    NSLog(@"coung %i,%@",[cellArray count],cellArray);
-    if(isEditMode)
+        // NSLog(@"coung %i,%@",[cellArray count],cellArray);
+        // if(isEditMode)
     return   4;
     
-    else
-    {
-        
-       return  [cellArray count];
-        
-    }
+//    else
+//    {
+//        
+//       return  [cellArray count];
+//        
+//    }
     
 }
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

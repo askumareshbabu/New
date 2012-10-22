@@ -196,13 +196,22 @@ ABAddressBookRef ab;
 }
 -(void)pushToCallMeOn
 {
-    CallmeonView *callmeon=[[CallmeonView alloc]init];
-    self.title=@"Participants";
+//    CallmeonView *callmeon=[[CallmeonView alloc]init];
+//    self.title=@"Participants";
+//    
+//    [self.navigationController pushViewController:callmeon animated:YES];
+//   
+//    callmeon.title=@"Call me on";
+//    [callmeon release];
+    CallmeonView * callmeonview=[[CallmeonView alloc]init];
+    callmeonview ->isEditMode=YES;
+    callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
+    callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
+    callmeonview.title=@"Call me on";
+    [self presentModalViewController:callmeonViewpicker animated:YES];
     
-    [self.navigationController pushViewController:callmeon animated:YES];
-   
-    callmeon.title=@"Call me on";
-    [callmeon release];
+    [callmeonview release];
+    [callmeonViewpicker release];  
 }
 
 #pragma TableView
@@ -578,27 +587,27 @@ ABAddressBookRef ab;
     else
     {
         
-        if(![[Model singleton] isCallemeonpresent])
-        {
-            CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-            [alertMsg CustomMessage:@"1" MessageNo:@"4"];
-            [alertMsg release];
-            
-            
-            CallmeonView * callmeonview=[[CallmeonView alloc]init];
-            callmeonview ->isEditMode=YES;
-            callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
-            callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
-            callmeonview.title=@"Call me on";
-            [self presentModalViewController:callmeonViewpicker animated:YES];
-            
-            [callmeonview release];
-            [callmeonViewpicker release];     
-        }
+//        if(![[Model singleton] isCallemeonpresent])
+//        {
+//            CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+//            [alertMsg CustomMessage:@"1" MessageNo:@"4"];
+//            [alertMsg release];
+//            
+//            
+//            CallmeonView * callmeonview=[[CallmeonView alloc]init];
+//            callmeonview ->isEditMode=YES;
+//            callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
+//            callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
+//            callmeonview.title=@"Call me on";
+//            [self presentModalViewController:callmeonViewpicker animated:YES];
+//            
+//            [callmeonview release];
+//            [callmeonViewpicker release];     
+//        }
         
         
         
-        else if(![[Model singleton] isSettingsPresent])
+        if(![[Model singleton] isSettingsPresent])
         {
             CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
             [alertMsg CustomMessage:@"1" MessageNo:@"1"];
