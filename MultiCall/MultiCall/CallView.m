@@ -85,10 +85,12 @@ ABAddressBookRef ab;
 -(void)enableCalling
 {
     _bottomToolbar.hidden=NO;
+    self.navigationItem.rightBarButtonItem.enabled=YES;
 }
 -(void)disableCalling
 {
     _bottomToolbar.hidden=YES;
+    self.navigationItem.rightBarButtonItem.enabled=NO;
 }
 
 - (void)viewDidLoad
@@ -168,6 +170,7 @@ ABAddressBookRef ab;
     }
     else{
         self.lblCallType.text=@"";
+        model.PhoneNumber=nil;
     }
     }
 }
@@ -203,27 +206,46 @@ ABAddressBookRef ab;
 //   
 //    callmeon.title=@"Call me on";
 //    [callmeon release];
+    if([model.callemeon count]> 0){
     CallmeonView * callmeonview=[[CallmeonView alloc]init];
-    callmeonview ->isEditMode=YES;
+        //  callmeonview ->isEditMode=YES;
     callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
     callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
     callmeonview.title=@"Call me on";
+    [callmeonViewpicker setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
     [self presentModalViewController:callmeonViewpicker animated:YES];
     
     [callmeonview release];
-    [callmeonViewpicker release];  
+    [callmeonViewpicker release]; 
+    }
+    else
+    {
+        CustomMessageClass *alertmsg=[[CustomMessageClass alloc]init];
+        [alertmsg CustomMessage:@"1" MessageNo:@"4"];
+        [alertmsg release];
+        
+        SettingsView * sv=[[SettingsView alloc]init];
+        [self.navigationController pushViewController:sv animated:YES];
+        [sv release];
+    }
 }
 
 #pragma TableView
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+       UITableViewCell *cell=nil;
     UIView *recentview=[[[UIView alloc]init]autorelease];
     UILabel * lblRecentContacts=[[[UILabel alloc]init]autorelease];
     UILabel * lblParticipants=[[[UILabel alloc]init]autorelease];
     UILabel * lblDate=[[[UILabel alloc]init]autorelease];
-
-      UITableViewCell *cell=nil;
+    
+    UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UILabel *lblName=[[UILabel alloc]initWithFrame:CGRectMake(5, 3, 130, 25)];
+    UILabel *lblnumber=[[UILabel alloc]initWithFrame:CGRectMake(5, 34, 180, 15)];
+    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(180,10, 90, 20)];
+        //tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+   
     switch (indexPath.section) {
           
         case 0:
@@ -240,7 +262,7 @@ ABAddressBookRef ab;
                     cell.backgroundView =[[[UIView alloc] initWithFrame:CGRectZero] autorelease];
                    
                     UIImageView *back=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shad_02.png"]];
-                   back.frame=CGRectMake(0, 0, 320, 70);
+                   back.frame=CGRectMake(0, 0, 320, 65);
                   
                     [cell.contentView addSubview:back];
 //                    cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
@@ -272,7 +294,7 @@ ABAddressBookRef ab;
                     lblParticipants.frame=CGRectMake(2, 30, 200, 20);
                     
                     
-                    lblDate.font=[UIFont fontWithName:@"Helvetica" size:18.0];
+                    lblDate.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
                     lblDate.textColor=[UIColor blackColor];
                     lblDate.textAlignment=UITextAlignmentRight;
                     lblDate.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
@@ -314,7 +336,7 @@ ABAddressBookRef ab;
         case CONTACT_SEC_INDEX:{
             cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callView"];
             if(cell == nil) {
-                cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"callView"]autorelease];
+                cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callView"]autorelease];
                 cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
                 cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
                 cell.backgroundColor=[UIColor whiteColor];
@@ -326,11 +348,35 @@ ABAddressBookRef ab;
             ContactModel *contact=[self.contacts objectAtIndex:indexPath.row];
             
                 //NSLog(@"self.contacts %@",self.contacts);
+            
+            lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
+             lblnumber.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+             lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+            lblName.textColor=defaultColor;
+            lblnumber.textColor=[UIColor blackColor];
+            
+            lblContactType.textColor=defaultColor;
+            
+            lblName.lineBreakMode=UILineBreakModeTailTruncation;
+            viewcontact.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+                //lblName.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
+            lblnumber.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
+            
+            lblContactType.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+            [viewcontact addSubview:lblName];
+            [viewcontact addSubview:lblnumber];
+            [viewcontact addSubview:lblContactType];
+            [cell.contentView addSubview:viewcontact];
             if(contact)
             {
-               
-                cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];                 
-                cell.detailTextLabel.text=contact.contactType ?:@"unknown";
+                
+                lblName.text=contact.name ? :@"-";
+                lblnumber.text= [self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
+                lblContactType.text=contact.contactType?:@"unknown";
+                    //cell.textLabel.text=contact.name ?:@"unknown";
+                    // cell.detailTextLabel.text=[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
+                    //cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];                 
+                    //  cell.detailTextLabel.text=contact.contactType ?:@"unknown";
                 
                 
                 
@@ -340,11 +386,13 @@ ABAddressBookRef ab;
         if([self.twilio_adaptor isCallActive])
         {
                 CGRect cellframe = cell.frame;
-                CGRect rect= CGRectMake(cellframe.size.width - 130, cellframe.origin.y - 10, 130, cellframe.size.height - 10);
+                 CGRect rect= CGRectMake(cellframe.size.width - 110, cellframe.origin.y - 5, 110, cellframe.size.height - 10);
+                //CGRect rect= CGRectMake(280,60,130,30);
                 [but setFrame:rect];
+                //[cell.accessoryView setFrame:CGRectMake(280, 50, 80, 30)];
                 cell.accessoryView = but;
-                cell.detailTextLabel.text=nil;
-            
+            lblName.lineBreakMode=UILineBreakModeTailTruncation;
+            lblContactType.text=nil;
             
         }
         else{
@@ -374,7 +422,7 @@ ABAddressBookRef ab;
                 return 1;
         }
         case CONTACT_SEC_INDEX:
-            NSLog(@"self.contacts count %@",self.contacts);
+                //NSLog(@"self.contacts count %@",self.contacts);
             return [self.contacts count];
         default:
             return 0;
@@ -433,12 +481,12 @@ ABAddressBookRef ab;
 }
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-       if(indexPath.section == 0)
+       if(indexPath.section == 1)
        {
-           return 65.0;
+           return 45.0;
        }
     else
-        return 45.0;
+        return 55.0;
 }
 -(NSString *)tableView:(UITableViewCell *)tableView titleForHeaderInSection:(NSInteger)section{
 
@@ -498,18 +546,60 @@ ABAddressBookRef ab;
     self.checkMultiCallArray=nil;
     [super dealloc];
 }
+-(BOOL)isABAddressBookCreateWithOptionsAvailable {
+    return &ABAddressBookCreateWithOptions != NULL;
+}
 - (IBAction)addContact {
     
+        // http://stackoverflow.com/questions/12517394/ios-6-address-book-not-working;
     
+    CFErrorRef error = nil;
+   
+    
+    ABAddressBookRef addressBook;
+    if ([self isABAddressBookCreateWithOptionsAvailable]) {
+       
+        addressBook = ABAddressBookCreateWithOptions(NULL,&error);
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+                // callback can occur in background, address book must be accessed on thread it was created on
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (error) {
+                    CustomMessageClass *alermsg=[[CustomMessageClass alloc]init];
+                    [alermsg CustomMessage:@"1" MessageNo:@"5"];
+                    [alermsg release];
+                    
+                    
+                } else if (!granted) {
+                    CustomMessageClass *alermsg=[[CustomMessageClass alloc]init];
+                    [alermsg CustomMessage:@"1" MessageNo:@"5"];
+                    [alermsg release];
+                        // [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:Seetings=General"]];
+                    
+                } else {
+            
+                    [self LoadContacts:addressBook];
+                        // CFRelease(addressBook);
+                }
+            });
+        });
+    } else {
+            // iOS 4/5
+         
+        addressBook = ABAddressBookCreate();
+        [self LoadContacts:addressBook];
+            //CFRelease(addressBook);
+    }
+
+}
+-(void)LoadContacts:(ABAddressBookRef)addressBook
+{
     NSMutableDictionary *dict=[[NSMutableDictionary alloc]init];
-     ab=ABAddressBookCreate();
-    
     for(NSUInteger i=0 ; i<[self.contacts count]; i++)
     {
         ContactModel *conmodel=[self.contacts objectAtIndex:i];
         if(conmodel.name)
         {
-            ABRecordRef person=ABAddressBookGetPersonWithRecordID(ab, (ABRecordID)conmodel.personId);
+            ABRecordRef person=ABAddressBookGetPersonWithRecordID(addressBook, (ABRecordID)conmodel.personId);
             if(person)
             {
                 ABRecordID iden=ABRecordGetRecordID(person);
@@ -517,7 +607,7 @@ ABAddressBookRef ab;
                 [dict setObject:arr forKey:KEY_FOR_SELECTION(iden)];
                 person=nil;
             }
-
+            
         }
         else
         {
@@ -525,15 +615,14 @@ ABAddressBookRef ab;
             [dict setObject:arr forKey:KEY_FOR_SELECTION(conmodel.personId)];
         }
     }
-    NSLog(@"add contact clicked dfd sdfasdf%@",self.contacts);
-       
+        // NSLog(@"add contact clicked dfd sdfasdf%@",self.contacts);
+    
     CEPeoplePickerNavigationController *picker=[[CEPeoplePickerNavigationController alloc]initWithValues:dict];
     picker.peoplePickerDelegate=self;
     [self presentModalViewController:picker animated:YES];
     [picker release];
     [dict release];
-    
-    
+    CFRelease(addressBook);
 }
 -(void)cancelGroupPicker
 {
@@ -550,6 +639,7 @@ ABAddressBookRef ab;
     gview.delegate=self;
     groupContactPicker=[[UINavigationController alloc]initWithRootViewController:gview];
     gview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelGroupPicker)]autorelease];
+    
     gview.title=@"Groups";
     [self presentModalViewController:groupContactPicker animated:YES];
     [gview release];
@@ -573,6 +663,7 @@ ABAddressBookRef ab;
 
 - (void)btnMakeMultiCall:(id)sender {
     self.title =@"Participants";
+    [(UITableView *)self.view setEditing:NO animated:YES];
     if([self.twilio_adaptor isCallActive])
     {
         NSMutableArray *numbers=[NSMutableArray array];
@@ -623,22 +714,38 @@ ABAddressBookRef ab;
             [sview release];
             [settingsViewpicker release];     
         }
+        else if(model.PhoneNumber ==nil)
+        {
+            CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+            [alertMsg CustomMessage:@"4" MessageNo:@"2"];
+            [alertMsg release];
+            
+            SettingsView * sview=[[SettingsView alloc]init];
+            settingsViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
+            sview ->isUpdateView=YES;
+            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+            sview.title=@"Settings";
+            [self presentModalViewController:settingsViewpicker animated:YES];
+            
+            [sview release];
+            [settingsViewpicker release];  
+        }
         else
         {
-            if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
-            {
-                
-                CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-                [alertMsg CustomMessage:@"1" MessageNo:@"3"];
-                [alertMsg release];
-            }
-            else
-            {
+//            if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
+//            {
+//                
+//                CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+//                [alertMsg CustomMessage:@"1" MessageNo:@"3"];
+//                [alertMsg release];
+//            }
+//            else
+//            {
             timersecondDate =[[NSDate date] retain];
             
                 // durationTimer=[NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
                 [self initateMultiCall];
-            }
+                //}
         }
     }
 }
@@ -678,7 +785,7 @@ ABAddressBookRef ab;
     [self.contacts insertObject:myPhone atIndex:0];
             //[self saveModel];
     [myPhone release];
-    NSLog(@"self.contacts insert %@",self.contacts);
+            //NSLog(@"self.contacts insert %@",self.contacts);
     int i=1;
     for(ContactModel *contact in self.contacts)
     {        
@@ -731,31 +838,26 @@ ABAddressBookRef ab;
 
 {
 
-        [self saveModel];
+        
    
     [self changeButton:@"red.png" selector:nil];
     [self performSelector:@selector(cancelCall) withObject:self afterDelay:3.0];
+        self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
+    [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:2.0];
+    [self saveModel];
     
-//    Recents *rec=[[[Recents alloc]init]autorelease];
-//    rec->isStarNewView=YES;
-//    [(UITableView *)rec.view reloadData];
-   
-    self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
-    [self.tabBarController setSelectedIndex:1];
-    [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:3.0];
-    
-    
-
 }
 -(void)endModelviewcontroller
-{
-    
+{  
+//    Recents *rec=[[[Recents alloc]init]autorelease];
+//    [self.navigationController pushViewController:rec animated:YES];
     [self dismissModalViewControllerAnimated:YES];
     
         
 }
 -(void)cancelCall
 {
+    NSLog(@"cancel Call");
     if(self.twilio_adaptor.isErrorOccured==NO)
     {
         [self performSelector:@selector(clearData) withObject:self afterDelay:2.0];
@@ -796,6 +898,7 @@ ABAddressBookRef ab;
         }
         
     }
+    NSLog(@"clear Data %@",self.contacts);
         //  [((UITableView *)self.view)reloadData];
     
 }
@@ -816,7 +919,7 @@ ABAddressBookRef ab;
 -(void)statusForCall:(NSString *)number status:(NSString *)status
 {
     
-    NSLog(@"status number %@",number);
+        //NSLog(@"status number %@",number);
 
     CallNotifyButton *but = [self.statusButtons objectForKey:number];
         // NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell *)number];
@@ -827,7 +930,7 @@ ABAddressBookRef ab;
         [but plain];
         [but setTitle:status forState:UIControlStateNormal];
         [but setNeedsDisplay];
-        NSLog(@" CallNotifyButton Call Status %@",status);
+            //NSLog(@" CallNotifyButton Call Status %@",status);
        
     }
 
@@ -842,7 +945,7 @@ ABAddressBookRef ab;
     cmodel.Callduration=[self updateTime];
         // NSLog(@"timer result %@",cmodel.Callduration);
     
-    NSLog(@"self.contact save n%@",self.contacts);
+        NSLog(@"self.contact save n%@",self.contacts);
     /* Remove Chairperson to avoid showing in recents list */
     NSMutableArray *array=[NSMutableArray arrayWithArray:self.contacts];
     [array removeObjectAtIndex:0];
@@ -861,36 +964,40 @@ ABAddressBookRef ab;
     [self.contacts removeAllObjects];
     
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:CONTACT_SEC_INDEX] withRowAnimation:UITableViewRowAnimationLeft];
-
+    NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
+        // NSLog(@"values arg %@",values);
+    NSString *value;NSString * phoneType;NSString *name;
     if([valuesArg count])
     {
-        NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
-        
-        NSString *value;NSString * phoneType;NSString *name;
+            for (int i=0; i<[peopleArg count]; i++) {
+                    //  NSLog(@"peoplearg %@",peopleArg);
+                ABRecordRef person  =[peopleArg objectAtIndex:i];
+                ABRecordID iden = ABRecordGetRecordID(person);
+               NSString * key = KEY_FOR_SELECTION(iden);
+                 NSMutableArray * dictkeys=[values objectForKey:key];
+                name=[dictkeys objectAtIndex:0];
+                value = [dictkeys objectAtIndex:1];
+                phoneType=[dictkeys objectAtIndex:2];
+                
+                [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];  
+                [values removeObjectForKey:key];
+            }
         for(id key in [values allKeys])
         {
-       
-        NSMutableArray * dictkeys=[values objectForKey:key];
-        
-        if([key hasPrefix:@"-"]) // dial number
-        {
-            value=[NSString stringWithFormat:@"%@",dictkeys];
-            name=nil;
-             phoneType=nil;
-                // [values removeObjectForKey:key];
-           
+                //NSLog(@"key %@",key);
+            NSMutableArray * dictkeys=[values objectForKey:key];
+                // NSLog(@"contac dictkeyes %@",dictkeys);
+            if([key hasPrefix:@"-"]) // dial number
+            {
+                value=[NSString stringWithFormat:@"%@",dictkeys];
+                name=nil;
+                phoneType=nil;
+                [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];  
+                [values removeObjectForKey:key];
+            }
         }
-        else{
-        name=[dictkeys objectAtIndex:0];
-        value=[dictkeys objectAtIndex:1];
-        phoneType=[dictkeys objectAtIndex:2];
-                //[values removeObjectForKey:key];
-        }
-            
-           [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];  
     }
-        [values release];
-    }
+
     [peoplePicker dismissModalViewControllerAnimated:YES];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:CONTACT_SEC_INDEX] withRowAnimation:
      UITableViewRowAnimationLeft];
@@ -928,28 +1035,19 @@ ABAddressBookRef ab;
     contact.personId=personId;
     contact.contactInfo = contactInfo;
     contact.contactType=contactType;
-        //if(![self.checkMultiCallArray containsObject:[NSString stringWithFormat:@"%@",contact.contactInfo]])
-    NSLog(@"contactinfo %@",contactInfo);
-       
 
-        //NSLog(@"lll lkjdslkfasdjfl %@",self.checkMultiCallArray);
-    //    //check for nulls and also say user if somthing is invalid
-   
-//    if([self.contacts containsObject:contact])
-//    {
-//        NSLog(@"before remove contact %@",self.contacts);
-//        [self.contacts removeObject:contact];
-//        NSLog(@"after remove contact %@",self.contacts);
-//    }
-    if(![self.contacts containsObject:contact])
-    {
-          NSLog(@"before add contact %@",self.contacts);
-        [self.contacts addObject:contact];
-         NSLog(@"after add contactsdfsdf %@",self.contacts);
-    }
-        //[self.checkMultiCallArray addObject:contactInfo];
+               
+        if(![self.contacts containsObject:contact])
+        {
+            
+            [self.contacts addObject:contact];
+            
+        }
+       
 }
--(void)selectedGroup :(GroupModel *)groupmodel
+
+
+-(void)selectedGroup :(GroupModel *)groupmodel //pick group group Screen
 {
     if(!self.contacts){
         self.contacts=[[[NSMutableArray alloc]init]autorelease];}
@@ -958,7 +1056,8 @@ ABAddressBookRef ab;
     GroupsView *gv=[[GroupsView alloc]init];
     if(gv ->isPickMode == YES)
     {
-        [self.contacts removeAllObjects];
+        NSLog(@"self.contacts groups %@",self.contacts);
+       [self.contacts removeAllObjects];
         
     }
 
@@ -983,7 +1082,7 @@ ABAddressBookRef ab;
     [gv release];
     [(UITableView *)self.view reloadData];
 }
--(void)selectedPlaceGroup :(NSMutableArray *)groups
+-(void)selectedPlaceGroup :(NSMutableArray *)groups //Pick groups from MultiCall Screen.
 {
     if(!self.contacts){
         self.contacts=[[[NSMutableArray alloc]init]autorelease];}
@@ -1009,7 +1108,7 @@ ABAddressBookRef ab;
 
 -(void)dialnumberarray:(NSMutableArray *)dialnumbers
 {
-    NSLog(@"dianumber adding %@",dialnumbers);
+        // NSLog(@"dianumber adding %@",dialnumbers);
     if(!self.contacts){
         self.contacts=[[[NSMutableArray alloc]init]autorelease];}
 
@@ -1035,11 +1134,11 @@ ABAddressBookRef ab;
 -(void)addRecentsToExplode:(CallModel*)cmodel
 {
      
-    [self.contacts removeAllObjects];
+    
     if(!self.contacts){
         self.contacts = [[[NSMutableArray alloc]init] autorelease];
     }
-    
+    [self.contacts removeAllObjects];
     for(ContactModel * contact in cmodel.contacts)
     {
         if(![self.contacts containsObject:contact])
@@ -1047,7 +1146,7 @@ ABAddressBookRef ab;
             [self.contacts addObject:contact];
         }
     }
-       
+     [(UITableView *)self.view reloadData];   
 }
 
 @end

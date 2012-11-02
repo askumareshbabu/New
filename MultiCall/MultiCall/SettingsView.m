@@ -17,6 +17,7 @@
 @synthesize addHomeNumber;
 @synthesize addWork;
 @synthesize checkedIndexPath;
+@synthesize isexists;
 #define defaultColor [UIColor colorWithRed:.196 green:0.3098 blue:0.52 alpha:1.0 ];
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,7 +77,7 @@
     Model *mo=[Model singleton];
     UITextField * txtPinNo=(UITextField *)[_addPinNo viewWithTag:1];
     txtPinNo.text=mo.Pinno ?:@"";
-    
+   
     UITextField * txtiPhoneNumber=(UITextField *)[addiPhoneNumber viewWithTag:3];
     UITextField * txtMobileNumber=(UITextField *)[addMobileNumber viewWithTag:4];
     UITextField * txtHomeNumber=(UITextField *)[addHomeNumber viewWithTag:5];
@@ -101,36 +102,40 @@
                 {
                     addiPhoneNumber.accessoryType=UITableViewCellAccessoryCheckmark;
                     
+                    model.PhoneNumber=txtiPhoneNumber.text;
                 }
                 else{
                     addiPhoneNumber.accessoryType=UITableViewCellAccessoryNone;
+                    
                 }
             }
             
             
             
             
-            if([Callmeonmodel.CallType isEqualToString:@"mobile"])
+            if([Callmeonmodel.CallType isEqualToString:@"Mobile"])
             {
                 txtMobileNumber.text=Callmeonmodel.CallPhoneNumber?:@"";
                 if(Callmeonmodel.isSelected ==YES)
                 {
                     addMobileNumber.accessoryType=UITableViewCellAccessoryCheckmark;
+                    model.PhoneNumber=txtMobileNumber.text;
                     
                 }
                 else{
                     addMobileNumber.accessoryType=UITableViewCellAccessoryNone;
+                    
                 }
                 
             }
             
-            if([Callmeonmodel.CallType isEqualToString:@"home"])
+            if([Callmeonmodel.CallType isEqualToString:@"Home"])
             {
                 txtHomeNumber.text=Callmeonmodel.CallPhoneNumber?:@"";
                 if(Callmeonmodel.isSelected ==YES)
                 {
                     addHomeNumber.accessoryType=UITableViewCellAccessoryCheckmark;
-                    
+                    model.PhoneNumber=txtHomeNumber.text;                    
                 }
                 else{
                     addHomeNumber.accessoryType=UITableViewCellAccessoryNone;
@@ -138,13 +143,13 @@
                 
             }
             
-            if([Callmeonmodel.CallType isEqualToString:@"work"])
+            if([Callmeonmodel.CallType isEqualToString:@"Work"])
             {
                 txtWorkNumber.text=Callmeonmodel.CallPhoneNumber?:@"";
                 if(Callmeonmodel.isSelected ==YES)
                 {
                     addWork.accessoryType=UITableViewCellAccessoryCheckmark;
-                    
+                    model.PhoneNumber=txtWorkNumber.text;
                 }
                 else{
                     addWork.accessoryType=UITableViewCellAccessoryNone;
@@ -160,35 +165,9 @@
         txtMobileNumber.text=@"";
         txtHomeNumber.text=@"";
         txtWorkNumber.text=@"";
+        model.PhoneNumber=nil;
     }
-//         if([txtiPhoneNumber.text isEqualToString:@""] || [txtMobileNumber.text isEqualToString:@""] || [txtHomeNumber.text isEqualToString:@""] ||[txtWorkNumber.text isEqualToString:@""]){
-//             [self.view endEditing:YES];
-//             self.navigationItem.rightBarButtonItem.title=@"Done";
-//             isEditMode=YES;
-//         }
-//    else
-//    {
-//        
-//        isEditMode=NO;
-//    }
-//    if(isEditMode==NO)
-//    {
-//        txtiPhoneNumber.enabled=NO;
-//        txtMobileNumber.enabled=NO;
-//        txtHomeNumber.enabled=NO;
-//        txtWorkNumber.enabled=NO;
-//        txtPinNo.enabled=NO;
-//        
-//        
-//    }
-//    else
-//    {
-//        txtiPhoneNumber.enabled=YES;
-//        txtMobileNumber.enabled=YES;
-//        txtHomeNumber.enabled=YES;
-//        txtWorkNumber.enabled=YES;
-//        txtPinNo.enabled=YES;
-//    }
+
        
     [(UITableView *)self.view reloadData];
     
@@ -227,12 +206,14 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell=nil;
-    switch (indexPath.section) {
+    tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+       switch (indexPath.section) {
         case 0:{
             switch (indexPath.row) {
                
                 case 0:
                     cell=_addPinNo;
+                    
                     break;
 //                case 1:
 //                    cell=_addPhoneNumber;
@@ -250,7 +231,7 @@
         {
             self.checkedIndexPath=indexPath;
         }
-            break;
+        break;
             
         case 1:
             cell=addMobileNumber;
@@ -277,8 +258,8 @@
             break;
         }
     }
-   
-    return cell;
+     cell.backgroundColor=[UIColor whiteColor];
+       return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -372,6 +353,7 @@
         if(thisCell.accessoryType==UITableViewCellAccessoryCheckmark)
         {
             thisCell.accessoryType=UITableViewCellAccessoryNone;
+            model.PhoneNumber=nil;
             self.checkedIndexPath=indexPath;
         }
     }
@@ -385,6 +367,7 @@
         isMobileCheckd=NO;
         isHomeChecked=NO;
         isWorkChecked=NO;
+        model.PhoneNumber=nil;
         
     }
     if([self.checkedIndexPath isEqual:indexPath])
@@ -394,6 +377,7 @@
         isMobileCheckd=NO;
         isHomeChecked=NO;
         isWorkChecked=NO;
+        model.PhoneNumber=nil;
         
     }
     else
@@ -417,7 +401,7 @@
                     isHomeChecked=NO;
                     isWorkChecked=NO;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    
+                    model.PhoneNumber=txtField.text;
                     [callmodel release];
                     
                     
@@ -436,6 +420,7 @@
                     isHomeChecked=NO;
                     isWorkChecked=NO;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
+                    model.PhoneNumber=txtField.text;
                     
                     [callmodel release];
                     
@@ -457,7 +442,7 @@
                     isHomeChecked=YES;
                     isWorkChecked=NO;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    
+                     model.PhoneNumber=txtField.text;
                     [callmodel release];
                     
                 }
@@ -477,7 +462,7 @@
                     isHomeChecked=NO;
                     isWorkChecked=YES;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    
+                     model.PhoneNumber=txtField.text;
                     [callmodel release];
                     
                 }
@@ -575,23 +560,23 @@
    
     
     
-//        //Empty Validation and length validation
-//    NSLog(@"pin length %i", [model.Pinno length]);
-//    if(model.Pinno ==NULL)
-//    {
-//            //Enter PIN No.
-//        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-//        [alertMsg CustomMessage:@"4" MessageNo:@"1"];
-//        [alertMsg release];
-//        [pinno becomeFirstResponder];
-//    }
-//    else if([model.PhoneNumber length] == 1)
-//    {
-//        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-//        [alertMsg CustomMessage:@"4" MessageNo:@"5"];
-//        [alertMsg release];
-//        [pinno becomeFirstResponder];
-//    }
+        //Empty Validation and length validation
+    NSLog(@"pin length %i", [model.Pinno length]);
+    if(model.Pinno ==NULL)
+    {
+            //Enter PIN No.
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"1"];
+        [alertMsg release];
+        [pinno becomeFirstResponder];
+    }
+    else if([model.PhoneNumber length] == 1)
+    {
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"5"];
+        [alertMsg release];
+        [pinno becomeFirstResponder];
+    }
 //    else if(model.PhoneNumber ==NULL)
 //    {
 //            //Enter Phone Number
@@ -610,17 +595,18 @@
 //        [phonenumber becomeFirstResponder];
 //        
 //    }
-//    else
-//    {
+  else
+    {
             //Saved successfully
         
+        
+        [self savecallmeon];
+        
+        [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"4"];
         [alertMsg release];
-        //self.navigationItem.rightBarButtonItem =nil;
-        [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
-        [self savecallmeon];
-        //}
+    }
     
 }
 -(void)savecallmeon
@@ -634,6 +620,29 @@
     UITextField * txtHomeNumber=(UITextField *)[addHomeNumber viewWithTag:5];
     UITextField * txtWorkNumber=(UITextField *)[addWork viewWithTag:6];
     
+    NSMutableArray * phones=[[[NSMutableArray alloc]init]autorelease];
+    [phones removeAllObjects];
+    if(![txtiPhoneNumber.text isEqualToString:@""] || ![txtMobileNumber.text isEqualToString:@""] || ![txtHomeNumber.text isEqualToString:@""] ||![txtWorkNumber.text isEqualToString:@""]){
+     
+    [phones addObject:[NSString stringWithFormat:@"%@", [txtiPhoneNumber.text length] > 1 ?  txtiPhoneNumber.text:nil]];
+    [phones addObject:[NSString stringWithFormat:@"%@", [txtMobileNumber.text length] > 1 ? txtMobileNumber.text:nil]];
+    [phones addObject:[NSString stringWithFormat:@"%@", [txtHomeNumber.text length] > 1 ? txtHomeNumber.text:nil]];
+    [phones addObject:[NSString stringWithFormat:@"%@",[txtWorkNumber.text length] > 1 ? txtWorkNumber.text:nil]];
+    }
+    NSLog(@"phones %@",phones);
+    
+    if([phones count]==0){
+        //Enter Phone Number
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"2"];
+        [alertMsg release];
+       
+    }
+    
+
+    else
+    {
+        [phones removeAllObjects];
     if(![txtiPhoneNumber.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
@@ -648,7 +657,7 @@
     if(![txtMobileNumber.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"mobile"];
+        [callmeonModel setCallType:@"Mobile"];
         [callmeonModel setCallPhoneNumber:txtMobileNumber.text ?:@""];
         callmeonModel.isSelected=isMobileCheckd;
         [[[Model singleton]callemeon]addObject:callmeonModel];
@@ -660,7 +669,7 @@
     if(![txtHomeNumber.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"home"];
+        [callmeonModel setCallType:@"Home"];
         [callmeonModel setCallPhoneNumber:txtHomeNumber.text? :@""];
         callmeonModel.isSelected=isHomeChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
@@ -672,12 +681,16 @@
     if(![txtWorkNumber.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"work"];
+        [callmeonModel setCallType:@"Work"];
         [callmeonModel setCallPhoneNumber:txtWorkNumber.text ?: @""];
         callmeonModel.isSelected=isWorkChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
         [callmeonModel release];
+    }
+        
+            //self.navigationItem.rightBarButtonItem =nil;
+            //[(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
     }
     NSLog(@"after save %@",model.callemeon);
     

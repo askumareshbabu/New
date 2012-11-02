@@ -21,6 +21,7 @@
     bool isEditingContact;
 	/**< Flag to indicate edit mode i.e Updating a meeting.*/
     bool isEditMode;
+    
 	/**< Last Row selected  */
         // NSIndexPath *lastSelIndexPath;
 	/**<  Store contacts temporarily. For saving purposes  */
@@ -36,6 +37,7 @@
 @property (retain, nonatomic) IBOutlet UITableViewCell *groupNameCell;
 
 @property (retain, nonatomic) IBOutlet UITableViewCell *buttonCell;
+
 
 
 
@@ -60,5 +62,6 @@
 
 -(void)loadGroupName;
 -(void)save;
+
 
 @end

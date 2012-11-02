@@ -30,7 +30,7 @@
 -(void)sort;
 -(void)sortGroups;
 -(bool)isSettingsPresent;
--(bool)isCallemeonpresent;
+
  
 @end
 

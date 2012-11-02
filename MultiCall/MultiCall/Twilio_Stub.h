@@ -59,15 +59,15 @@ NSString * callStatusFromServer;
     //Local IP 192.168.8.59:90/
     //#define C3WARE_MULTICALL_END @"http://192.168.8.59:90/DsnlWebInterface/MultiCallEnd"
 
-     #define C3WARE_MULTICALL_END @"http://122.165.33.168/DsnlWebInterface/MultiCallEnd"
+     #define C3WARE_MULTICALL_END @"http://122.165.33.168/DsnlWebInterface/MultiCallEndForSeqNo"
     //  #define C3WARE_MULTICALL_END @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCallEnd"
 
     //#define C3WARE_MULTICALL @"http://192.168.8.59:90/DsnlWebInterface/MultiCall"
-      #define C3WARE_MULTICALL @"http://122.165.33.168/DsnlWebInterface/MultiCall"
+      #define C3WARE_MULTICALL @"http://122.165.33.168/DsnlWebInterface/MultiCallForSeqNo"
     // #define C3WARE_MULTICALL @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCall"
 
     //#define C3WARE_RES  @"http://192.168.8.59:90/DsnlWebInterface/MultiCallResponse"
-     #define C3WARE_RES  @"http://122.165.33.168/DsnlWebInterface/MultiCallResponse"
+     #define C3WARE_RES  @"http://122.165.33.168/DsnlWebInterface/MultiCallResponseForSeqNo"
     // #define C3WARE_RES   @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCallResponse"
 
 /*

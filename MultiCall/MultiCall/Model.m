@@ -92,18 +92,18 @@ static Model *sharedSingleton=nil;
 
 -(bool)isSettingsPresent
 {
-          return ([self.Pinno length] >0 && [self.PhoneNumber length] > 0);
+        //return ([self.Pinno length] >0 && [self.PhoneNumber length] > 0);
+         return ([self.Pinno length] >0 &&[self.callemeon count] >0);
   
 }
--(bool)isCallemeonpresent
-{
-    return ([self.callemeon count] > 0);
-}
+
 -(void)addRecentscallLog:(CallModel *)cmodel
 {
-    
+        //NSLog(@"Recents callmodel %@",cmodel);
+   
     for(NSInteger i=0; i< [self.recentsCall count]; i++)
     {
+            //NSLog(@"Recents call %@",self.recentsCall);
         if([[self.recentsCall objectAtIndex:i] isEqual:cmodel])
         {
             [self.recentsCall removeObjectAtIndex:i];

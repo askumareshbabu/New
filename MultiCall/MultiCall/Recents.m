@@ -90,22 +90,15 @@
 //    [super viewWillAppear:YES];
 //    [(UITableView *)self.view reloadData];
 //}
--(void)viewDidAppear:(BOOL)animated
+-(void)showStartNewImage
 {
-        //[self.recentsarray removeAllObjects];
-    self.tabBarController.tabBar.userInteractionEnabled=YES;
-    
-        [model sort];
-    
-    [(UITableView *)self.view reloadData];
-         int count=[[model recentsCall]count];
-   
-     UIImageView *imgstartnewview=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]];
-   
+    UIImageView *imgstartnewview=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]];
+      int count=[[model recentsCall]count];
     if(count == 0){
-     self.starNewView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)];
-    
-    
+        
+        self.starNewView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)];
+        
+        
         starNewView.backgroundColor=[UIColor whiteColor];
         
         [imgstartnewview setFrame:CGRectMake(60, 0, 234, 128)];
@@ -118,11 +111,23 @@
     }
     else
     {
-        [imgstartnewview setHidden:YES];
+            //[imgstartnewview setHidden:YES];
         [imgstartnewview removeFromSuperview];
         [self.starNewView removeFromSuperview];
     }
 
+}
+-(void)viewDidAppear:(BOOL)animated
+{
+        //[self.recentsarray removeAllObjects];
+    self.tabBarController.tabBar.userInteractionEnabled=YES;
+    
+        [model sort];
+     [self showStartNewImage];
+    
+         int count=[[model recentsCall]count];
+
+    
     
    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Start New" style:UIBarButtonItemStyleDone target:self action:@selector(StartNewMutiCall)]autorelease];
     
@@ -130,8 +135,10 @@
     
     if(count > 0)
         self.navigationItem.leftBarButtonItem.enabled=YES;
+
     else
         self.navigationItem.leftBarButtonItem.enabled=NO;
+   [(UITableView *)self.view reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -191,7 +198,7 @@
 
                
        self.recentview.autoresizingMask=UIViewAutoresizingFlexibleWidth;
-        self.recentview.frame=CGRectMake(0, 0, 320, 55);
+        self.recentview.frame=CGRectMake(0, 0, cell.frame.size.width, 55);
         
         
        self.lblRecentContacts.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
@@ -205,14 +212,15 @@
         self.lblParticipants.textColor=[UIColor lightGrayColor];
         self.lblParticipants.textAlignment=UITextAlignmentLeft;
         self.lblParticipants.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
-        self.lblParticipants.frame=CGRectMake(2, 30, 100, 20);
+        self.lblParticipants.frame=CGRectMake(2, 30, 130, 20);
         
         
         self.lblDate.font=[UIFont fontWithName:@"Helvetica" size:14.0];
         self.lblDate.textColor=[UIColor blueColor];
         self.lblDate.textAlignment=UITextAlignmentRight;
-        self.lblDate.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
-        self.lblDate.frame=CGRectMake(210, 25, 80, 20);
+        self.lblDate.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+    
+        self.lblDate.frame=CGRectMake(180, 25, cell.frame.size.width-220, 20);
          
         [cell.contentView addSubview:self.lblRecentContacts];
         [cell.contentView addSubview:self.lblParticipants];
@@ -230,7 +238,7 @@
            self.lblRecentContacts.text=[NSString stringWithFormat:@"%@",[self formatName:callmo]];;
            //cell.textLabel.text=[self formatName:callmo];
       
-       [self.lblRecentContacts setNeedsDisplay];
+     
        if(callmo.dateTime)
        {
            self.lblParticipants.text=@"";
@@ -322,10 +330,10 @@
     {
         if(mo.name)
         {
-            [strName appendFormat:@"%@ ,",mo.name ];
+            [strName appendFormat:@"%@, ",mo.name ];
         }
         else
-            [strName appendFormat:@"%@ ,",mo.contactInfo];
+            [strName appendFormat:@"%@, ",mo.contactInfo];
 
         
     }
@@ -339,6 +347,7 @@
 }
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     CallView *cview=[[[CallView alloc]init]autorelease];
     CallModel * recent_call=[model.recentsCall objectAtIndex:indexPath.row];
     cview.contacts=[NSMutableArray arrayWithArray:recent_call.contacts];
@@ -351,6 +360,8 @@
     
        [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+
 -(void)callviewpickerdismiss
 {
     [callviewpicker dismissModalViewControllerAnimated:YES];
@@ -393,7 +404,9 @@
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
-
+   
+    [self showStartNewImage];
+    
 }
 
 @end

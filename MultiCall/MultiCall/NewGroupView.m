@@ -18,7 +18,7 @@
 @interface NewGroupView()
 
 
--(void)addContact:(id)sender;
+
 
     //- (void)didEnterNumber:(NSString*)number;
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker;
@@ -40,6 +40,7 @@
 @synthesize groupNameExists;
 @synthesize isgroupNameExists;
 @synthesize formatter=_formatter;
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -134,8 +135,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     if([contactsTemp count]){
-        if(!isGroupViewMode ==YES)
-       [self enableSave];
+        if(isGroupViewMode ==YES)
+        [(UITableView *)self.view setEditing:YES animated:YES];
+        
+            [self enableSave];
     }
        else
            [self disableSave];
@@ -190,20 +193,68 @@
     [self.view endEditing:YES];
     [self save];
 }
+-(BOOL)isABAddressBookCreateWithOptionsAvailable {
+    return &ABAddressBookCreateWithOptions != NULL;
+}
 -(IBAction)addMemberClicked 
 {
+        // http://stackoverflow.com/questions/12517394/ios-6-address-book-not-working;
+    
+    CFErrorRef error = nil;
+
+    
+    ABAddressBookRef addressBook;
+    if ([self isABAddressBookCreateWithOptionsAvailable]) {
+        
+        addressBook = ABAddressBookCreateWithOptions(NULL,&error);
+        
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+                // callback can occur in background, address book must be accessed on thread it was created on
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (error) {
+                    CustomMessageClass *alermsg=[[CustomMessageClass alloc]init];
+                    [alermsg CustomMessage:@"1" MessageNo:@"5"];
+                    [alermsg release];
+                   
+                    
+                } else if (!granted) {
+                    CustomMessageClass *alermsg=[[CustomMessageClass alloc]init];
+                    [alermsg CustomMessage:@"1" MessageNo:@"5"];
+                    [alermsg release];
+                   
+                    
+                } else {
+                    
+                    
+                   
+                    [self LoadContacts:addressBook];
+                    CFRelease(addressBook);
+                }
+            });
+        });
+        
+    } else {
+            // iOS 4/5
+        addressBook = ABAddressBookCreate();
+        [self LoadContacts:addressBook];
+        CFRelease(addressBook);
+    }
+    
+   
+}
+-(void)LoadContacts:(ABAddressBookRef)addressBook
+{
     NSMutableDictionary *values =[NSMutableDictionary dictionary];
-    ABAddressBookRef ab = ABAddressBookCreate();
     for(ContactModel *Cmodel in contactsTemp)
     {
         if(Cmodel.name){
-            ABRecordRef person = ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) Cmodel.personId);
+            ABRecordRef person = ABAddressBookGetPersonWithRecordID(addressBook,(ABRecordID) Cmodel.personId);
             if(person){ //crashing sometimes so defensive
                 ABRecordID iden = ABRecordGetRecordID(person);
                 NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.name,Cmodel.contactInfo,Cmodel.contactType, nil];
                 [values setObject:arr forKey:KEY_FOR_SELECTION(iden)];
                 person=nil;
-               
+                
             }
         }
         
@@ -213,14 +264,12 @@
     picker.peoplePickerDelegate = self;
     [self presentModalViewController:picker animated:YES];
     [picker release];
-    values =NULL;
-    if(ab)
-        CFRelease(ab);
+
 }
 -(IBAction)placeMultiCallClicked
 {
     NSLog(@"place multicall clicked");
-   
+    
     CallView *cview=[[CallView alloc]init];
     [cview selectedPlaceGroup:contactsTemp];
     groupscallpicker=[[UINavigationController alloc]initWithRootViewController:cview];
@@ -231,6 +280,8 @@
     [cview release];
     
 }
+
+
 -(void)groupscallpickerpickerdismiss
 {
     [self dismissModalViewControllerAnimated:YES];
@@ -239,7 +290,11 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell=nil;
-    
+    UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UILabel *lblName=[[UILabel alloc]initWithFrame:CGRectMake(5, 3, 150, 25)];
+    UILabel *lblnumber=[[UILabel alloc]initWithFrame:CGRectMake(5, 34, 180, 15)];
+    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(200,10, 60, 20)];
+
     switch (indexPath.section) {
         case 0:
         {
@@ -293,12 +348,32 @@
                    
                 }
                 
+                lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
+                lblnumber.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+                lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:14.0];
+                lblName.textColor=defaultColor;
+                lblnumber.textColor=[UIColor blackColor];
+                
+                lblContactType.textColor=defaultColor;
+                [viewcontact addSubview:lblName];
+                [viewcontact addSubview:lblnumber];
+                [viewcontact addSubview:lblContactType];
+                [cell.contentView addSubview:viewcontact];
+                lblName.lineBreakMode=UILineBreakModeTailTruncation;
+                viewcontact.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+                    //lblName.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
+                lblnumber.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+                lblContactType.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
                 ContactModel *contact = [contactsTemp objectAtIndex:indexPath.row];
                 NSLog(@"groups contacts temp %@",contact);
                 if(contact)
                 {
-                    cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];// contact.contactInfo;
-                    cell.detailTextLabel.text=contact.contactType ?:@"unknown";
+                    lblName.text=contact.name ? :@"unknown";
+                    lblnumber.text=[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"]; 
+                    lblContactType.text=contact.contactType;
+
+//                    cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];// contact.contactInfo;
+//                    cell.detailTextLabel.text=contact.contactType ?:@"unknown";
                 }
                 
                 break;
@@ -324,7 +399,7 @@
                 return 1;
         case 2:
             
-            
+            NSLog(@"count %i",[contactsTemp count]);
                 return [contactsTemp count];
        
         default:
@@ -372,10 +447,10 @@
 }
 -(void)tableView :(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [contactsTemp removeObjectAtIndex:indexPath.row];
-        
-    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-    
+        [contactsTemp removeObjectAtIndex:indexPath.row];
+   
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:2]] withRowAnimation:UITableViewRowAnimationBottom];
+   
     if([contactsTemp count])
     {
         [self enableSave];
@@ -384,49 +459,18 @@
         [self disableSave];
     
 }
--(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if(indexPath.section==2)
+    return 55.0;
+    else
+        return 44.0;
 }
-
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    
-}
-
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return @"Remove";
 }
 
--(void)addContact:(id)sender
-{
-    NSMutableDictionary *values =[[NSMutableDictionary alloc]init];
-    ABAddressBookRef ab = ABAddressBookCreate();
-    NSLog(@"add contact %@",contactsTemp);
-    for(ContactModel *Cmodel in contactsTemp)
-    {
-        if(Cmodel.name){
-            ABRecordRef person =  ABAddressBookGetPersonWithRecordID(ab,(ABRecordID) Cmodel.personId);
-            if(person){ //crashing sometimes so defensive
-                ABRecordID iden = ABRecordGetRecordID(person);
-                NSMutableArray *arr=[NSMutableArray arrayWithObjects:Cmodel.name,Cmodel.contactInfo,Cmodel.contactType, nil];
-                [values setObject:arr forKey:KEY_FOR_SELECTION(iden)];
-               if(person)
-                   person=nil;
-            }
-        }
-    }
-   
-    CEPeoplePickerNavigationController *picker = [[CEPeoplePickerNavigationController alloc] initWithValues:values];
-    picker.peoplePickerDelegate = self;
-    [self presentModalViewController:picker animated:YES];
-    [picker release];
-    [values release];
-       if(ab)
-           CFRelease(ab);
-    
-}
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker
 //- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
 {
@@ -491,7 +535,7 @@
     }
     [peoplePicker dismissModalViewControllerAnimated:YES];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationLeft];
-    [(UITableView *)self.view setEditing:YES animated:YES];
+        //[(UITableView *)self.view setEditing:YES animated:YES];
         //[self.view performSelector:@selector(editmode)];
 }
 /**

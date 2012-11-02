@@ -4,6 +4,7 @@
 //
 
 #import "PeoplePickerNavigationController.h"
+#import "PhoneNumberFormatter.h"
 
 #pragma mark -
 #pragma mark Navigation controller private interface
@@ -42,7 +43,7 @@
 @property (nonatomic, retain) NSArray *sectionIndexSections;
 @property (nonatomic, retain) NSString *searchCacheString; // the search string for which searchCachePeople are valid
 @property (nonatomic, retain) NSArray *searchCachePeople;  // cache of the last search result
-
+@property(nonatomic,retain)PhoneNumberFormatter *formatter;
 @property (nonatomic, retain) UISearchDisplayController *anotherSearchDisplayController;
 
 // Uses navigation controller for ABAddressBook and peoplePickerDelegate.
@@ -56,7 +57,6 @@
 
 #pragma mark -
 #pragma mark Cell interface
-
 
 @interface CEPeoplePickerCell : UITableViewCell
 {
@@ -100,7 +100,6 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 
 @synthesize peoplePickerDelegate;
 @synthesize addressBook;
-
 #pragma mark Object lifecycle
 
 
@@ -142,7 +141,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 @synthesize searchCachePeople;
 
 @synthesize anotherSearchDisplayController;
-
+@synthesize formatter;
 #pragma mark Object lifecycle
 
 - (id)initWithPeoplePickerNavigationController:(CEPeoplePickerNavigationController *)aPpnc values:(NSMutableDictionary *)values
@@ -439,8 +438,9 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 - (void)doneAction:(id)sender
 {
          NSArray *people = [self.selectedPeople allObjects];
-     
-         NSArray *sortedPeople = [people sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
+    NSLog(@"done action %@",self.selectedPeople);
+    NSLog(@"seleced Values %@",self.selectedValues);
+    NSArray *sortedPeople = [people sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
    
     
     if ([self.ppnc.peoplePickerDelegate respondsToSelector:@selector(cePeoplePickerNavigationController:didFinishPickingPeople:values:)])
@@ -452,7 +452,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.formatter=[[[PhoneNumberFormatter alloc]init]autorelease];
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -655,32 +655,6 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     
 }
 
--(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    NSLog(@"search clicked ");
-}
-
-//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
-//{
-//    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
-//	 [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
-//    
-//    return YES;
-//}
-//
-//-(void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
-//{
-//    NSLog(@"Begin Search");
-//}
-////
-//- (BOOL)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-//
-//    NSLog(@"searchDisplayControllerDidEndSearch");
-//    self.searchDisplayController.searchBar.showsCancelButton=NO;
-//    return  YES;
-//   }
-
-
 
 
 #pragma mark Table view delegate
@@ -721,7 +695,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
                     // if([[value STRIP_TO_PHONE_NOS] length]>7)
                     //{
                     [self.selectedPeople addObject:(id)cell.person];
-                NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,(NSString *)value,(NSString *)phoneType, nil];
+                NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,[self.formatter phonenumberformat:(NSString *)value withLocale:@"us"],(NSString *)phoneType, nil];
                 if(value) CFRelease(value);
                 if(compositeName)CFRelease(compositeName);
                 if(phoneType)CFRelease(phoneType);
@@ -787,7 +761,7 @@ if(multiValues)
                 [cell setNeedsDisplay];
                 [self.selectedPeople addObject:(id)cell.person];
                 ABRecordID iden = ABRecordGetRecordID(cell.person);
-            NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,(NSString *)value,(NSString *)phoneType, nil];
+            NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,[self.formatter phonenumberformat:(NSString *)value withLocale:@"us"],(NSString *)phoneType, nil];
            
             if(value)CFRelease(value);
             if(compositeName)CFRelease(compositeName);

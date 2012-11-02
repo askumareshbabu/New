@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D1D33AB16394F0F001D552D /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D33AA16394F0F001D552D /* home.png */; };
+		1D1D33AD16394FF1001D552D /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D33AC16394FF1001D552D /* home@2x.png */; };
 		1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D317473160B618E00ADE1B6 /* DialNumberModel.m */; };
 		1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */; };
 		1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */; };
@@ -91,6 +93,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1D1D33AA16394F0F001D552D /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		1D1D33AC16394FF1001D552D /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		1D317472160B618E00ADE1B6 /* DialNumberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberModel.h; sourceTree = "<group>"; };
 		1D317473160B618E00ADE1B6 /* DialNumberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberModel.m; sourceTree = "<group>"; };
 		1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable 30x30.png"; sourceTree = "<group>"; };
@@ -394,8 +398,10 @@
 		1DEF509215E8B84A002B90DE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				1D1D33AC16394FF1001D552D /* home@2x.png */,
 				1DF831251626BC93001E885D /* StartNewBlueButton.png */,
 				1DFD00361600BBE100C38D8C /* red1.png */,
+				1D1D33AA16394F0F001D552D /* home.png */,
 				1DFD003A1600C0F300C38D8C /* shad_01.png */,
 				1D553AD6163030CB00A086BF /* MCall_02.png */,
 				1D92B714162C2086000FFA36 /* bg.png */,
@@ -514,6 +520,8 @@
 				1D92B717162C2235000FFA36 /* start-new.png in Resources */,
 				1D553AD7163030CB00A086BF /* MCall_02.png in Resources */,
 				1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */,
+				1D1D33AB16394F0F001D552D /* home.png in Resources */,
+				1D1D33AD16394FF1001D552D /* home@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,46 +576,12 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		1D4C960E15E74F250057C130 /* Ad_Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Karyatech";
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "7F76A37E-FADF-474F-AE5D-8FA797DC1C89";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Ad_Hoc;
-		};
-		1D4C960F15E74F250057C130 /* Ad_Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Telekonnectors Limited";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
-				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F0FA251-F22D-4940-94AB-33A3A719A398";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Ad_Hoc;
-		};
 		1D6E762615DF62F3004B4A4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -632,7 +606,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -650,7 +624,7 @@
 		1D6E762915DF62F3004B4A4A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
@@ -664,7 +638,7 @@
 		1D6E762A15DF62F3004B4A4A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (V6DX3J48GR)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
@@ -675,6 +649,40 @@
 			};
 			name = Release;
 		};
+		1DA19043163FD18300F1C615 /* in-house */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Telekonnectors Limited";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F0FA251-F22D-4940-94AB-33A3A719A398";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "in-house";
+		};
+		1DA19044163FD18300F1C615 /* in-house */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Telekonnectors Limited";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
+				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F0FA251-F22D-4940-94AB-33A3A719A398";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "in-house";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -683,7 +691,7 @@
 			buildConfigurations = (
 				1D6E762615DF62F3004B4A4A /* Debug */,
 				1D6E762715DF62F3004B4A4A /* Release */,
-				1D4C960E15E74F250057C130 /* Ad_Hoc */,
+				1DA19043163FD18300F1C615 /* in-house */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -693,7 +701,7 @@
 			buildConfigurations = (
 				1D6E762915DF62F3004B4A4A /* Debug */,
 				1D6E762A15DF62F3004B4A4A /* Release */,
-				1D4C960F15E74F250057C130 /* Ad_Hoc */,
+				1DA19044163FD18300F1C615 /* in-house */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

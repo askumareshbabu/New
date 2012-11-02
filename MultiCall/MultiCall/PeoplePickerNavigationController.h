@@ -6,6 +6,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AddressBook/AddressBook.h>
+#import "PhoneNumberFormatter.h"
 
 #define KEY_FOR_SELECTION(x) [NSString stringWithFormat:@"%d",x]
 

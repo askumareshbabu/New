@@ -13,8 +13,9 @@
 @property (retain, nonatomic) IBOutlet UIWindow *window;
 
 @property (retain, nonatomic) IBOutlet UITabBarController *tabBarController;
-
+@property(retain,nonatomic)NSString *filepath;
 
 -(void)loadCustomObject;
 -(void)saveCustomeObject;
+-(void)updateChecker;
 @end

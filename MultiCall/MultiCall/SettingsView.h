@@ -21,6 +21,7 @@
     bool isMobileCheckd;
     bool isHomeChecked;
     bool isWorkChecked;
+    
 }
 @property (retain, nonatomic) IBOutlet UITableViewCell *addPinNo;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addPhoneNumber;
@@ -30,6 +31,7 @@
 
 @property (retain, nonatomic) IBOutlet UITableViewCell *addHomeNumber;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addWork;
+@property(readwrite,nonatomic)BOOL isexists;
 
 @property(retain,nonatomic)NSIndexPath * checkedIndexPath;
 

@@ -38,14 +38,17 @@
 }
 -(BOOL)isEqual:(id)object
 {
-          NSLog(@"contact info %@,%@",self.contactInfo,((ContactModel *)object).contactInfo);
-        // if([[self.formatter phonenumberformat:self.contactInfo withLocale:@"us"] isEqual:[self.formatter phonenumberformat:((ContactModel *)object).contactInfo withLocale:@"us"]])
-    if([self.contactInfo isEqual:((ContactModel *)object).contactInfo])
-      
-        return YES;
+        //NSLog(@"contact info %@,%@",self.contactInfo,((ContactModel *)object).contactInfo);
+        // if([[self.formatter phonenumberformat:self.contactInfo withLocale:@"us"] isEqual:[self.formatter phonenumberformat:((ContactModel *)object).contactInfo withLocale:@"us"]]){
+       
+         if([self.contactInfo isEqual:((ContactModel *)object).contactInfo]){
+            return YES;
+        }
+       
                
-    else
-        return NO;
+    else{
+              return NO;
+    }
 }
 
 -(id)initWithCoder:(NSCoder *)aDecoder

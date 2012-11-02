@@ -12,5 +12,5 @@
 
 @property(nonatomic,retain) NSString *MessageContent;
 -(void)CustomMessage:(NSString *)ScreenName MessageNo:(NSString *)MessageNo;
--(NSString *)currentTime;
+
 @end

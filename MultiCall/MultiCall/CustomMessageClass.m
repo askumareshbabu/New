@@ -16,7 +16,7 @@
 
 -(void)CustomMessage:(NSString *)ScreenName MessageNo:(NSString *)MessageNo
 {
-        // Screen Name 1 = MultiCall 2=Recents 3= Groups 4=Settings 5=Network 6=Callmeon
+        // Screen Name 1 = MultiCall 2=Recents 3= Groups 4=Settings 5=Network 6=Dail Number
     NSString * titleName=@"";
    
     if([ScreenName isEqualToString:@"1"])
@@ -30,7 +30,7 @@
         else if([MessageNo isEqualToString:@"2"])
         {
             titleName=@"Settings";
-            MessageContent =@"Pin number is invalid. Please check your settings";
+            MessageContent =@"PIN is invalid. Please check your settings";
         }
         
         else if([MessageNo isEqualToString:@"3"])
@@ -41,11 +41,25 @@
         else if([MessageNo isEqualToString:@"4"])
         {
             titleName=@"MultiCall";
-            MessageContent =@"Please Add numbers in 'Callmeon' before making a MultiCall.";
+            MessageContent =@"Please add call me on phone numbers in 'Settings'";
+        }
+        else if([MessageNo isEqualToString:@"5"])
+        {
+            titleName=@"Address Book";
+            MessageContent =@"Please give premission to open Contacts \n Go to Phone Settings -> privacy -> Contacts -> MultiCall -> slide to ON" ;
         }
         
         
     }
+    if([ScreenName isEqualToString:@"2"]) //Recents
+    {
+        if([MessageNo isEqualToString:@"1"])
+        {
+            titleName=@"MultiCalls";
+            MessageContent =@"your exisitng list will be replaced ?";
+        }
+    }
+    
     if([ScreenName isEqualToString:@"3"])
     {
         if([MessageNo isEqualToString:@"1"])
@@ -77,12 +91,13 @@
         if([MessageNo isEqualToString:@"1"])
         {
             titleName=@"Settings";
-            MessageContent =@"Please enter Pin number.";
+            MessageContent =@"Please enter PIN.";
         }
         else if([MessageNo isEqualToString:@"2"])
         {
             titleName=@"Settings";
-            MessageContent =@"Please enter phone number.";
+                // MessageContent =@"Please enter phone number.";
+            MessageContent =@"Please add Call me on phone number / select any one number";
         }
         else if([MessageNo isEqualToString:@"3"])
         {
@@ -97,7 +112,7 @@
         else if([MessageNo isEqualToString:@"5"])
         {
             titleName=@"Settings";
-            MessageContent =@"Invalid Pin Number";
+            MessageContent =@"Invalid PIN";
         }
 
         
@@ -108,7 +123,7 @@
          if([MessageNo isEqualToString:@"1"])
         {
             titleName=@"Settings";
-            MessageContent =@"Pin number is invalid. Please check your settings.";
+            MessageContent =@"PIN is invalid. Please check your settings.";
         }
          else if([MessageNo isEqualToString:@"2"])
          {
@@ -146,8 +161,8 @@
     {
         if([MessageNo isEqualToString:@"1"])
         {
-            titleName=@"Call me on";
-            MessageContent =@"Click Edit to add Phone Numbers";
+            titleName=@"Add Number";
+            MessageContent =@"Invalid phone number.";
         }
     }
     
@@ -159,29 +174,7 @@
     
 }
 
--(NSString *)currentTime
-{    
-        //Get current time
-    NSString * strCurrentTime;
-    NSDate* now = [NSDate date];
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:now];
-    NSInteger hour = [dateComponents hour];
-    NSString *am_OR_pm=@"AM";
-    
-    if (hour>12)
-    {
-        hour=hour%12;
-        
-        am_OR_pm = @"PM";
-    }
-    
-    NSInteger minute = [dateComponents minute];
-    NSInteger second = [dateComponents second];
-    [gregorian release];
-    strCurrentTime=[NSString stringWithFormat:@"%02d:%02d:%02d %@", hour, minute, second,am_OR_pm];
-    NSLog(@"Current Time  %@",[NSString stringWithFormat:@"%02d:%02d:%02d %@", hour, minute, second,am_OR_pm]);
-    return strCurrentTime;
-}
+
+
 
 @end

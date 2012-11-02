@@ -140,11 +140,13 @@
                                                      [alertMsg release];
                                                      }else
                                                      {
+                                                         if(isErrorOccured ==NO){
                                                          CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                                          [alertMsg CustomMessage:@"5" MessageNo:@"3"];
                                                          [alertMsg release];
+                                                         }
                                                      }
-                                                     
+                                                     NSLog(@"iserror %d",isErrorOccured);
                                                            [self endCall];
                                                          //self.isErrorOccured=YES;
                                                          // [self checkandProcessCallEnded];
@@ -157,19 +159,6 @@
     }
     //c3ware does not support this feature
 }
-
--(void)disconnectNumber:(NSString *)number
-{
-    /*
-     Twilio_Call *call = [calls objectForKey:number];
-     if(call)
-     {
-     [call disconnectCall];
-     }
-     */
-    //c3ware does not support this feature
-}
-
 
 
 -(void)makeCalls:(NSArray *)numbers
@@ -307,9 +296,12 @@
 //                      [self endCall];
 //                      multiCall=nil;
                       NSLog(@"could not connect reason : %@",[error localizedDescription]);
+                      NSLog(@"iserror %d",isErrorOccured);
+                      
                       CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                       [alertMsg CustomMessage:@"5" MessageNo:@"3"];
                       [alertMsg release];
+                      isErrorOccured=YES;
                          [self endCall];
                           // self.isErrorOccured=YES;
                           //[self checkandProcessCallEnded];
@@ -589,7 +581,11 @@
     if([calls count]==0){
         isMultiCallActive=NO;
         dispatch_async( dispatch_get_main_queue(), ^{
-        [delegate callEnded];
+                // CallView *cal=[[CallView alloc]init];
+                //[cal callEnded];
+                //[cal release];
+            
+                [delegate callEnded];
             
         });
         [self cancelStatusConnection];
@@ -605,5 +601,7 @@
     return NO;
 }
 
--(void)callEnded{}
+-(void)callEnded{
+    NSLog(@"call end twilio");
+}
 @end

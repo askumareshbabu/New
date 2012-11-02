@@ -29,7 +29,7 @@
 @class Twilio_Stub;
 
 
-@interface CallView : UIViewController<CEPeoplePickerNavigationControllerDelegate,CallStatus>
+@interface CallView : UIViewController<CEPeoplePickerNavigationControllerDelegate,CallStatus,UIAlertViewDelegate>
 {
     @public
     BOOL isViewMode;
@@ -46,6 +46,7 @@
     BOOL callbuttonstatus;
     UILabel * detailstext;
     NSDate *timersecondDate;
+    
    
 
 
@@ -95,8 +96,10 @@
 -(void)editMode;
 -(void)saveModel;
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId;
+-(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType;
 
 -(void)callEnded;
+
 
 @end
 

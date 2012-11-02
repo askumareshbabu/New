@@ -98,7 +98,7 @@
     
             
     
-        if([self.callmeonModel.CallType isEqualToString:@"mobile"])
+        if([self.callmeonModel.CallType isEqualToString:@"Mobile"])
         {
             self.txtMobile.text=self.callmeonModel.CallPhoneNumber?:@"";
             if(self.callmeonModel.isSelected ==YES)
@@ -112,7 +112,7 @@
            
         }
         
-        if([self.callmeonModel.CallType isEqualToString:@"home"])
+        if([self.callmeonModel.CallType isEqualToString:@"Home"])
         {
             self.txtHome.text=self.callmeonModel.CallPhoneNumber?:@"";
             if(self.callmeonModel.isSelected ==YES)
@@ -126,7 +126,7 @@
            
         }
       
-        if([self.callmeonModel.CallType isEqualToString:@"work"])
+        if([self.callmeonModel.CallType isEqualToString:@"Work"])
         {
             self.txtWork.text=self.callmeonModel.CallPhoneNumber?:@"";
             if(self.callmeonModel.isSelected ==YES)
@@ -324,29 +324,39 @@
 //           
 //            return  cell;
 //        }
-    switch (indexPath.row) {
-        case 0:
+    CallmeonModel * callmemodel=[model.callemeon objectAtIndex:indexPath.row];
+    NSLog(@"call me on %@",callmemodel);
+            if([callmemodel.CallType isEqualToString:@"iPhone"]){
             cell=_addiPhoneNumber;
-            break;
-            case 1:
+           
+            }
+            
+            if([callmemodel.CallType isEqualToString:@"Mobile"]){
             cell=_addMobileNumber;
-            break;
-            case 2:
+               }
+            if([callmemodel.CallType isEqualToString:@"Home"]){
             cell=_addHomeNumber;
-            break;
-            case 3:
+            
+            }
+            
+            if([callmemodel.CallType isEqualToString:@"Work"]){
             cell=_addWorkNumber;
-            break;
+            
+            }
         
-    }
-            return cell;
+    
+    cell.backgroundColor=[UIColor whiteColor];  
+   
+    return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
         // NSLog(@"coung %i,%@",[cellArray count],cellArray);
-        // if(isEditMode)
-    return   4;
+        // if(isEdiunt]);
+    
+    return [model.callemeon count];
+    
     
 //    else
 //    {
@@ -414,6 +424,7 @@
                     isWorkChecked=NO;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
                     [self savecheckedNumber];
+                     model.PhoneNumber=txtField.text;
                     [callmodel release];
 
                    
@@ -439,6 +450,7 @@
                    isWorkChecked=NO;
                    thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
                    [self savecheckedNumber];
+                    model.PhoneNumber=txtField.text;
                    [callmodel release];
                  
                }
@@ -460,6 +472,7 @@
                     isWorkChecked=NO;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
                     [self savecheckedNumber];
+                     model.PhoneNumber=txtField.text;
                     [callmodel release];
                   
                 }
@@ -480,6 +493,7 @@
                     isWorkChecked=YES;
                     thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
                     [self savecheckedNumber];
+                     model.PhoneNumber=txtField.text;
                     [callmodel release];
                  
                 }
@@ -591,83 +605,85 @@
 -(BOOL)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-   
-    if(isEditMode){
-
-        switch (indexPath.row) {
-
-            case 0:
-            {
-                if(![self.txtiPhone.text isEqualToString:@""])
-                {
-                    
-                    return UITableViewCellEditingStyleDelete;
-               
-                }
-                else
-                {
-                    return UITableViewCellEditingStyleNone;
-                
-                }
-                
-            }
-
-            case 1:
-            {
-                if(![self.txtMobile.text isEqualToString:@""])
-                
-                    return UITableViewCellEditingStyleDelete;
-                
-                else
-                {
-                    return UITableViewCellEditingStyleNone;
-                   
-                }
-                
-            }
-
-            case 2:
-            {
-                if(![self.txtHome.text isEqualToString:@""])
-            
-                    return UITableViewCellEditingStyleDelete;
-                else
-                {
-                    return UITableViewCellEditingStyleNone;
-                    
-                }
-                 
-            }
-
-            case 3:
-            {
-                if(![self.txtWork.text isEqualToString:@""])
-                    
-                    return UITableViewCellEditingStyleDelete;
-                    
-                else
-                {
-                    return UITableViewCellEditingStyleNone;
-                    
-                }
-                   
-            }
-
-        }
-        
-    }
-    else
-    {
-        return UITableViewCellEditingStyleNone;
-    }
-  
-    return UITableViewCellEditingStyleDelete;
+//   
+//    if(isEditMode){
+//
+//        switch (indexPath.row) {
+//
+//            case 0:
+//            {
+//                if(![self.txtiPhone.text isEqualToString:@""])
+//                {
+//                    
+//                    return UITableViewCellEditingStyleDelete;
+//               
+//                }
+//                else
+//                {
+//                    return UITableViewCellEditingStyleNone;
+//                
+//                }
+//                
+//            }
+//
+//            case 1:
+//            {
+//                if(![self.txtMobile.text isEqualToString:@""])
+//                
+//                    return UITableViewCellEditingStyleDelete;
+//                
+//                else
+//                {
+//                    return UITableViewCellEditingStyleNone;
+//                   
+//                }
+//                
+//            }
+//
+//            case 2:
+//            {
+//                if(![self.txtHome.text isEqualToString:@""])
+//            
+//                    return UITableViewCellEditingStyleDelete;
+//                else
+//                {
+//                    return UITableViewCellEditingStyleNone;
+//                    
+//                }
+//                 
+//            }
+//
+//            case 3:
+//            {
+//                if(![self.txtWork.text isEqualToString:@""])
+//                    
+//                    return UITableViewCellEditingStyleDelete;
+//                    
+//                else
+//                {
+//                    return UITableViewCellEditingStyleNone;
+//                    
+//                }
+//                   
+//            }
+//
+//        }
+//        
+//    }
+//    else
+//    {
+//        return UITableViewCellEditingStyleNone;
+//    }
+//  
+//    return UITableViewCellEditingStyleDelete;
+    
+    return  UITableViewCellEditingStyleNone;
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    return YES;
+    return NO;
 
 }
 
@@ -692,7 +708,7 @@
     if(![self.txtMobile.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"mobile"];
+        [callmeonModel setCallType:@"Mobile"];
         [callmeonModel setCallPhoneNumber:txtMobile.text ?:@""];
         callmeonModel.isSelected=isMobileCheckd;
               [[[Model singleton]callemeon]addObject:callmeonModel];
@@ -704,7 +720,7 @@
     if(![self.txtHome.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"home"];
+        [callmeonModel setCallType:@"Home"];
         [callmeonModel setCallPhoneNumber:txtHome.text? :@""];
         callmeonModel.isSelected=isHomeChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
@@ -716,7 +732,7 @@
     if(![self.txtWork.text isEqualToString:@""])
     {
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"work"];
+        [callmeonModel setCallType:@"Work"];
         [callmeonModel setCallPhoneNumber:txtWork.text ?: @""];
         callmeonModel.isSelected=isWorkChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
@@ -734,7 +750,7 @@
 }
 -(void)savecheckedNumber
 {
-    [self saveModel];
+    [self saveModel];      
     [self LoadTextField];
 }
 -(void)keyboardAppear

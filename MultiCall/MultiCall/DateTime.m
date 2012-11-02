@@ -52,7 +52,7 @@ int DAY_IN_SECONDS = 60 * 60 * 24;
 }
 
 -(bool) isBeforeDateTime:(NSDate *)dateTime {
-    NSLog(@"datetime %@",dateTime);
+        // NSLog(@"datetime %@",dateTime);
 	return ![self isSameDateTimeThanDateTime:dateTime] && ![self isAfterDateTime:dateTime];
 }
 
