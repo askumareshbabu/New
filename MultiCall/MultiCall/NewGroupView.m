@@ -135,8 +135,8 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     if([contactsTemp count]){
-        if(isGroupViewMode ==YES)
-        [(UITableView *)self.view setEditing:YES animated:YES];
+            if(isGroupViewMode ==YES)
+            [(UITableView *)self.view setEditing:YES animated:YES];
         
             [self enableSave];
     }

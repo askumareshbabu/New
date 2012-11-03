@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D1D33AB16394F0F001D552D /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D33AA16394F0F001D552D /* home.png */; };
-		1D1D33AD16394FF1001D552D /* home@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D33AC16394FF1001D552D /* home@2x.png */; };
 		1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D317473160B618E00ADE1B6 /* DialNumberModel.m */; };
 		1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */; };
 		1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */; };
@@ -51,12 +49,9 @@
 		1D77851C161ED3EE0041F5A1 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D778503161EBDE00041F5A1 /* JSONKit.m */; };
 		1D88705A16304E4E00CC060C /* DialNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88705816304E4E00CC060C /* DialNumberView.m */; };
 		1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D88705916304E4E00CC060C /* DialNumberView.xib */; };
-		1D92B715162C2086000FFA36 /* bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D92B714162C2086000FFA36 /* bg.png */; };
 		1D92B717162C2235000FFA36 /* start-new.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D92B716162C2235000FFA36 /* start-new.png */; };
-		1D936B0C1603227500DD7E54 /* PhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D936B0A1603227500DD7E54 /* PhoneViewController.m */; };
-		1D936B0D1603227500DD7E54 /* PhoneViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D936B0B1603227500DD7E54 /* PhoneViewController.xib */; };
-		1DD3CBCC15EF50BC00779E9C /* Icon_Bright_57.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */; };
-		1DD3CBCD15EF50BC00779E9C /* Icon_Bright_114.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */; };
+		1DD3CBCC15EF50BC00779E9C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCA15EF50BC00779E9C /* Icon.png */; };
+		1DD3CBCD15EF50BC00779E9C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCB15EF50BC00779E9C /* Icon@2x.png */; };
 		1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */; };
 		1DD7AA4015FF576F00A581BD /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7AA3E15FF576F00A581BD /* AddressBook.framework */; };
 		1DD7AA4115FF576F00A581BD /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD7AA3F15FF576F00A581BD /* AddressBookUI.framework */; };
@@ -83,7 +78,6 @@
 		1DEF509D15E8B8CE002B90DE /* Number.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509B15E8B8CE002B90DE /* Number.png */; };
 		1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */; };
 		1DF831241626B6E1001E885D /* Startnew.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF831231626B6E1001E885D /* Startnew.png */; };
-		1DF831261626BC93001E885D /* StartNewBlueButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF831251626BC93001E885D /* StartNewBlueButton.png */; };
 		1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */; };
 		1DFD002B1600B4CE00C38D8C /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00281600B4CE00C38D8C /* red.png */; };
 		1DFD00371600BBE100C38D8C /* red1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00361600BBE100C38D8C /* red1.png */; };
@@ -93,8 +87,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1D1D33AA16394F0F001D552D /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
-		1D1D33AC16394FF1001D552D /* home@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home@2x.png"; sourceTree = "<group>"; };
 		1D317472160B618E00ADE1B6 /* DialNumberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberModel.h; sourceTree = "<group>"; };
 		1D317473160B618E00ADE1B6 /* DialNumberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberModel.m; sourceTree = "<group>"; };
 		1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable 30x30.png"; sourceTree = "<group>"; };
@@ -157,13 +149,9 @@
 		1D88705716304E4E00CC060C /* DialNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberView.h; sourceTree = "<group>"; };
 		1D88705816304E4E00CC060C /* DialNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberView.m; sourceTree = "<group>"; };
 		1D88705916304E4E00CC060C /* DialNumberView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DialNumberView.xib; sourceTree = "<group>"; };
-		1D92B714162C2086000FFA36 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
 		1D92B716162C2235000FFA36 /* start-new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "start-new.png"; sourceTree = "<group>"; };
-		1D936B091603227500DD7E54 /* PhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneViewController.h; sourceTree = "<group>"; };
-		1D936B0A1603227500DD7E54 /* PhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneViewController.m; sourceTree = "<group>"; usesTabs = 0; };
-		1D936B0B1603227500DD7E54 /* PhoneViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhoneViewController.xib; sourceTree = "<group>"; };
-		1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Bright_57.png; sourceTree = "<group>"; };
-		1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Bright_114.png; sourceTree = "<group>"; };
+		1DD3CBCA15EF50BC00779E9C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		1DD3CBCB15EF50BC00779E9C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		1DD7AA3E15FF576F00A581BD /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		1DD7AA3F15FF576F00A581BD /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
@@ -202,7 +190,6 @@
 		1DEF509B15E8B8CE002B90DE /* Number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Number.png; sourceTree = "<group>"; };
 		1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Place_Multicall.png; sourceTree = "<group>"; };
 		1DF831231626B6E1001E885D /* Startnew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Startnew.png; sourceTree = "<group>"; };
-		1DF831251626BC93001E885D /* StartNewBlueButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartNewBlueButton.png; sourceTree = "<group>"; };
 		1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_but_w_txt.png; sourceTree = "<group>"; };
 		1DFD00281600B4CE00C38D8C /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
 		1DFD00361600BBE100C38D8C /* red1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red1.png; sourceTree = "<group>"; };
@@ -256,7 +243,6 @@
 		1D6E75F415DF62F2004B4A4A = {
 			isa = PBXGroup;
 			children = (
-				1DD9BD53162512720012D270 /* OpenGLES.framework */,
 				1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */,
 				1DEF509015E8B561002B90DE /* Mainwindow.xib */,
 				1D6E760915DF62F3004B4A4A /* MultiCall */,
@@ -276,6 +262,7 @@
 		1D6E760215DF62F3004B4A4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DD9BD53162512720012D270 /* OpenGLES.framework */,
 				1D778514161ED0A00041F5A1 /* AudioToolbox.framework */,
 				1D778512161ECBB30041F5A1 /* EventKitUI.framework */,
 				1D778510161ECBA70041F5A1 /* EventKit.framework */,
@@ -326,9 +313,6 @@
 				1D5A459115EDEC64006F3906 /* CallmeonView.h */,
 				1D5A459215EDEC64006F3906 /* CallmeonView.m */,
 				1D5A459315EDEC64006F3906 /* CallmeonView.xib */,
-				1D936B091603227500DD7E54 /* PhoneViewController.h */,
-				1D936B0A1603227500DD7E54 /* PhoneViewController.m */,
-				1D936B0B1603227500DD7E54 /* PhoneViewController.xib */,
 				1D88705716304E4E00CC060C /* DialNumberView.h */,
 				1D88705816304E4E00CC060C /* DialNumberView.m */,
 				1D88705916304E4E00CC060C /* DialNumberView.xib */,
@@ -389,8 +373,8 @@
 			isa = PBXGroup;
 			children = (
 				1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */,
-				1DD3CBCA15EF50BC00779E9C /* Icon_Bright_57.png */,
-				1DD3CBCB15EF50BC00779E9C /* Icon_Bright_114.png */,
+				1DD3CBCA15EF50BC00779E9C /* Icon.png */,
+				1DD3CBCB15EF50BC00779E9C /* Icon@2x.png */,
 			);
 			name = "Icon Files";
 			sourceTree = "<group>";
@@ -398,13 +382,9 @@
 		1DEF509215E8B84A002B90DE /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1D1D33AC16394FF1001D552D /* home@2x.png */,
-				1DF831251626BC93001E885D /* StartNewBlueButton.png */,
 				1DFD00361600BBE100C38D8C /* red1.png */,
-				1D1D33AA16394F0F001D552D /* home.png */,
 				1DFD003A1600C0F300C38D8C /* shad_01.png */,
 				1D553AD6163030CB00A086BF /* MCall_02.png */,
-				1D92B714162C2086000FFA36 /* bg.png */,
 				1D92B716162C2235000FFA36 /* start-new.png */,
 				1DFD003B1600C0F300C38D8C /* shad_02.png */,
 				1DF831231626B6E1001E885D /* Startnew.png */,
@@ -501,8 +481,8 @@
 				1D35063E15E8EDD4007608E5 /* Settings_Disable@2x.png in Resources */,
 				1D35063F15E8EDD4007608E5 /* Groups_Disable@2x.png in Resources */,
 				1D5A459515EDEC64006F3906 /* CallmeonView.xib in Resources */,
-				1DD3CBCC15EF50BC00779E9C /* Icon_Bright_57.png in Resources */,
-				1DD3CBCD15EF50BC00779E9C /* Icon_Bright_114.png in Resources */,
+				1DD3CBCC15EF50BC00779E9C /* Icon.png in Resources */,
+				1DD3CBCD15EF50BC00779E9C /* Icon@2x.png in Resources */,
 				1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */,
 				1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */,
 				1DFD002B1600B4CE00C38D8C /* red.png in Resources */,
@@ -510,18 +490,13 @@
 				1DFD00391600BBE600C38D8C /* Green1.png in Resources */,
 				1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */,
 				1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */,
-				1D936B0D1603227500DD7E54 /* PhoneViewController.xib in Resources */,
 				1D73F58C161329C300C3C66D /* Add-Member-Butt.png in Resources */,
 				1D73F58E161335C500C3C66D /* NewGroupView.xib in Resources */,
 				1DDCFD85161C6D140082FCC1 /* Default-568h@2x.png in Resources */,
 				1DF831241626B6E1001E885D /* Startnew.png in Resources */,
-				1DF831261626BC93001E885D /* StartNewBlueButton.png in Resources */,
-				1D92B715162C2086000FFA36 /* bg.png in Resources */,
 				1D92B717162C2235000FFA36 /* start-new.png in Resources */,
 				1D553AD7163030CB00A086BF /* MCall_02.png in Resources */,
 				1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */,
-				1D1D33AB16394F0F001D552D /* home.png in Resources */,
-				1D1D33AD16394FF1001D552D /* home@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -554,7 +529,6 @@
 				1DD7AA4715FF61DF00A581BD /* ContactModel.m in Sources */,
 				1DD7AA4A15FF61F100A581BD /* CallModel.m in Sources */,
 				1DD7AA4D15FF61FF00A581BD /* GroupModel.m in Sources */,
-				1D936B0C1603227500DD7E54 /* PhoneViewController.m in Sources */,
 				1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */,
 				1DDCFD83161C2EAF0082FCC1 /* PhoneNumberFormatter.m in Sources */,
 				1DD9BD5C162559A30012D270 /* DateTime.m in Sources */,

@@ -13,7 +13,7 @@
 @class CallView;
 
 
-@interface Recents : UIViewController
+@interface Recents : UIViewController<UIActionSheetDelegate>
 
 {
     Model *model;

@@ -48,26 +48,27 @@ NSString * callStatusFromServer;
 - (id)initWithDelegate:(id)delegateArg;
 -(void)makeCalls:(NSArray *)numbers;
 -(void)disconnectAll:(NSArray*)numbers;
--(void)disconnectNumber:(NSString *)model;
 -(void)checkForStatus;
 
 -(void)cancelStatusConnection;
 -(bool)isCallActive;
 
-
-
+    //http://59.90.245.143:90/DsnlWebInterface/MultiCallForSeqNo?pin=5424&userphone=krishna,9884401016&phone=siva,9894687844
     //Local IP 192.168.8.59:90/
+
+    // DSNL IP 59.90.245.143:90/
+    // C3 ware ip 122.165.33.168
     //#define C3WARE_MULTICALL_END @"http://192.168.8.59:90/DsnlWebInterface/MultiCallEnd"
 
-     #define C3WARE_MULTICALL_END @"http://122.165.33.168/DsnlWebInterface/MultiCallEndForSeqNo"
+     #define C3WARE_MULTICALL_END @"http://59.90.245.143:90/DsnlWebInterface/MultiCallEndForSeqNo"
     //  #define C3WARE_MULTICALL_END @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCallEnd"
 
     //#define C3WARE_MULTICALL @"http://192.168.8.59:90/DsnlWebInterface/MultiCall"
-      #define C3WARE_MULTICALL @"http://122.165.33.168/DsnlWebInterface/MultiCallForSeqNo"
+      #define C3WARE_MULTICALL @"http://59.90.245.143:90/DsnlWebInterface/MultiCallForSeqNo"
     // #define C3WARE_MULTICALL @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCall"
 
     //#define C3WARE_RES  @"http://192.168.8.59:90/DsnlWebInterface/MultiCallResponse"
-     #define C3WARE_RES  @"http://122.165.33.168/DsnlWebInterface/MultiCallResponseForSeqNo"
+     #define C3WARE_RES  @"http://59.90.245.143:90/DsnlWebInterface/MultiCallResponseForSeqNo"
     // #define C3WARE_RES   @"http://webconsole.dsnl.in/DsnlWebInterface/MultiCallResponse"
 
 /*

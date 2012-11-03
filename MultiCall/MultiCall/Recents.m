@@ -62,6 +62,12 @@
     
     [super viewDidLoad];
     model=[Model singleton];
+    
+    
+    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Start New" style:UIBarButtonItemStyleDone target:self action:@selector(StartNewMutiCall)]autorelease];
+    
+    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(Edit)]autorelease];
+  
            // Do any additional setup after loading the view from its nib.
 }
 
@@ -94,6 +100,7 @@
 {
     UIImageView *imgstartnewview=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]];
       int count=[[model recentsCall]count];
+    NSLog(@"rcent count %i",count);
     if(count == 0){
         
         self.starNewView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)];
@@ -111,10 +118,29 @@
     }
     else
     {
-            //[imgstartnewview setHidden:YES];
+        [imgstartnewview setHidden:YES];
         [imgstartnewview removeFromSuperview];
         [self.starNewView removeFromSuperview];
     }
+    [(UITableView *)self.view reloadData];
+}
+-(void)enablebuttons
+{
+    int count=[[model recentsCall]count];
+    [self showStartNewImage];
+    if(count > 0){
+       
+        self.navigationItem.leftBarButtonItem.enabled=YES;
+    }
+
+    else{
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.title=@"Edit";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
+        self.navigationItem.rightBarButtonItem.title=@"Start New";
+        self.navigationItem.leftBarButtonItem.enabled=NO;
+    }
+        
 
 }
 -(void)viewDidAppear:(BOOL)animated
@@ -123,22 +149,11 @@
     self.tabBarController.tabBar.userInteractionEnabled=YES;
     
         [model sort];
-     [self showStartNewImage];
+     
     
-         int count=[[model recentsCall]count];
-
-    
-    
-   self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Start New" style:UIBarButtonItemStyleDone target:self action:@selector(StartNewMutiCall)]autorelease];
-    
-    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(Edit)]autorelease];
-    
-    if(count > 0)
-        self.navigationItem.leftBarButtonItem.enabled=YES;
-
-    else
-        self.navigationItem.leftBarButtonItem.enabled=NO;
-   [(UITableView *)self.view reloadData];
+    [self enablebuttons];
+    [(UITableView *)self.view reloadData];
+   
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -149,27 +164,64 @@
                                             
 -(void) StartNewMutiCall
 {
+    if([self.navigationItem.rightBarButtonItem.title isEqualToString:@"Clear"])
+    {
+        UILabel *msg=[[UILabel alloc]initWithFrame:CGRectMake(15, 0, 320, 40)];
+        msg.backgroundColor=[UIColor clearColor];
+        msg.font=[UIFont fontWithName:@"Helvetica-Bold" size:17];
+        msg.textColor=[UIColor whiteColor];
+        msg.text=@"Confirm delete of all Recents listed ?";
+        
+        UIActionSheet *clearSheet=[[UIActionSheet alloc]initWithTitle:@"          " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        clearSheet.actionSheetStyle=UIActionSheetStyleBlackTranslucent;
+        
+        [clearSheet addSubview:msg];
+        [clearSheet showInView:self.tabBarController.view];
+        [clearSheet release];
+    }
+    else{
     CallView *cview=[[[CallView alloc]init]autorelease];
     startMulticallPicker=[[[UINavigationController alloc]initWithRootViewController:cview]autorelease];
     cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(startMulticallPickerdismiss)]autorelease];
-    startMulticallPicker.title=@"Add Participants";
+            // startMulticallPicker.title=@"Add Participants";
     [self presentModalViewController:startMulticallPicker animated:YES];
-   
+    }
+    
+}
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(actionSheet.destructiveButtonIndex == buttonIndex)
+    {
+        [model.recentsCall removeAllObjects];
+         [self enablebuttons];
+        [(UITableView *)self.view reloadData];
+    
+    [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+    }
 }
 -(void)startMulticallPickerdismiss
 {
+  
     [startMulticallPicker dismissModalViewControllerAnimated:YES];
+    
 }
 -(void) Edit
 {
     if(((UITableView *)self.view).editing)
     {
+         self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
         self.navigationItem.leftBarButtonItem.title=@"Edit";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
+        self.navigationItem.rightBarButtonItem.title=@"Start New";
+        
         [(UITableView *)self.view setEditing:NO animated:YES];
     }
     else
     {
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleDone;
         self.navigationItem.leftBarButtonItem.title=@"Done";
+        self.navigationItem.rightBarButtonItem.title=@"Clear";
         [(UITableView *)self.view setEditing:YES animated:YES];
         
     }
@@ -178,10 +230,7 @@
 #pragma TableView
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
-      
+          
     UITableViewCell *cell=nil;
     
       cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Recent"];
@@ -229,17 +278,19 @@
        
         
         //}
-    CallModel *callmo=[model.recentsCall objectAtIndex:indexPath.row];
+     NSLog(@"callmod recents");
     
+   
+    CallModel *callmo=[model.recentsCall objectAtIndex:indexPath.row];
+    NSLog(@"callmod recents %@",callmo);
    if(callmo)
    {
     
        
            self.lblRecentContacts.text=[NSString stringWithFormat:@"%@",[self formatName:callmo]];;
            //cell.textLabel.text=[self formatName:callmo];
-      
-     
-       if(callmo.dateTime)
+    
+    if(callmo.dateTime)
        {
            self.lblParticipants.text=@"";
            NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
@@ -337,6 +388,7 @@
 
         
     }
+   
     [strName deleteCharactersInRange:NSMakeRange([strName length]-2, 2)];
     return strName;
     
@@ -371,16 +423,16 @@
     CallView *call = [[[CallView alloc]init]autorelease];
     CallModel *recent_call =[model.recentsCall objectAtIndex:indexPath.row];
     call.contacts =[NSMutableArray arrayWithArray:recent_call.contacts];
-    NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
-    [formatter setDateFormat:@"dd MMM YYYY HH:mm:ss"];
+        //NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
+        //[formatter setDateFormat:@"dd MMM YYYY HH:mm:ss"];
     call.title =@"info"; //[formatter stringFromDate:recent_call.dateTime];
         // call.title=[recent_call.dateTime stringFromDateWithFormat:DATE_TIME];
     call->isViewMode=YES;
     call->Recentindexpath=nil;
     call->Recentindexpath=indexPath;
-    call.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(recentviewpickerdismiss)]autorelease];
-    recentviewpicker=[[[UINavigationController alloc]initWithRootViewController:call]autorelease];
-    [self presentModalViewController:recentviewpicker animated:YES];
+        //call.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(recentviewpickerdismiss)]autorelease];
+        //recentviewpicker=[[[UINavigationController alloc]initWithRootViewController:call]autorelease];
+    [self.navigationController pushViewController:call animated:YES];
     
       [tableView deselectRowAtIndexPath:indexPath animated:YES] ;
 }
@@ -398,14 +450,16 @@
 }
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     if(editingStyle == UITableViewCellEditingStyleDelete)
     {
+        
         [model.recentsCall removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
    
-    [self showStartNewImage];
+    [self enablebuttons];
     
 }
 

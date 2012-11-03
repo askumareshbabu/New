@@ -58,6 +58,9 @@ static Model *sharedSingleton=nil;
             //[self.callemeon removeAllObjects];
             // NSLog(@"callmeon %@",self.callemeon);
         self.recentsCall=[coder decodeObjectForKey:@"recentsCalls"]?:[NSMutableArray array];
+        
+        
+        NSLog(@"recents calls %@",self.recentsCall);
         self.groups=[coder decodeObjectForKey:@"contactsGroups"]?:[NSMutableArray array];
         self.Pinno=[coder decodeObjectForKey:@"pinNo"]?:[NSString string];
         self.PhoneNumber=[coder decodeObjectForKey:@"PhoneNumber"]?:[NSString string];

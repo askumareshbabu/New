@@ -97,21 +97,21 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
-    [self loadGroupIndex];
-    if(!isPickMode)
-    {
-    if([[model groups] count]==0)
-        self.navigationItem.leftBarButtonItem.enabled = YES;
-    else
-        self.navigationItem.leftBarButtonItem.enabled = NO;
+    if(!isPickMode){
+        
+        self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"New Group" style:UIBarButtonItemStyleDone target:self action:@selector(addGroup)]autorelease];
+        self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editGroup)]autorelease];
+        if([[model groups] count]> 0)
+            self.navigationItem.leftBarButtonItem.enabled = YES;
+        else
+            self.navigationItem.leftBarButtonItem.enabled = NO;
     }
+    [self loadGroupIndex];
 }
 -(void)viewDidAppear:(BOOL)animated
 {
-    if(!isPickMode){
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addGroup)]autorelease];
-    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(editGroup)]autorelease];
-    }
+    
+   
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -121,22 +121,64 @@
 }
 -(void)addGroup
 {
+    if([self.navigationItem.rightBarButtonItem.title isEqualToString:@"Clear"])
+    {
+        UILabel *msg=[[UILabel alloc]initWithFrame:CGRectMake(15, 0, 320, 40)];
+        msg.backgroundColor=[UIColor clearColor];
+        msg.font=[UIFont fontWithName:@"Helvetica-Bold" size:17];
+        msg.textColor=[UIColor whiteColor];
+        msg.text=@"Confirm delete of all Groups listed ?";
+        
+        UIActionSheet *clearSheet=[[UIActionSheet alloc]initWithTitle:@"          " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        clearSheet.actionSheetStyle=UIActionSheetStyleBlackTranslucent;
+        
+        [clearSheet addSubview:msg];
+        [clearSheet showInView:self.tabBarController.view];
+        [clearSheet release];
+    }
+    else{
     NewGroupView * newgroup=[[NewGroupView alloc]init];
     [self.navigationController pushViewController:newgroup animated:YES];
     [newgroup release];
+    }
+}
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(actionSheet.destructiveButtonIndex == buttonIndex)
+    {
+        [model.groups removeAllObjects];
+        
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.title=@"Edit";
+        self.navigationItem.rightBarButtonItem.title=@"New Group";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
+        [self loadGroupIndex];
+        
+        [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+    }
 }
 -(void)editGroup
 {
+    if([model.groups count]>0){
     if(((UITableView *)self.view).editing)
     {
         [((UITableView*)self.view) setEditing: NO animated: YES];
-        self.navigationItem.rightBarButtonItem.title=@"Edit";
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.title=@"Edit";
+        self.navigationItem.rightBarButtonItem.title=@"New Group";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
     }
     else
     {
-        self.navigationItem.leftBarButtonItem.title=@"Done";
         [(UITableView *)self.view setEditing:YES animated:YES];
+
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleDone;
+        self.navigationItem.leftBarButtonItem.title=@"Done";
         
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.rightBarButtonItem.title=@"Clear";
+                
+    }
     }
 
 }
@@ -200,14 +242,14 @@
     states= [groupNameArray filteredArrayUsingPredicate:predicate];
     
         //---return the number of states beginning with the letter---
-    NSLog(@"status %@ ,%i",states,[states count]);
+    
     return [states count];
 
 }
     //---set the number of sections in the table---
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-    NSLog(@"groupindex %@",groupindex);
+   
     return [groupindex count];
     
 }
@@ -224,24 +266,24 @@
     
     
     int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
-    NSString * index=[NSString stringWithFormat:@"%@", [cell.textLabel.text substringToIndex: MIN(1, [cell.textLabel.text length])]];
+        //NSString * index=[NSString stringWithFormat:@"%@", [cell.textLabel.text substringToIndex: MIN(1, [cell.textLabel.text length])]];
     GroupModel *gm=[[model groups] objectAtIndex:row];
-    NSLog(@"cell text %@ %@",cell.textLabel.text,index);
-    NSLog(@"indexpat.row %i,%i,%i",indexPath.section,indexPath.row,row);
+//    NSLog(@"cell text %@ %@",cell.textLabel.text,index);
+//    NSLog(@"indexpat.row %i,%i,%i",indexPath.section,indexPath.row,row);
     if([[model groups] count] >0)
     {
             //     [tableView beginUpdates];
-        NSLog(@"grups %@,%@",[model groups],gm.groupName);
+       
         [[model groups] removeObject:gm];
         
-        NSLog(@"grups %@,%i",[model groups],[groupNameArray count]);
+      
         
         
         [groupNameArray removeObject:cell.textLabel.text];
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationBottom];
             //   [tableView endUpdates];
         
-        NSLog(@"group index %@",groupindex);
+       
 
              [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject];; //force save
 }
@@ -270,21 +312,21 @@
     {
 
         
-//        CallView *cview=[[CallView alloc]init];
-//        [cview selectedGroup:gm];
-//        callViewPicker=[[UINavigationController alloc]initWithRootViewController:cview];
-//        cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
-//        callViewPicker.title=@"Add Participants";
-//        [self presentModalViewController:callViewPicker animated:YES];
-//        [callViewPicker release];
-//        [cview release];
-        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-        NewGroupView *groupView = [[NewGroupView alloc]init];
-        groupView->isGroupViewMode=YES;
-        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
-        groupView.model = [[model groups] objectAtIndex:row];
-        [self.navigationController pushViewController:groupView animated:YES];
-        [groupView release];
+        CallView *cview=[[CallView alloc]init];
+        [cview selectedGroup:gm];
+        callViewPicker=[[UINavigationController alloc]initWithRootViewController:cview];
+        cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+        callViewPicker.title=@"Add Participants";
+        [self presentModalViewController:callViewPicker animated:YES];
+        [callViewPicker release];
+        [cview release];
+//        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
+//        NewGroupView *groupView = [[NewGroupView alloc]init];
+//        groupView->isGroupViewMode=YES;
+//        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+//        groupView.model = [[model groups] objectAtIndex:row];
+//        [self.navigationController pushViewController:groupView animated:YES];
+//        [groupView release];
     }
     
    
@@ -294,7 +336,7 @@
 
 -(void)callviewpickerdismiss
 {
-    [self. tabBarController setSelectedIndex:1];
+    
     [callViewPicker dismissModalViewControllerAnimated:YES];
     
 }
@@ -316,8 +358,5 @@
     return @"Remove";
 }
 
--(void)editMode
-{
-    
-}
+
 @end

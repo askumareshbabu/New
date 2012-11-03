@@ -12,7 +12,7 @@
 @class GroupModel;
 @class Model;
 
-@interface GroupsView : UIViewController
+@interface GroupsView : UIViewController<UIActionSheetDelegate>
 {
     Model * model;
     GroupModel * groupModel;

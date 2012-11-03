@@ -8,7 +8,7 @@
 
 #import "MulticallAppDelegate.h"
 #import "Model.h"
-
+#import "Reachability.h"
 @implementation MulticallAppDelegate
 
 @synthesize window = _window;
@@ -97,6 +97,8 @@
 }
 -(void)updateChecker
 {
+    if(![[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
+    {
     NSLog(@"checking for update");
     NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://mindssoft.net/MultiCall_Test/iPhone/MultiCallUpdateChecker.plist"]];
     if (plistData) {
@@ -124,17 +126,20 @@
             NSString *URL=[metaData objectForKey:@"filepath"];
             
             filepath=[NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@",URL];
-             NSLog(@"filepath %@",filepath);
-            [filepath retain];
+                //  NSLog(@"filepath %@",filepath);
+            
             NSLog(@"newVersion: %@, currentVersion: %@ ,%@ ", newVersion, currentVersion,buildVersion);
             if (![newVersion isEqualToString:currentVersion] || ![buildVersion isEqualToString:newBuildVersion]) {
-                
+                [filepath retain];
                 NSLog(@"A new update is available");
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"UPDATE", nil];
                 
                 [alert show];
             }
+            else
+            NSLog(@"app uptodate");
         }
+    }
     }
 }
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -145,9 +150,10 @@
             NSLog(@"downloading full update URL %@",filepath);
             //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=http://www.mindssoft.net/MultiCall_Test/iPhone/MultiCall_Inhouse.plist"]];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:filepath]];
+            [filepath release];
         
     }
-    [filepath release];
+
 }
 
 

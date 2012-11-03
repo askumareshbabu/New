@@ -12,7 +12,6 @@
 #import "ContactModel.h"
 #import "CallModel.h"
 #import "GroupModel.h"
-#import "PhoneViewController.h"
 #import "GroupsView.h"
 #import "DialNumberModel.h"
 #import "PhoneNumberFormatter.h"
@@ -91,6 +90,10 @@ ABAddressBookRef ab;
 {
     _bottomToolbar.hidden=YES;
     self.navigationItem.rightBarButtonItem.enabled=NO;
+    self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
+    self.navigationItem.rightBarButtonItem.title=@"Edit";
+    self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+    self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
 }
 
 - (void)viewDidLoad
@@ -102,6 +105,8 @@ ABAddressBookRef ab;
     
     if(!isViewMode){
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)] autorelease];
+        
+        
     if(!self.checkMultiCallArray)
         self.checkMultiCallArray=[[[NSMutableArray alloc]init]autorelease];
     if(!self.contacts)
@@ -212,7 +217,8 @@ ABAddressBookRef ab;
     callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
     callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
     callmeonview.title=@"Call me on";
-    [callmeonViewpicker setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
+    [callmeonViewpicker setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+      
     [self presentModalViewController:callmeonViewpicker animated:YES];
     
     [callmeonview release];
@@ -243,7 +249,7 @@ ABAddressBookRef ab;
     UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
     UILabel *lblName=[[UILabel alloc]initWithFrame:CGRectMake(5, 3, 130, 25)];
     UILabel *lblnumber=[[UILabel alloc]initWithFrame:CGRectMake(5, 34, 180, 15)];
-    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(180,10, 90, 20)];
+    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(180,10, 80, 20)];
         //tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
    
     switch (indexPath.section) {
@@ -372,6 +378,7 @@ ABAddressBookRef ab;
                 
                 lblName.text=contact.name ? :@"-";
                 lblnumber.text= [self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
+                if(isCallEnded ==NO)
                 lblContactType.text=contact.contactType?:@"unknown";
                     //cell.textLabel.text=contact.name ?:@"unknown";
                     // cell.detailTextLabel.text=[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
@@ -410,7 +417,7 @@ ABAddressBookRef ab;
     
     switch (section) {
         case 0:{
-            if([self.twilio_adaptor isCallActive])
+            if([self.twilio_adaptor isCallActive] )
                 return 0;
             else
                 return 1;
@@ -455,7 +462,7 @@ ABAddressBookRef ab;
     if(!isViewMode)
     {
         if(indexPath.section ==2){
-            if(![self.twilio_adaptor isCallActive])
+            if(![self.twilio_adaptor isCallActive] || isCallEnded ==NO)
                 return UITableViewCellEditingStyleDelete;
                 else
             return UITableViewCellEditingStyleNone;
@@ -517,11 +524,53 @@ ABAddressBookRef ab;
     if(((UITableView *)self.view).editing)
     {
         [((UITableView *)self.view) setEditing:NO animated:YES];
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
         self.navigationItem.rightBarButtonItem.title=@"Edit";
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
     }
     else{
         [((UITableView *)self.view) setEditing:YES animated:YES];
+        self.navigationItem.leftBarButtonItem=nil;
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
         self.navigationItem.rightBarButtonItem.title=@"Done";
+        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Clear" style:UIBarButtonItemStyleBordered target:self action:@selector(MultiCalls)] autorelease];
+            //self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+            //self.navigationItem.leftBarButtonItem.title=@"Clear";
+        
+    }
+}
+-(void)MultiCalls
+{
+    NSLog(@"title %@",self.navigationItem.leftBarButtonItem.title);
+    if([self.navigationItem.leftBarButtonItem.title isEqualToString:@"Clear"])
+    {
+
+        UILabel *msg=[[UILabel alloc]initWithFrame:CGRectMake(15, 0, 320, 40)];
+        msg.backgroundColor=[UIColor clearColor];
+        msg.font=[UIFont fontWithName:@"Helvetica-Bold" size:17];
+        msg.textColor=[UIColor whiteColor];
+        msg.text=@"Confirm delete of all contacts listed ?";
+        
+        UIActionSheet *clearSheet=[[UIActionSheet alloc]initWithTitle:@"          " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        clearSheet.actionSheetStyle=UIActionSheetStyleBlackTranslucent;
+        
+        NSLog(@"actionsheet %f",clearSheet.frame.size.width);
+        [clearSheet addSubview:msg];
+        [clearSheet showInView:self.view];
+        [clearSheet release];
+    }
+    else
+    [self dismissModalViewControllerAnimated:YES];
+}
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(actionSheet.destructiveButtonIndex == buttonIndex)
+    {
+        [self.contacts removeAllObjects];
+        [self disableCalling];
+        [(UITableView *)self.view reloadData];
+        
     }
 }
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -546,7 +595,9 @@ ABAddressBookRef ab;
     self.checkMultiCallArray=nil;
     [super dealloc];
 }
+
 -(BOOL)isABAddressBookCreateWithOptionsAvailable {
+
     return &ABAddressBookCreateWithOptions != NULL;
 }
 - (IBAction)addContact {
@@ -761,7 +812,7 @@ ABAddressBookRef ab;
     
 -(void)initateMultiCall
 {
-    
+    isCallEnded=YES;
     if(callbuttonstatus ==NO){
     self.navigationItem.rightBarButtonItem=nil;
     self.navigationItem.leftBarButtonItem=nil;
@@ -839,17 +890,18 @@ ABAddressBookRef ab;
 {
 
         
-   
+   [self saveModel];
     [self changeButton:@"red.png" selector:nil];
     [self performSelector:@selector(cancelCall) withObject:self afterDelay:3.0];
         self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
     [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:2.0];
-    [self saveModel];
     
+    isCallEnded=NO;
 }
 -(void)endModelviewcontroller
 {  
-//    Recents *rec=[[[Recents alloc]init]autorelease];
+        // Recents *rec=[[[Recents alloc]init]autorelease];
+        //  [(UITableView *)rec.view reloadData];
 //    [self.navigationController pushViewController:rec animated:YES];
     [self dismissModalViewControllerAnimated:YES];
     
@@ -940,6 +992,7 @@ ABAddressBookRef ab;
  */
 -(void)saveModel
 {
+    if([self.contacts count]>0){
     CallModel *cmodel = [[CallModel alloc] init];
     cmodel.dateTime = [NSDate date];
     cmodel.Callduration=[self updateTime];
@@ -957,6 +1010,7 @@ ABAddressBookRef ab;
     
     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject];
         [cmodel release];
+    }
 }
 -(void)cePeoplePickerNavigationController:(CEPeoplePickerNavigationController *)peoplePicker didFinishPickingPeople:(NSArray *)peopleArg values:(NSDictionary *)valuesArg
 {

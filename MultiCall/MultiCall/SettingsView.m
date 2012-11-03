@@ -533,9 +533,10 @@
 {
       int limit=0;
     if(textField.tag ==1){
-        limit=11;}
+        limit=16;}
     else
     {  limit=21;}
+    
     if([[textField text ]length]  +[string length] - range.length >= limit)
         
     {
@@ -555,11 +556,7 @@
     NSLog(@"ping no %@",pinno.text);
 //    UITextField *phonenumber = (UITextField*)[_addPhoneNumber viewWithTag:2];
 //    model.PhoneNumber=[phonenumber.text length] >0? phonenumber.text :nil ;
-   
-    
-   
-    
-    
+       
         //Empty Validation and length validation
     NSLog(@"pin length %i", [model.Pinno length]);
     if(model.Pinno ==NULL)
@@ -577,35 +574,22 @@
         [alertMsg release];
         [pinno becomeFirstResponder];
     }
-//    else if(model.PhoneNumber ==NULL)
-//    {
-//            //Enter Phone Number
-//        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-//        [alertMsg CustomMessage:@"4" MessageNo:@"2"];
-//        [alertMsg release];
-//        [phonenumber becomeFirstResponder];
-//    
-//    }
-//    else if([model.PhoneNumber length] < 10)
-//    {
-//            //Enter valid Phone Number;
-//        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-//        [alertMsg CustomMessage:@"4" MessageNo:@"3"];
-//        [alertMsg release];
-//        [phonenumber becomeFirstResponder];
-//        
-//    }
-  else
-    {
+  
+
+        
+    
+else{
             //Saved successfully
-        
-        
         [self savecallmeon];
         
+        
+         
         [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+    if([model.callemeon count]> 0){
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"4"];
         [alertMsg release];
+    }
     }
     
 }
@@ -689,8 +673,7 @@
         [callmeonModel release];
     }
         
-            //self.navigationItem.rightBarButtonItem =nil;
-            //[(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+
     }
     NSLog(@"after save %@",model.callemeon);
     
