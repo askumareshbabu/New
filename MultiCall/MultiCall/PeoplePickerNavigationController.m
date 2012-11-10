@@ -16,7 +16,7 @@
 #pragma mark Picker controller interface
 
 @class CEPeoplePickerCell;
-@interface CEPeoplePickerController : UITableViewController<UIActionSheetDelegate> {
+@interface CEPeoplePickerController : UITableViewController<UIActionSheetDelegate,UISearchDisplayDelegate> {
     CEPeoplePickerNavigationController *ppnc;
     
     NSMutableSet *selectedPeople;
@@ -142,6 +142,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 
 @synthesize anotherSearchDisplayController;
 @synthesize formatter;
+UISearchDisplayController *searchController ;
 #pragma mark Object lifecycle
 
 - (id)initWithPeoplePickerNavigationController:(CEPeoplePickerNavigationController *)aPpnc values:(NSMutableDictionary *)values
@@ -233,6 +234,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneAction:)] autorelease];
         
     }
+   
     return self;
 }
 
@@ -343,7 +345,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
                  CFRelease(multiValue);
         NSString *compositeName=NULL;
         if(count >  0)
-           compositeName = (NSString *)ABRecordCopyCompositeName(person);
+           compositeName = [(NSString *)ABRecordCopyCompositeName(person)autorelease];
         
         // Filter out those without any name. Contacts displays them, and we could
         // guess what algorithm it uses, but we'd then risk falling out of sync with
@@ -373,7 +375,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     }
     
     *othersPtr = otherPeople;
-    
+   
     return groupedPeople;
 }
 
@@ -382,28 +384,19 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 - (NSArray *)peopleForSearchString:(NSString *)searchString
 {
    
-    if([searchString isEqualToString:@""]){
-       searchString=@"A";
-            //  self.searchCacheString=@"A";
-    }
-    
-        // NSLog(@"searchstring %@",searchString);
-        // NSLog(@"searchcachestring %@",searchCacheString);
-    NSArray *results;//=[[NSArray alloc]init];
+    if([searchString isEqualToString:@""])
+        searchString=@"A";
+  
+        NSArray *results;//=[[NSArray alloc]init];
     if (![searchString isEqual:self.searchCacheString]) {
         // Reload needed
         
-        results = (NSArray *)ABAddressBookCopyPeopleWithName(self.ppnc.addressBook, (CFStringRef)searchString);
-            
-//    }
-//    else
-//    {
-//        results = [(NSArray *)ABAddressBookCopyPeopleWithName(self.ppnc.addressBook, (CFStringRef)searchString) autorelease];
-//    }
-    results = [results sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
+        results = [(NSArray *)ABAddressBookCopyPeopleWithName(self.ppnc.addressBook, (CFStringRef)searchString)autorelease];
+        results = [results sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
             //Remove Empty Contact number List form search result
         NSMutableArray *compositeName=[[[NSMutableArray alloc]init]autorelease];
-
+            //NSLog(@"search result %@",results);
+        
         for(id elements in results)
         {
                 //NSLog(@"ABRecordRef search %@",elements);
@@ -416,14 +409,16 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
             }
            if(multiValueempty)
                CFRelease(multiValueempty);
+        
         }
         self.searchCacheString = searchString;
             if(results !=NULL)
         self.searchCachePeople = compositeName;
         else
+        
             self.searchCachePeople=results;
-    }
-    
+            //}
+        }
     return self.searchCachePeople;
 }
 
@@ -436,6 +431,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
 }
 
 - (void)doneAction:(id)sender
+
 {
          NSArray *people = [self.selectedPeople allObjects];
     NSLog(@"done action %@",self.selectedPeople);
@@ -474,7 +470,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         UISearchDisplayController *searchController = [[[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self] autorelease];
    
     
-        //searchController.delegate = self;
+    searchController.delegate = self;
     
     searchController.searchResultsDataSource = self;
     searchController.searchResultsDelegate = self;
@@ -485,12 +481,23 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     self.anotherSearchDisplayController = searchController;
     
 }
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    //searchBar.showsCancelButton=YES;
+}
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+    controller.searchBar.text = @"";
+    [(UITableView *)self.view reloadData];
+    
+    
+}
 
-/*
+
  - (void)viewWillAppear:(BOOL)animated {
  [super viewWillAppear:animated];
+     NSLog(@"page appear");
  }
- */
+ 
 
 /*
  - (void)viewDidAppear:(BOOL)animated {
@@ -610,11 +617,12 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
     // Get person
     ABRecordRef person = NULL;
     if ([self.searchDisplayController isActive]) {
+            // NSLog(@"search active");
         person = (ABRecordRef)[[self peopleForSearchString:self.searchDisplayController.searchBar.text] objectAtIndex:[indexPath row]];
                 
     }
     else {
-        
+            // NSLog(@"search not active");
         person = (ABRecordRef)[[self.sectionPeople objectAtIndex:[indexPath section]] objectAtIndex:[indexPath row]];   
         
     } 
@@ -634,17 +642,7 @@ static CFComparisonResult CEABPersonComparePeopleByNameAndIsBoundary(ABRecordRef
         else
             cell.accessoryType = UITableViewCellAccessoryNone;
     }
-       
-        if([self.searchDisplayController isActive])
-        {
-                // NSLog(@"searchbartext %@",self.searchDisplayController.searchBar.text);  
-            if([self.searchDisplayController.searchBar.text isEqualToString:@""]){
-            
-            }
-                else
-                [self.tableView reloadData];
-        }
-        
+
         
         cell.textLabel.text=(NSString *)ABRecordCopyCompositeName(person);
        

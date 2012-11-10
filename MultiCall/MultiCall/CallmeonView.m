@@ -18,10 +18,7 @@
 @synthesize addMobileNumber=_addMobileNumber;
 @synthesize addHomeNumber=_addHomeNumber;
 @synthesize addWorkNumber=_addWorkNumber;
-@synthesize txtiPhone;
-@synthesize txtHome;
-@synthesize txtWork;
-@synthesize txtMobile;
+
 @synthesize cellArray;
 @synthesize checkedIndexPath;
 @synthesize checked;
@@ -57,135 +54,23 @@
     model=[Model singleton];
     // Do any additional setup after loading the view from its nib.
     //self.navigationItem.rightBarButtonItem=self.editButtonItem;
-    if(!self.callmeonModel)
-    {
-        CallmeonModel * callme=[[CallmeonModel alloc]init];
-        self.callmeonModel=callme;
-        [callme release];
-        
-    }
-        //self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)]autorelease];
-    [self LoadTextField];
-        // [self removeEmptyTableCell];
-}
--(void)LoadTextField
-{
-    self.txtiPhone=(UITextField *)[_addiPhoneNumber viewWithTag:1];
-     self.txtMobile=(UITextField *)[_addMobileNumber viewWithTag:2];
-     self.txtHome=(UITextField *)[_addHomeNumber viewWithTag:3];
-    self.txtWork=(UITextField *)[_addWorkNumber viewWithTag:4];
-    
-    if([model.callemeon count]>0)
-    {
-        for (NSInteger i=0; i <[model.callemeon count]; i++) {
-            
-    
-        self.callmeonModel=[model.callemeon objectAtIndex:i];
-   
-        if([self.callmeonModel.CallType isEqualToString:@"iPhone"])
-        {
-            self.txtiPhone.text=self.callmeonModel.CallPhoneNumber?:@"";
-            if(self.callmeonModel.isSelected ==YES)
-            {
-                _addiPhoneNumber.accessoryType=UITableViewCellAccessoryCheckmark;
-               
-            }
-            else{
-                _addiPhoneNumber.accessoryType=UITableViewCellAccessoryNone;
-            }
-        }
-           
-    
-            
-    
-        if([self.callmeonModel.CallType isEqualToString:@"Mobile"])
-        {
-            self.txtMobile.text=self.callmeonModel.CallPhoneNumber?:@"";
-            if(self.callmeonModel.isSelected ==YES)
-            {
-                _addMobileNumber.accessoryType=UITableViewCellAccessoryCheckmark;
-                
-            }
-            else{
-                _addMobileNumber.accessoryType=UITableViewCellAccessoryNone;
-            }
-           
-        }
-        
-        if([self.callmeonModel.CallType isEqualToString:@"Home"])
-        {
-            self.txtHome.text=self.callmeonModel.CallPhoneNumber?:@"";
-            if(self.callmeonModel.isSelected ==YES)
-            {
-                _addHomeNumber.accessoryType=UITableViewCellAccessoryCheckmark;
-                
-            }
-            else{
-                _addHomeNumber.accessoryType=UITableViewCellAccessoryNone;
-            }
-           
-        }
-      
-        if([self.callmeonModel.CallType isEqualToString:@"Work"])
-        {
-            self.txtWork.text=self.callmeonModel.CallPhoneNumber?:@"";
-            if(self.callmeonModel.isSelected ==YES)
-            {
-                _addWorkNumber.accessoryType=UITableViewCellAccessoryCheckmark;
-                
-            }
-            else{
-                _addWorkNumber.accessoryType=UITableViewCellAccessoryNone;
-            }
-             
-        }
-        
-        }
-    }
-    
-    else{
-        self.txtMobile.text=@"";
-        self.txtiPhone.text=@"";
-        self.txtHome.text=@"";
-        self.txtWork.text=@"";
-    }
-
-           
-    //disable the text editing.only selection option
-//    if(isEditMode==NO)
+//    if(!self.callmeonModel)
 //    {
-        self.txtiPhone.enabled=NO;
-        self.txtMobile.enabled=NO;
-        self.txtHome.enabled=NO;
-        self.txtWork.enabled=NO;
+//        CallmeonModel * callme=[[CallmeonModel alloc]init];
+//        self.callmeonModel=callme;
+//        [callme release];
 //        
 //    }
-//    else
-//    {
-//        self.txtiPhone.enabled=YES;
-//        self.txtMobile.enabled=YES;
-//        self.txtHome.enabled=YES;
-//        self.txtWork.enabled=YES;
-        // }
-//    if([cellArray count] ==0 || cellArray ==NULL || isEditMode)
-//    cellArray=[[NSMutableArray alloc]initWithObjects:@"iPhone",@"mobile",@"home",@"work",nil];
-//    else
-//        NSLog(@"cellarray %@",cellArray);
-       
+
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardAppear) name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDisAppear) name:UIKeyboardDidHideNotification object:nil];
-        //isEditMode=NO;
-    [self LoadTextField];
-        //[self removeEmptyTableCell];
+        //  self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(saveModel)]autorelease];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 - (void)viewDidUnload
 {
@@ -204,167 +89,40 @@
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
--(void)removeEmptyTableCell
-{
-    NSLog(@"recmoving cellarray %@",cellArray);
-    if(!isEditMode)
-    {
-            //[(UITableView *)self.view beginUpdates];
-      if(![self.txtMobile.text isEqualToString:@""] || ![self.txtHome.text isEqualToString:@""] || ![self.txtWork.text isEqualToString:@""] )
-      {
-           
-          if([cellArray containsObject:@"iPhone"])
-          {
-            if([self.txtiPhone.text isEqualToString:@""])
-            {
-                [(UITableView *)self.view beginUpdates];
-               int index=[cellArray indexOfObject:@"iPhone"];
-                [cellArray removeObject:@"iPhone"];
-              [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-                  NSLog(@"recmoving cellarray %@",cellArray);
-                 [(UITableView *)self.view endUpdates];
-                   
-                
-            }
-          }
-      }
-            
-        if([cellArray containsObject:@"mobile"])
-        {
-        if([self.txtMobile.text isEqualToString:@""])
-        {
-           [(UITableView *)self.view beginUpdates];
-            int index=[cellArray indexOfObject:@"mobile"];
-            [cellArray removeObject:@"mobile"];
-            [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-              NSLog(@"recmoving cellarray %@",cellArray);
-            [(UITableView *)self.view endUpdates];
-        }
-        }
-            
-        if([cellArray containsObject:@"home"])
-        {
-        if([self.txtHome.text isEqualToString:@""])
-        {
-             [(UITableView *)self.view beginUpdates];
-            int index=[cellArray indexOfObject:@"home"];
-            [cellArray removeObject:@"home"];
-            NSLog(@"recmoving cellarray %@",cellArray);
-            [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-            
-            [(UITableView *)self.view endUpdates];
-        }
-        }
-            
-        if([cellArray containsObject:@"work"])
-        {
-        if([self.txtWork.text isEqualToString:@""])
-        {
-             [(UITableView *)self.view beginUpdates];
-                int index=[cellArray indexOfObject:@"work"];
-                [cellArray removeObject:@"work"];
-                [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-            [(UITableView *)self.view endUpdates];
-                NSLog(@"recmoving cellarray %@",cellArray);
-        }
-        }
-        NSLog(@"--Delete Cell-- %@",cellArray);
-           
-        
-        
-    }
-   
-}
 
-- (void)dealloc {
-    [_addiPhoneNumber release];
-    [_addMobileNumber release];
-    [_addHomeNumber release];
-    [_addWorkNumber release];
-    cellArray=nil;
-    self.callmeonModel=nil;
-    [super dealloc];
-}
-#pragma TableView
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-        UITableViewCell *cell=nil;
-    
-//        if([cellArray containsObject:@"iPhone"])
-//        {
-//            cell=_addiPhoneNumber;
-//            _addiPhoneNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-//            [cellArray removeObject:@"iPhone"];
-//           
-//            return cell;
-//           
-//        }
-//    
-//        if([cellArray containsObject:@"mobile"])
-//        {
-//            cell=_addMobileNumber;
-//            _addMobileNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-//            [cellArray removeObject:@"mobile"];
-//            return cell;
-//        }
-//
-//        if([cellArray containsObject:@"home"])
-//        {
-//            cell=_addHomeNumber;
-//            _addHomeNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-//            [cellArray removeObject:@"home"];
-//            return cell;
-//        }
-//             
-//        if([cellArray containsObject:@"work"])
-//        {
-//            cell=_addWorkNumber;
-//            _addWorkNumber.backgroundColor=[[UIColor whiteColor]autorelease];
-//            [cellArray removeObject:@"work"];
-//           
-//            return  cell;
-//        }
-    CallmeonModel * callmemodel=[model.callemeon objectAtIndex:indexPath.row];
-    NSLog(@"call me on %@",callmemodel);
-            if([callmemodel.CallType isEqualToString:@"iPhone"]){
-            cell=_addiPhoneNumber;
-           
-            }
-            
-            if([callmemodel.CallType isEqualToString:@"Mobile"]){
-            cell=_addMobileNumber;
-               }
-            if([callmemodel.CallType isEqualToString:@"Home"]){
-            cell=_addHomeNumber;
-            
-            }
-            
-            if([callmemodel.CallType isEqualToString:@"Work"]){
-            cell=_addWorkNumber;
-            
-            }
-        
-    
-    cell.backgroundColor=[UIColor whiteColor];  
-   
-    return cell;
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
-        // NSLog(@"coung %i,%@",[cellArray count],cellArray);
-        // if(isEdiunt]);
-    
     return [model.callemeon count];
     
-    
-//    else
-//    {
-//        
-//       return  [cellArray count];
-//        
-//    }
-    
+}
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell=nil;
+    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callmeon"];
+    if(cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callmeon"];
+        cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+        cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
+        cell.backgroundColor=[UIColor whiteColor];
+        cell.textLabel.textAlignment=UITextAlignmentLeft;
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        cell.detailTextLabel.textAlignment=UITextAlignmentRight;
+    }
+    CallmeonModel *callme=[model.callemeon objectAtIndex:indexPath.row];
+    if(callme)
+    {
+        cell.textLabel.text=callme.CallType;
+        cell.detailTextLabel.text=callme.CallPhoneNumber;
+        if(callme.isSelected==YES){
+            cell.accessoryType=UITableViewCellAccessoryCheckmark;
+            self.checkedIndexPath=indexPath;
+        }
+        else
+            cell.accessoryType=UITableViewCellAccessoryNone;
+        
+    }
+    return cell;
 }
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -387,415 +145,70 @@
     {
         UITableViewCell * oldCell=[tableView cellForRowAtIndexPath:self.checkedIndexPath];
         oldCell.accessoryType=UITableViewCellAccessoryNone;
-        isPhoneChecked=NO;
-        isMobileCheckd=NO;
-        isHomeChecked=NO;
-        isWorkChecked=NO;
-    [self savecheckedNumber];
+        [self savecheckedNumber];
     }
     if([self.checkedIndexPath isEqual:indexPath])
     {
         self.checkedIndexPath=nil;
-        isPhoneChecked=NO;
-        isMobileCheckd=NO;
-        isHomeChecked=NO;
-        isWorkChecked=NO;
         [self savecheckedNumber];
     }
     else
     {
         thisCell=[tableView cellForRowAtIndexPath:indexPath];
-       
-        
-            // self.checked=YES;
-        
         self.checkedIndexPath=indexPath;
-        for(UIView * view in thisCell.contentView.subviews)
-        {
-            UITextField *txtField=(UITextField *)view;
-            if(txtField.tag ==1)
-            {
-                if(![txtField.text isEqualToString:@""])
-                {
-                    CallmeonModel *callmodel=[[CallmeonModel alloc]init];
-                    isPhoneChecked=YES;
-                    isMobileCheckd=NO;
-                    isHomeChecked=NO;
-                    isWorkChecked=NO;
-                    thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    [self savecheckedNumber];
-                     model.PhoneNumber=txtField.text;
-                    [callmodel release];
-
-                   
-                }
-                else{
-                    thisCell.accessoryType=UITableViewCellAccessoryNone;
-                    CustomMessageClass * alertMsg=[[CustomMessageClass alloc]init];
-                    [alertMsg CustomMessage:@"6" MessageNo:@"1"];
-                    [alertMsg release];
-                    return;
-                }
-
-            }
-          
-           if(txtField.tag ==2)
-           {
-               if(![txtField.text isEqualToString:@""])
-               {
-                   CallmeonModel *callmodel=[[CallmeonModel alloc]init];
-                   isPhoneChecked=NO;
-                   isMobileCheckd=YES;
-                   isHomeChecked=NO;
-                   isWorkChecked=NO;
-                   thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                   [self savecheckedNumber];
-                    model.PhoneNumber=txtField.text;
-                   [callmodel release];
-                 
-               }
-               else
-               {
-                thisCell.accessoryType=UITableViewCellAccessoryNone;
-               }
-           }
-           
-            if(txtField.tag ==3)
-            {
-            
-                if(![txtField.text isEqualToString:@""])
-                {
-                    CallmeonModel *callmodel=[[CallmeonModel alloc]init];
-                    isPhoneChecked=NO;
-                    isMobileCheckd=NO;
-                    isHomeChecked=YES;
-                    isWorkChecked=NO;
-                    thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    [self savecheckedNumber];
-                     model.PhoneNumber=txtField.text;
-                    [callmodel release];
-                  
-                }
-                else
-                {
-                    thisCell.accessoryType=UITableViewCellAccessoryNone;
-                }
-            }
-            
-            if(txtField.tag ==4)
-            {
-                if(![txtField.text isEqualToString:@""])
-                {
-                    CallmeonModel *callmodel=[[CallmeonModel alloc]init];
-                    isPhoneChecked=NO;
-                    isMobileCheckd=NO;
-                    isHomeChecked=NO;
-                    isWorkChecked=YES;
-                    thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
-                    [self savecheckedNumber];
-                     model.PhoneNumber=txtField.text;
-                    [callmodel release];
-                 
-                }
-                else
-                {
-                    thisCell.accessoryType=UITableViewCellAccessoryNone;
-                }
-            }
-        
-        } //for
-    }//else
-          
+        thisCell.accessoryType=UITableViewCellAccessoryCheckmark;
+        model.PhoneNumber=thisCell.detailTextLabel.text;
+       
+                
+        }//else
+       [self saveModel];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
+
     return 45.0;
-}
--(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    return @"Remove";
-}
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    if(!isdeleted)
-    {
-            cellArray=[[NSMutableArray alloc]initWithObjects:@"iPhone",@"mobile",@"home",@"work",nil];
-    }
-    
-    NSLog(@"cell array %@",cellArray);
-    isEditMode=NO;
-    isdeleted=YES;
-    if(editingStyle ==UITableViewCellEditingStyleDelete)
-    {
-        [tableView setEditing:YES animated:YES];
-    }
-    else
-        [tableView setEditing:NO animated:NO];
-    if([cellArray count]!=1)
-    {
-        switch (indexPath.row)
-        {
-        
-    case 0:
-    {
-        if([cellArray containsObject:@"iPhone"])
-        {
-            
-            [tableView beginUpdates];
-            [cellArray removeObject:@"iPhone"];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [tableView endUpdates];
-            [ self.txtiPhone setText:@""];
-            isPhoneChecked=NO;
-            [self saveModel];
-        break;
-        }
-    }
-        case 1:
-            {
-            if([cellArray containsObject:@"mobile"])
-            {
-                [tableView beginUpdates];
-                [cellArray removeObject:@"mobile"];
-                [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [tableView endUpdates];
-                self.txtMobile.text=@"";
-                isMobileCheckd=NO;
-                [self saveModel];
-                break;
-            }
-        }
-        case 2:
-        {
-            if([cellArray containsObject:@"home"])
-            {
-                [tableView beginUpdates];
-                [cellArray removeObject:@"home"];
-                [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]]withRowAnimation:UITableViewRowAnimationAutomatic];
-                [tableView endUpdates];
-                self.txtHome.text=@"";
-                isHomeChecked=NO;
-                [self saveModel];
-                break;
-            }
-        }
-        case 3:
-        {
-            if([cellArray containsObject:@"work"])
-            {
-                [tableView beginUpdates];
-                [cellArray removeObject:@"work"];
-                [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                [tableView endUpdates];
-                self.txtWork.text=@"";
-                isWorkChecked=NO;
-                [self saveModel];
-                break;
-            }
-     
-        }
-        } //indexpath
-    }//if
-}
--(BOOL)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-//   
-//    if(isEditMode){
-//
-//        switch (indexPath.row) {
-//
-//            case 0:
-//            {
-//                if(![self.txtiPhone.text isEqualToString:@""])
-//                {
-//                    
-//                    return UITableViewCellEditingStyleDelete;
-//               
-//                }
-//                else
-//                {
-//                    return UITableViewCellEditingStyleNone;
-//                
-//                }
-//                
-//            }
-//
-//            case 1:
-//            {
-//                if(![self.txtMobile.text isEqualToString:@""])
-//                
-//                    return UITableViewCellEditingStyleDelete;
-//                
-//                else
-//                {
-//                    return UITableViewCellEditingStyleNone;
-//                   
-//                }
-//                
-//            }
-//
-//            case 2:
-//            {
-//                if(![self.txtHome.text isEqualToString:@""])
-//            
-//                    return UITableViewCellEditingStyleDelete;
-//                else
-//                {
-//                    return UITableViewCellEditingStyleNone;
-//                    
-//                }
-//                 
-//            }
-//
-//            case 3:
-//            {
-//                if(![self.txtWork.text isEqualToString:@""])
-//                    
-//                    return UITableViewCellEditingStyleDelete;
-//                    
-//                else
-//                {
-//                    return UITableViewCellEditingStyleNone;
-//                    
-//                }
-//                   
-//            }
-//
-//        }
-//        
-//    }
-//    else
-//    {
-//        return UITableViewCellEditingStyleNone;
-//    }
-//  
-//    return UITableViewCellEditingStyleDelete;
-    
-    return  UITableViewCellEditingStyleNone;
-}
-
--(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    return NO;
-
 }
 
 -(void)saveModel
 {
     [model.callemeon removeAllObjects];
-   
-    
     [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
+    [(UITableView *)self.view scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
 
-    if(![self.txtiPhone.text isEqualToString:@""])
+    for(int i=0; i<[[(UITableView *)self.view visibleCells]count]; i++)
     {
-        CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"iPhone"];
-        [callmeonModel setCallPhoneNumber:txtiPhone.text?:@""];
-        callmeonModel.isSelected=isPhoneChecked;
-        [[[Model singleton]callemeon]addObject:callmeonModel];
+        CallmeonModel *callme=[[CallmeonModel alloc]init];
+
+        callme.CallType=[(UITableView *)self.view cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]].textLabel.text;
+        callme.CallPhoneNumber=[(UITableView *)self.view cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]].detailTextLabel.text;
+        
+        callme.isSelected=[(UITableView *)self.view cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]].accessoryType;
+        if(callme.isSelected ==3)
+        {
+            callme.isSelected=YES;
+        }
+        else
+            callme.isSelected=NO;
+        if(![model.callemeon containsObject:callme]){
+        [[[Model singleton]callemeon]addObject:callme];
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-        [callmeonModel release];
+        }
         
+        [callme release];
     }
-    if(![self.txtMobile.text isEqualToString:@""])
-    {
-        CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"Mobile"];
-        [callmeonModel setCallPhoneNumber:txtMobile.text ?:@""];
-        callmeonModel.isSelected=isMobileCheckd;
-              [[[Model singleton]callemeon]addObject:callmeonModel];
-        
-          [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-        [callmeonModel release];
-         
-    }
-    if(![self.txtHome.text isEqualToString:@""])
-    {
-        CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"Home"];
-        [callmeonModel setCallPhoneNumber:txtHome.text? :@""];
-        callmeonModel.isSelected=isHomeChecked;
-        [[[Model singleton]callemeon]addObject:callmeonModel];
-        [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-        
-        [callmeonModel release];
-         
-    }
-    if(![self.txtWork.text isEqualToString:@""])
-    {
-        CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
-        [callmeonModel setCallType:@"Work"];
-        [callmeonModel setCallPhoneNumber:txtWork.text ?: @""];
-        callmeonModel.isSelected=isWorkChecked;
-        [[[Model singleton]callemeon]addObject:callmeonModel];
-       [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-        [callmeonModel release];
-    }
-    NSLog(@"after save %@",model.callemeon);
+    
+   
 
 }
--(void)saveNumber
-{
-    [self.view endEditing:YES];
-    [self saveModel];
-    [self editMode];
-}
+
 -(void)savecheckedNumber
 {
     [self saveModel];      
-    [self LoadTextField];
-}
--(void)keyboardAppear
-{
-       
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(saveNumber)]autorelease];
-}
--(void)keyboardDisAppear
-{
-    [[[Model singleton]callemeon] addObject:self.callmeonModel];
-    self.navigationItem.rightBarButtonItem.enabled=YES;
-}
--(void)textFieldDidEndEditing:(UITextField *)textField
-{
-    if([[textField text]length])
-        self.navigationItem.rightBarButtonItem.enabled=YES;
-}
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return  YES;
-}
--(void)editMode
-{
-    
-    if(((UITableView*)self.view).editing){
-        isEditMode=NO;
-        [((UITableView*)self.view) setEditing: NO animated: YES];
-        self.navigationItem.rightBarButtonItem.title=@"Edit";
-        
-     
-        isdeleted=NO;
-    }
-    else{
-        isEditMode=YES;
-        [(UITableView *)self.view reloadData];
-        [((UITableView*)self.view) setEditing: YES animated: YES];
-        self.navigationItem.rightBarButtonItem.title=@"Done";    
-        
-    }
-     
-    [self LoadTextField];
-    [self removeEmptyTableCell];
-    [(UITableView *)self.view reloadData];
-     
     
 }
+
+
 @end

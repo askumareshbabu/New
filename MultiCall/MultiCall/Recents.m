@@ -62,12 +62,7 @@
     
     [super viewDidLoad];
     model=[Model singleton];
-    
-    
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Start New" style:UIBarButtonItemStyleDone target:self action:@selector(StartNewMutiCall)]autorelease];
-    
-    self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(Edit)]autorelease];
-  
+
            // Do any additional setup after loading the view from its nib.
 }
 
@@ -90,70 +85,70 @@
     [starNewView release];
     
 }
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    [self.recentsarray removeAllObjects];
-//    [super viewWillAppear:YES];
-//    [(UITableView *)self.view reloadData];
-//}
+-(void)viewWillAppear:(BOOL)animated
+{
+    
+    [super viewWillAppear:YES];
+    
+    self.tabBarController.tabBar.userInteractionEnabled=YES;
+    [self enablebuttons];
+    [model sort];
+    
+    [(UITableView *)self.view setEditing:NO animated:YES];
+    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Start New" style:UIBarButtonItemStyleDone target:self action:@selector(StartNewMutiCall)]autorelease];
+    [(UITableView *)self.view reloadData];
+}
 -(void)showStartNewImage
 {
-    UIImageView *imgstartnewview=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]];
-      int count=[[model recentsCall]count];
-    NSLog(@"rcent count %i",count);
-    if(count == 0){
+     int count=[[model recentsCall]count];
+    if(count ==0){
         
-        self.starNewView=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)];
+            if(!imgstartnewview)
+        imgstartnewview=[[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]]autorelease];
+    
+        if(!self.starNewView)
+        self.starNewView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)]autorelease];
         
         
-        starNewView.backgroundColor=[UIColor whiteColor];
+            // starNewView.backgroundColor=[UIColor whiteColor];
         
         [imgstartnewview setFrame:CGRectMake(60, 0, 234, 128)];
         [starNewView addSubview:imgstartnewview];
+        self.starNewView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.7];
         [self.view addSubview:starNewView];
-        [self.starNewView release];
-        [imgstartnewview release];
-        
-        
+            //[self.starNewView release];
+            //[imgstartnewview release];
     }
-    else
-    {
-        [imgstartnewview setHidden:YES];
-        [imgstartnewview removeFromSuperview];
-        [self.starNewView removeFromSuperview];
-    }
-    [(UITableView *)self.view reloadData];
+    
 }
 -(void)enablebuttons
 {
     int count=[[model recentsCall]count];
-    [self showStartNewImage];
+    
     if(count > 0){
+        [imgstartnewview removeFromSuperview];
+        [self.starNewView removeFromSuperview];
+        imgstartnewview=nil;
+        self.starNewView=nil;
        
-        self.navigationItem.leftBarButtonItem.enabled=YES;
+         self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(Edit)]autorelease];
     }
 
     else{
-        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
-        self.navigationItem.leftBarButtonItem.title=@"Edit";
+       
+        [self showStartNewImage];
+        self.navigationItem.leftBarButtonItem=nil;
+        
         self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
         self.navigationItem.rightBarButtonItem.title=@"Start New";
-        self.navigationItem.leftBarButtonItem.enabled=NO;
+        
     }
         
-
+        //[(UITableView *)self.view reloadData];
 }
 -(void)viewDidAppear:(BOOL)animated
 {
-        //[self.recentsarray removeAllObjects];
-    self.tabBarController.tabBar.userInteractionEnabled=YES;
-    
-        [model sort];
-     
-    
-    [self enablebuttons];
-    [(UITableView *)self.view reloadData];
-   
+       
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -182,9 +177,9 @@
     else{
     CallView *cview=[[[CallView alloc]init]autorelease];
     startMulticallPicker=[[[UINavigationController alloc]initWithRootViewController:cview]autorelease];
-    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(startMulticallPickerdismiss)]autorelease];
+    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(startMulticallPickerdismiss)]autorelease];
             // startMulticallPicker.title=@"Add Participants";
-    [self presentModalViewController:startMulticallPicker animated:YES];
+        [self presentModalViewController:startMulticallPicker animated:YES];
     }
     
 }
@@ -193,6 +188,7 @@
     if(actionSheet.destructiveButtonIndex == buttonIndex)
     {
         [model.recentsCall removeAllObjects];
+        [(UITableView *)self.view setEditing:NO animated:YES];
          [self enablebuttons];
         [(UITableView *)self.view reloadData];
     
@@ -278,15 +274,12 @@
        
         
         //}
-     NSLog(@"callmod recents");
-    
-   
+      
     CallModel *callmo=[model.recentsCall objectAtIndex:indexPath.row];
-    NSLog(@"callmod recents %@",callmo);
    if(callmo)
    {
     
-       
+       self.starNewView=nil;
            self.lblRecentContacts.text=[NSString stringWithFormat:@"%@",[self formatName:callmo]];;
            //cell.textLabel.text=[self formatName:callmo];
     
@@ -406,7 +399,7 @@
     [cview addRecentsToExplode:recent_call];
     [(UITableView *)cview.view reloadData];
     callviewpicker=[[[UINavigationController alloc]initWithRootViewController:cview]autorelease];
-    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
     callviewpicker.title=@"Add Participants";
     [self presentModalViewController:callviewpicker animated:YES];
     
@@ -428,8 +421,8 @@
     call.title =@"info"; //[formatter stringFromDate:recent_call.dateTime];
         // call.title=[recent_call.dateTime stringFromDateWithFormat:DATE_TIME];
     call->isViewMode=YES;
-    call->Recentindexpath=nil;
-    call->Recentindexpath=indexPath;
+        // call->Recentindexpath=nil;
+    call->Recentindexpath=indexPath.row;
         //call.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(recentviewpickerdismiss)]autorelease];
         //recentviewpicker=[[[UINavigationController alloc]initWithRootViewController:call]autorelease];
     [self.navigationController pushViewController:call animated:YES];

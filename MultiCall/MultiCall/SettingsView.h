@@ -11,9 +11,10 @@
 #import "CallmeonModel.h"
 
 @class Model;
-@interface SettingsView : UIViewController
+@interface SettingsView : UIViewController<UITextFieldDelegate>
 {
     Model *model;
+    int isError;
     @public
     bool isUpdateView;
     bool isEditMode;

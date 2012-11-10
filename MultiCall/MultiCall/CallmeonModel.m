@@ -46,11 +46,8 @@
     if(self=[super init])
     {
         self.CallType=[coder decodeObjectForKey:@"callType"];
-            // NSLog(@"callType %@",self.CallType);
         self.CallPhoneNumber=[coder decodeObjectForKey:@"callPhoneNumber"];
-            // NSLog(@"CallPhoneNumber %@",self.CallPhoneNumber);
         self.isSelected=[coder decodeBoolForKey:@"selected"];
-            // NSLog(@"selected %u",self.isSelected);
     }
     return self;
     

@@ -48,6 +48,8 @@
 @property(nonatomic,retain)NSString * groupNameExists;
 @property(nonatomic,retain)NSString * isgroupNameExists;
 @property(retain,nonatomic)PhoneNumberFormatter *formatter;
+@property(retain,nonatomic)UIButton *placeMulitCall;
+@property(retain,nonatomic)UIButton* addMember;
 
 -(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType;
 

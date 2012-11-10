@@ -28,17 +28,12 @@
     NSMutableArray *cellArray;
 @public
     bool isEditMode;
+    
 }
 @property (retain, nonatomic) IBOutlet UITableViewCell *addiPhoneNumber;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addMobileNumber;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addHomeNumber;
 @property (retain, nonatomic) IBOutlet UITableViewCell *addWorkNumber;
-
-@property(retain,nonatomic)UITextField * txtiPhone;
-@property(retain,nonatomic)UITextField * txtMobile;
-@property(retain,nonatomic)UITextField * txtHome;
-@property(retain,nonatomic)UITextField * txtWork;
-
 
 @property(retain,nonatomic)NSMutableArray * cellArray;
 
@@ -50,10 +45,9 @@
 
 
 
--(void)LoadTextField;
--(void)removeEmptyTableCell;
+
 -(void)saveModel;
 -(void)savecheckedNumber;
--(void)editMode;
+
 
 @end

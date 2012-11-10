@@ -62,6 +62,7 @@ ABAddressBookRef ab;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        isCallEnded=0;
     }
     return self;
 }
@@ -84,16 +85,19 @@ ABAddressBookRef ab;
 -(void)enableCalling
 {
     _bottomToolbar.hidden=NO;
-    self.navigationItem.rightBarButtonItem.enabled=YES;
+    if([self.contacts count ]>0)
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)] autorelease];
+        //self.navigationItem.rightBarButtonItem.enabled=YES;
 }
 -(void)disableCalling
 {
     _bottomToolbar.hidden=YES;
-    self.navigationItem.rightBarButtonItem.enabled=NO;
-    self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
-    self.navigationItem.rightBarButtonItem.title=@"Edit";
+    
+    self.navigationItem.rightBarButtonItem=nil;
+        //self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
+        // self.navigationItem.rightBarButtonItem.title=@"Edit";
     self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
-    self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
+    self.navigationItem.leftBarButtonItem.title=@"Cancel";
 }
 
 - (void)viewDidLoad
@@ -104,7 +108,7 @@ ABAddressBookRef ab;
     self.formatter=[[[PhoneNumberFormatter alloc]init]autorelease];
     
     if(!isViewMode){
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editMode)] autorelease];
+    
         
         
     if(!self.checkMultiCallArray)
@@ -127,6 +131,7 @@ ABAddressBookRef ab;
 
 -(void)viewWillAppear:(BOOL)animated{
         // [self hideButtons];
+    [(UITableView *)self.view setEditing:NO animated:YES];
     if(!isViewMode){
      
     [self loadCallmeon];
@@ -141,15 +146,14 @@ ABAddressBookRef ab;
     else
         [self disableCalling];
     
-        if([self.twilio_adaptor isCallActive]){
+        if([self.twilio_adaptor isCallActive])
         self.title=@"Participants";
-            self.navigationItem.rightBarButtonItem.enabled=NO;}
-        else{
+        else
             self.title=@"Add Participants";
-        }
+        
     }
     
-        
+     [(UITableView *)self.view reloadData];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -162,22 +166,32 @@ ABAddressBookRef ab;
 }
 -(void)loadCallmeon
 {
+    self.lblCallType.text=@"";
     for (NSInteger i=0; i<[model.callemeon count];i++) {
         CallmeonModel *callmeModel=[model.callemeon objectAtIndex:i];
     if(callmeModel.isSelected ==YES)
     {
         self.lblCallType=(UILabel *)[_callmeonCell viewWithTag:1];
-        if(self.lblCallType.tag ==1)
-        {
+       
+            NSLog(@"callme on %@",callmeModel.CallType);
             self.lblCallType.text=callmeModel.CallType;
-        }
-        break;
+        model.PhoneNumber=callmeModel.CallPhoneNumber;
     }
-    else{
-        self.lblCallType.text=@"";
-        model.PhoneNumber=nil;
+//    else{
+//    self.lblCallType.text=@"";
+//    model.PhoneNumber=nil;
+//    }
     }
+    if([model.callemeon count] ==1)
+    {
+        NSLog(@"callme on %@",model.callemeon);
+        CallmeonModel *call=[model.callemeon objectAtIndex:0];
+        NSLog(@"seleced %d",call.isSelected);
+        call.isSelected=YES;
+        model.PhoneNumber=call.CallPhoneNumber;
+         self.lblCallType.text=call.CallType;
     }
+   
 }
 - (void)viewDidUnload
 {
@@ -204,25 +218,13 @@ ABAddressBookRef ab;
 }
 -(void)pushToCallMeOn
 {
-//    CallmeonView *callmeon=[[CallmeonView alloc]init];
-//    self.title=@"Participants";
-//    
-//    [self.navigationController pushViewController:callmeon animated:YES];
-//   
-//    callmeon.title=@"Call me on";
-//    [callmeon release];
+
     if([model.callemeon count]> 0){
-    CallmeonView * callmeonview=[[CallmeonView alloc]init];
-        //  callmeonview ->isEditMode=YES;
-    callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:callmeonview];
-    callmeonview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Participants" style:UIBarButtonItemStyleBordered target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
-    callmeonview.title=@"Call me on";
-    [callmeonViewpicker setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-      
-    [self presentModalViewController:callmeonViewpicker animated:YES];
-    
-    [callmeonview release];
-    [callmeonViewpicker release]; 
+        CallmeonView * callmeonview=[[CallmeonView alloc]init];
+        callmeonview.title=@"Call me on";
+        [self disableCalling];
+        [self.navigationController pushViewController:callmeonview animated:YES];
+        [callmeonview release];
     }
     else
     {
@@ -231,6 +233,8 @@ ABAddressBookRef ab;
         [alertmsg release];
         
         SettingsView * sv=[[SettingsView alloc]init];
+        sv.title=@"Settings";
+        sv->isUpdateView=YES;
         [self.navigationController pushViewController:sv animated:YES];
         [sv release];
     }
@@ -242,16 +246,17 @@ ABAddressBookRef ab;
 {
        UITableViewCell *cell=nil;
     UIView *recentview=[[[UIView alloc]init]autorelease];
-    UILabel * lblRecentContacts=[[[UILabel alloc]init]autorelease];
     UILabel * lblParticipants=[[[UILabel alloc]init]autorelease];
+    UILabel * lblTimeMin=[[[UILabel alloc]init]autorelease];
     UILabel * lblDate=[[[UILabel alloc]init]autorelease];
     
-    UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
-    UILabel *lblName=[[UILabel alloc]initWithFrame:CGRectMake(5, 3, 130, 25)];
-    UILabel *lblnumber=[[UILabel alloc]initWithFrame:CGRectMake(5, 34, 180, 15)];
-    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(180,10, 80, 20)];
+    
+    
+    UILabel *lblName=[[[UILabel alloc]init]autorelease];
+    UILabel *lblnumber=[[[UILabel alloc]init]autorelease];
+    UILabel * lblContactType=[[[UILabel alloc]init]autorelease];
         //tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-   
+    
     switch (indexPath.section) {
           
         case 0:
@@ -263,57 +268,49 @@ ABAddressBookRef ab;
                {
                                       
                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"recentView"];
-                       //if(cell == nil) {
-                cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"recentView"]autorelease];
+                if(cell == nil) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"recentView"];
                     cell.backgroundView =[[[UIView alloc] initWithFrame:CGRectZero] autorelease];
                    
                     UIImageView *back=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shad_02.png"]];
-                   back.frame=CGRectMake(0, 0, 320, 65);
+                   back.frame=CGRectMake(cell.frame.origin.x-10, 0, 320, 65);
                   
                     [cell.contentView addSubview:back];
-//                    cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
-//                    cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-//                    cell.backgroundColor=[UIColor whiteColor];
-//                    cell.detailTextLabel.textColor = [UIColor lightGrayColor];
-//                    cell.textLabel.textColor = [UIColor blackColor];
-//                    cell.textLabel.textAlignment=UITextAlignmentLeft;
-//                    cell.selectionStyle=UITableViewCellSelectionStyleNone;
-//                    cell.detailTextLabel.textAlignment=UITextAlignmentRight;
-//                    cell.textLabel.numberOfLines=2;
+
                    cell.selectionStyle=UITableViewCellSelectionStyleNone;                 
                     
                     recentview.autoresizingMask=UIViewAutoresizingFlexibleWidth;
                     recentview.frame=CGRectMake(0, 0, 320, 55);
                     
                     
-                    lblRecentContacts.font=[UIFont fontWithName:@"Helvetica-Bold" size:20.0];
-                    lblRecentContacts.textColor=[UIColor blackColor];
-                    lblRecentContacts.textAlignment=UITextAlignmentLeft;
-                    lblRecentContacts.autoresizingMask=UIViewAutoresizingFlexibleWidth;
-                    lblRecentContacts.lineBreakMode=UILineBreakModeTailTruncation;
-                    lblRecentContacts.frame=CGRectMake(2, 0, 220, 25);
-                    
-                    lblParticipants.font=[UIFont fontWithName:@"Helvetica" size:15.0];
+                    lblParticipants.font=[UIFont fontWithName:@"Helvetica-Bold" size:20.0];
                     lblParticipants.textColor=[UIColor blackColor];
                     lblParticipants.textAlignment=UITextAlignmentLeft;
-                    lblParticipants.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
-                    lblParticipants.frame=CGRectMake(2, 30, 200, 20);
+                    lblParticipants.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+                    lblParticipants.lineBreakMode=UILineBreakModeTailTruncation;
+                    lblParticipants.frame=CGRectMake(2, 0, 220, 25);
+                    
+                    lblTimeMin.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+                    lblTimeMin.textColor=[UIColor lightGrayColor];
+                    lblTimeMin.textAlignment=UITextAlignmentLeft;
+                    lblTimeMin.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
+                    lblTimeMin.frame=CGRectMake(2, 30, 200, 20);
                     
                     
-                    lblDate.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
+                    lblDate.font=[UIFont fontWithName:@"Helvetica-Bold" size:20.0];
                     lblDate.textColor=[UIColor blackColor];
                     lblDate.textAlignment=UITextAlignmentRight;
                     lblDate.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
-                    lblDate.frame=CGRectMake(180, 0, 120, 20);
+                    lblDate.frame=CGRectMake(200, 4, 120, 20);
                     
-                    [cell.contentView addSubview:lblRecentContacts];
                     [cell.contentView addSubview:lblParticipants];
+                    [cell.contentView addSubview:lblTimeMin];
                     [cell.contentView addSubview:lblDate];
                     [cell.contentView addSubview:recentview];
                     [back release];
-                       //}
+                }
                 
-                CallModel *callmo=[model.recentsCall objectAtIndex:Recentindexpath.row];
+                CallModel *callmo=[model.recentsCall objectAtIndex:Recentindexpath];
                
                 if(callmo)
                 {
@@ -322,10 +319,9 @@ ABAddressBookRef ab;
                     NSDateFormatter *formatter1 = [[[NSDateFormatter alloc] init]autorelease];
                     [formatter setDateFormat:@"dd MMM YYYY"];
                     [formatter1 setDateFormat:@"hh:mm a"];
-                        //  cell.textLabel.text=[NSString stringWithFormat:@"%i Participants \n %@  %@",[self.contacts count],[formatter1 stringFromDate:callmo.dateTime],callmo.Callduration?:@""];
-                        //  cell.detailTextLabel.text=[formatter stringFromDate:callmo.dateTime];
-                    lblRecentContacts.text=[NSString stringWithFormat:@"%i Participants ",[self.contacts count]];
-                    lblParticipants.text=[NSString stringWithFormat:@" %@  %@", [formatter1 stringFromDate:callmo.dateTime],callmo.Callduration];
+        
+                    lblParticipants.text=[NSString stringWithFormat:@"%i Participants ",[self.contacts count]];
+                    lblTimeMin.text=[NSString stringWithFormat:@" %@  %@", [formatter1 stringFromDate:callmo.dateTime],callmo.Callduration];
                     lblDate.text=[NSString stringWithFormat:@"%@",[formatter stringFromDate:callmo.dateTime]];
                     
                 }
@@ -341,57 +337,65 @@ ABAddressBookRef ab;
         }
         case CONTACT_SEC_INDEX:{
             cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callView"];
-            if(cell == nil) {
-                cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callView"]autorelease];
-                cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
-                cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-                cell.backgroundColor=[UIColor whiteColor];
-                cell.detailTextLabel.textColor = defaultColor;
-                cell.textLabel.textAlignment=UITextAlignmentLeft;
-                cell.selectionStyle=UITableViewCellSelectionStyleNone;
-                cell.detailTextLabel.textAlignment=UITextAlignmentRight;
-            }
+                //if(cell == nil) {
+                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callView"];
+                    cell.backgroundColor=[UIColor whiteColor];
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;  
+
+                // }
             ContactModel *contact=[self.contacts objectAtIndex:indexPath.row];
-            
-                //NSLog(@"self.contacts %@",self.contacts);
-            
-            lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
-             lblnumber.font=[UIFont fontWithName:@"Helvetica" size:16.0];
-             lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+                        lblName.frame=CGRectMake(5, 3, 130, 25);
+            lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
             lblName.textColor=defaultColor;
-            lblnumber.textColor=[UIColor blackColor];
-            
-            lblContactType.textColor=defaultColor;
-            
             lblName.lineBreakMode=UILineBreakModeTailTruncation;
-            viewcontact.autoresizingMask=UIViewAutoresizingFlexibleWidth;
-                //lblName.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
-            lblnumber.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
+                //lblName.autoresizingMask= UIViewAutoresizingFlexibleWidth;
+
             
-            lblContactType.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
-            [viewcontact addSubview:lblName];
-            [viewcontact addSubview:lblnumber];
-            [viewcontact addSubview:lblContactType];
-            [cell.contentView addSubview:viewcontact];
+            lblnumber.frame=CGRectMake(5, 34, 180, 15);
+            lblnumber.font=[UIFont fontWithName:@"Helvetica" size:15.0];
+            lblnumber.textColor=[UIColor blackColor];
+            lblnumber.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
+            
+            
+            lblContactType.frame=CGRectMake(220,8, 70, 20);
+            lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:14.0];
+            lblContactType.textColor=defaultColor;
+            lblContactType.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin |UIViewAutoresizingFlexibleRightMargin;
+
+//                lblContactType.layer.borderWidth=1;
+//                lblnumber.layer.borderWidth=1;
+//                 lblName.layer.borderWidth=1;
+            
+            
+            [cell.contentView addSubview:lblName];
+            [cell.contentView addSubview:lblnumber];
+            [cell.contentView addSubview:lblContactType];
+           
+            
+                // [viewcontact addSubview:lblName];
+                //[viewcontact addSubview:lblnumber];
+                //[viewcontact addSubview:self.lblContactType];
+                // [cell.contentView addSubview:viewcontact];
             if(contact)
             {
-                
-                lblName.text=contact.name ? :@"-";
+                    // [lblName setClearsContextBeforeDrawing:YES];
+                    // [lblnumber setClearsContextBeforeDrawing:YES];
+                    // [lblContactType setClearsContextBeforeDrawing:YES];
+                lblName.text=contact.name ? :@"unknown";
                 lblnumber.text= [self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
-                if(isCallEnded ==NO)
-                lblContactType.text=contact.contactType?:@"unknown";
-                    //cell.textLabel.text=contact.name ?:@"unknown";
-                    // cell.detailTextLabel.text=[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];
-                    //cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];                 
-                    //  cell.detailTextLabel.text=contact.contactType ?:@"unknown";
-                
-                
+               
+                if(isCallEnded ==0){
+                    
+                    lblContactType.text=contact.contactType?:@"Dialed";
+                }
                 
             }
+            
         }
         CallNotifyButton *but=[self.statusButtons objectForKey:[NSString stringWithFormat:@"%d",indexPath.row+1]];
         if([self.twilio_adaptor isCallActive])
         {
+           
                 CGRect cellframe = cell.frame;
                  CGRect rect= CGRectMake(cellframe.size.width - 110, cellframe.origin.y - 5, 110, cellframe.size.height - 10);
                 //CGRect rect= CGRectMake(280,60,130,30);
@@ -410,6 +414,7 @@ ABAddressBookRef ab;
         }
 
     }
+    
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -462,7 +467,7 @@ ABAddressBookRef ab;
     if(!isViewMode)
     {
         if(indexPath.section ==2){
-            if(![self.twilio_adaptor isCallActive] || isCallEnded ==NO)
+            if(![self.twilio_adaptor isCallActive] || isCallEnded ==0)
                 return UITableViewCellEditingStyleDelete;
                 else
             return UITableViewCellEditingStyleNone;
@@ -499,10 +504,7 @@ ABAddressBookRef ab;
 
     return @"";
 }
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-     
-}
+
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == CONTACT_SEC_INDEX){
@@ -527,7 +529,7 @@ ABAddressBookRef ab;
         self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
         self.navigationItem.rightBarButtonItem.title=@"Edit";
         self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
-        self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
+        self.navigationItem.leftBarButtonItem.title=@"Cancel";
     }
     else{
         [((UITableView *)self.view) setEditing:YES animated:YES];
@@ -542,7 +544,7 @@ ABAddressBookRef ab;
 }
 -(void)MultiCalls
 {
-    NSLog(@"title %@",self.navigationItem.leftBarButtonItem.title);
+    
     if([self.navigationItem.leftBarButtonItem.title isEqualToString:@"Clear"])
     {
 
@@ -555,13 +557,14 @@ ABAddressBookRef ab;
         UIActionSheet *clearSheet=[[UIActionSheet alloc]initWithTitle:@"          " delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         clearSheet.actionSheetStyle=UIActionSheetStyleBlackTranslucent;
         
-        NSLog(@"actionsheet %f",clearSheet.frame.size.width);
+        
         [clearSheet addSubview:msg];
         [clearSheet showInView:self.view];
-        [clearSheet release];
+            //[clearSheet release];
     }
-    else
+    else{
     [self dismissModalViewControllerAnimated:YES];
+    }
 }
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -569,6 +572,7 @@ ABAddressBookRef ab;
     {
         [self.contacts removeAllObjects];
         [self disableCalling];
+        [(UITableView *)self.view setEditing:NO animated:YES];
         [(UITableView *)self.view reloadData];
         
     }
@@ -591,7 +595,7 @@ ABAddressBookRef ab;
     [_btnAddNumber release];
     [_btnCallButton release];
     [_buttonviewCelll release];
-    Recentindexpath=nil;
+        // Recentindexpath=nil;
     self.checkMultiCallArray=nil;
     [super dealloc];
 }
@@ -703,7 +707,7 @@ ABAddressBookRef ab;
     DialNumberView *dialNumber=[[DialNumberView alloc]init];
     dialNumber.delegate=self;
     dialNUmberpicker=[[UINavigationController alloc]initWithRootViewController:dialNumber];
-    dialNumber.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(canceldialerPicker)]autorelease];
+        dialNumber.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(canceldialerPicker)]autorelease];
     
     dialNumber.title=@"Add Number";
     [self presentModalViewController:dialNUmberpicker animated:YES];
@@ -758,28 +762,28 @@ ABAddressBookRef ab;
             SettingsView * sview=[[SettingsView alloc]init];
             settingsViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
             sview ->isUpdateView=YES;
-            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
             sview.title=@"Settings";
             [self presentModalViewController:settingsViewpicker animated:YES];
        
             [sview release];
             [settingsViewpicker release];     
         }
-        else if(model.PhoneNumber ==nil)
+        else if(![[Model singleton] isPhonenumberPresent])
         {
+            
             CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-            [alertMsg CustomMessage:@"4" MessageNo:@"2"];
+            [alertMsg CustomMessage:@"4" MessageNo:@"6"];
             [alertMsg release];
             
-            SettingsView * sview=[[SettingsView alloc]init];
-            settingsViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
-            sview ->isUpdateView=YES;
-            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
-            sview.title=@"Settings";
-            [self presentModalViewController:settingsViewpicker animated:YES];
+            CallmeonView * sview=[[CallmeonView alloc]init];
+            callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
+            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(callviewpickerdismiss)]autorelease];
+            sview.title=@"Call me on";
+            [self presentModalViewController:callmeonViewpicker animated:YES];
             
             [sview release];
-            [settingsViewpicker release];  
+            [callmeonViewpicker release];  
         }
         else
         {
@@ -792,17 +796,18 @@ ABAddressBookRef ab;
 //            }
 //            else
 //            {
-            timersecondDate =[[NSDate date] retain];
+//            
+                    //  timersecondDate =[[NSDate date] retain];
             
                 // durationTimer=[NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
                 [self initateMultiCall];
-                //}
+                // }
         }
     }
 }
 -(void)callviewpickerdismiss
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [callmeonViewpicker dismissModalViewControllerAnimated:YES];
 }
 -(void)CallmeonViewpickerdismiss
 {
@@ -812,12 +817,13 @@ ABAddressBookRef ab;
     
 -(void)initateMultiCall
 {
-    isCallEnded=YES;
+    
+    isCallEnded=1;
+
     if(callbuttonstatus ==NO){
-    self.navigationItem.rightBarButtonItem=nil;
-    self.navigationItem.leftBarButtonItem=nil;
-    
-    
+        
+        self.navigationItem.rightBarButtonItem=nil;
+        self.navigationItem.leftBarButtonItem=nil;
     self.tabBarController.tabBar.userInteractionEnabled=NO;
     
    
@@ -875,9 +881,13 @@ ABAddressBookRef ab;
     {
         result = [NSString stringWithFormat:@"%2d minutes", minutes];  
     }
-    else 
+    else if(seconds >0)
     {
+        
         result = [NSString stringWithFormat:@"%2d seconds", seconds];        
+    }
+    else{
+        result=@"canceled";
     }
     
     
@@ -893,23 +903,21 @@ ABAddressBookRef ab;
    [self saveModel];
     [self changeButton:@"red.png" selector:nil];
     [self performSelector:@selector(cancelCall) withObject:self afterDelay:3.0];
-        self.navigationItem.leftBarButtonItem.title=@"MultiCalls";
+        self.navigationItem.leftBarButtonItem.title=@"Cancel";
     [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:2.0];
-    
-    isCallEnded=NO;
+   
 }
 -(void)endModelviewcontroller
-{  
-        // Recents *rec=[[[Recents alloc]init]autorelease];
-        //  [(UITableView *)rec.view reloadData];
-//    [self.navigationController pushViewController:rec animated:YES];
-    [self dismissModalViewControllerAnimated:YES];
+{
+    [self dismissModalViewControllerAnimated:NO];
+    Recents *rc=[[Recents alloc]initWithNibName:@"Recents" bundle:nil];
+    [self.navigationController pushViewController:rc animated:YES];
+    [self.tabBarController setSelectedIndex:1];
     
-        
 }
 -(void)cancelCall
 {
-    NSLog(@"cancel Call");
+    
     if(self.twilio_adaptor.isErrorOccured==NO)
     {
         [self performSelector:@selector(clearData) withObject:self afterDelay:2.0];
@@ -950,8 +958,8 @@ ABAddressBookRef ab;
         }
         
     }
-    NSLog(@"clear Data %@",self.contacts);
-        //  [((UITableView *)self.view)reloadData];
+    
+    [((UITableView *)self.view)reloadData];
     
 }
 -(void)changeButton:(NSString *)imagePath selector:(SEL)selector
@@ -985,7 +993,10 @@ ABAddressBookRef ab;
             //NSLog(@" CallNotifyButton Call Status %@",status);
        
     }
-
+if([status isEqualToString:@"conference"])
+{
+     timersecondDate =[[NSDate date] retain];
+}
 }
 /**
  Save data to model
@@ -998,7 +1009,7 @@ ABAddressBookRef ab;
     cmodel.Callduration=[self updateTime];
         // NSLog(@"timer result %@",cmodel.Callduration);
     
-        NSLog(@"self.contact save n%@",self.contacts);
+       
     /* Remove Chairperson to avoid showing in recents list */
     NSMutableArray *array=[NSMutableArray arrayWithArray:self.contacts];
     [array removeObjectAtIndex:0];
@@ -1110,12 +1121,12 @@ ABAddressBookRef ab;
     GroupsView *gv=[[GroupsView alloc]init];
     if(gv ->isPickMode == YES)
     {
-        NSLog(@"self.contacts groups %@",self.contacts);
+        
        [self.contacts removeAllObjects];
         
     }
 
-   
+   [gv release];
     for(ContactModel *cMode in groupmodel.contacts)
     {
      
@@ -1133,8 +1144,7 @@ ABAddressBookRef ab;
         }
     }
     
-    [gv release];
-    [(UITableView *)self.view reloadData];
+[(UITableView *)self.view reloadData];
 }
 -(void)selectedPlaceGroup :(NSMutableArray *)groups //Pick groups from MultiCall Screen.
 {

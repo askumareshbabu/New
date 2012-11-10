@@ -24,6 +24,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        isError=0;
     }
     return self;
 }
@@ -42,10 +43,9 @@
 {
     [super viewDidLoad];
     model=[Model singleton];
-    if(!isUpdateView)
+        if(!isUpdateView)
     self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"About" style:UIBarButtonItemStyleBordered target:self action:@selector(infoView)]autorelease];
-     self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)]autorelease];
-   
+       
     // Do any additional setup after loading the view from its nib.
 }
 -(void)infoView
@@ -76,6 +76,7 @@
     
     Model *mo=[Model singleton];
     UITextField * txtPinNo=(UITextField *)[_addPinNo viewWithTag:1];
+    txtPinNo.delegate=self;
     txtPinNo.text=mo.Pinno ?:@"";
    
     UITextField * txtiPhoneNumber=(UITextField *)[addiPhoneNumber viewWithTag:3];
@@ -83,10 +84,14 @@
     UITextField * txtHomeNumber=(UITextField *)[addHomeNumber viewWithTag:5];
     UITextField * txtWorkNumber=(UITextField *)[addWork viewWithTag:6];
         //disable the text editing.only selection option
-    
-    
-
+    txtiPhoneNumber.delegate=self;
+    txtMobileNumber.delegate=self;
+    txtHomeNumber.delegate=self;
+    txtWorkNumber.delegate=self;
         //UITextField *txtPhoneNumber=(UITextField *)[_addPhoneNumber viewWithTag:2];
+    NSLog(@"callme on %@",model.callemeon);
+        //[model.callemeon removeAllObjects];
+        //[(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
     
     if([model.callemeon count]>0)
     {
@@ -167,8 +172,15 @@
         txtWorkNumber.text=@"";
         model.PhoneNumber=nil;
     }
-
-       
+    if([model.callemeon count] ==1)
+    {
+        NSLog(@"callme on %@",model.callemeon);
+        CallmeonModel *call=[model.callemeon objectAtIndex:0];
+        NSLog(@"seleced %d",call.isSelected);
+        call.isSelected=YES;
+        model.PhoneNumber=call.CallPhoneNumber;
+    }
+    
     [(UITableView *)self.view reloadData];
     
    }
@@ -177,6 +189,8 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardAppear) name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDisAppear) name:UIKeyboardDidHideNotification object:nil];
     [self loadTextField];
+    
+    
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -215,9 +229,7 @@
                     cell=_addPinNo;
                     
                     break;
-//                case 1:
-//                    cell=_addPhoneNumber;
-//                    break;
+
             }
             break;
         }
@@ -288,7 +300,7 @@
 	headerLabel.highlightedTextColor = [UIColor whiteColor];
 	headerLabel.font = [UIFont boldSystemFontOfSize:20];
 	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 44.0);
-    headerLabel.text = @"Call me on"; // i.e. array element
+    headerLabel.text = @"Call me on"; 
 	[customView addSubview:headerLabel];
     switch (section) {
         case 0:
@@ -319,7 +331,7 @@
 }
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLineEtched];
+   
     return 45.0;
 }
 -(BOOL)tableView :(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -330,11 +342,10 @@
 {        
     return NO;
 }
+
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if(indexPath.section ==1)
-        return YES;
-    else
+    
         return NO;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -344,7 +355,7 @@
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
         //http://stackoverflow.com/questions/10192908/uitableview-checkmark-only-one-row-at-a-time
-    
+    if(indexPath.section ==1){
     UITableViewCell * thisCell=[tableView cellForRowAtIndexPath:indexPath];
     
         //if user uncheck the and already cheecked cell on first time loading 
@@ -382,6 +393,7 @@
     }
     else
     {
+        
         thisCell=[tableView cellForRowAtIndexPath:indexPath];
         
         
@@ -391,6 +403,7 @@
         for(UIView * view in thisCell.contentView.subviews)
         {
             UITextField *txtField=(UITextField *)view;
+            
             if(txtField.tag ==3)
             {
                 if(![txtField.text isEqualToString:@""])
@@ -473,8 +486,12 @@
             }
             
         } //for
+        
     }//else
+     //NSLog(@"pin no %@",model.Pinno);
+    if(![model.Pinno isEqualToString:@""] &&[model.callemeon count]> 0)
     [self savecallmeon];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -483,46 +500,49 @@
     [self.view endEditing:YES];
     [self save];
 }
--(void)editMode
-{
-   
-    if(((UITableView *)self.view).isEditing)
-    {
-       
-         isEditMode=NO;
-        [(UITableView *)self.view setEditing:NO animated:YES];
-        self.navigationItem.rightBarButtonItem.title=@"Edit";
-       
-         [self done];
-    }
-    else
-    {
-        if([self.navigationItem.rightBarButtonItem.title isEqualToString:@"Done"]){
-            [self done];
-            isEditMode=NO;
-        }
-        else{
-         isEditMode=YES;
-        [(UITableView *)self.view setEditing:YES animated:YES];
-        self.navigationItem.rightBarButtonItem.title=@"Done";
-         }
-    }
-     [self loadTextField];
-    [(UITableView *)self.view reloadData];
-   
-}
+
 -(void)keyboardAppear
 {
-        //self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)]autorelease];
+        self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)]autorelease];
+    self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
 }
 -(void)keyboardDisAppear
 {
-        // self.navigationItem.rightBarButtonItem.enabled=NO;
+    if(!isUpdateView)
+            self.navigationItem.rightBarButtonItem=nil;
+        //    else
+                    // [self dismissModalViewControllerAnimated:YES];
+}
+- (void)textFieldDidChange:(UITextField *)source
+{
+    NSString *str= source.text;
+    
+    NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[source superview] superview]];
+    UITableViewCell *cell=[(UITableView *)self.view cellForRowAtIndexPath:indexpath];
+    if([str isEqualToString:@""]){
+        
+        if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
+            cell.accessoryType=UITableViewCellAccessoryNone;
+          
+    }
+    
+    
+}
+-(BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    [model.callemeon removeObject:[NSString stringWithFormat:@"%@",textField.text]];
+     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+    return YES;
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if([textField.text length])
+        [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
-    if([[textField text]length])
-        self.navigationItem.rightBarButtonItem.enabled=YES;
+        //if([[textField text]length])
+            //self.navigationItem.leftBarButtonItem.enabled=YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -532,10 +552,15 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
       int limit=0;
-    if(textField.tag ==1){
-        limit=16;}
+    
+    if(textField.tag ==1)
+    {
+        limit=16;
+    }
     else
-    {  limit=21;}
+    {
+        limit=21;
+    }
     
     if([[textField text ]length]  +[string length] - range.length >= limit)
         
@@ -553,12 +578,12 @@
         //Model *model =[Model singleton];
     UITextField *pinno = (UITextField*)[_addPinNo viewWithTag:1];
     model.Pinno=[pinno.text length] >0 ? pinno.text :nil;
-    NSLog(@"ping no %@",pinno.text);
+    ;
 //    UITextField *phonenumber = (UITextField*)[_addPhoneNumber viewWithTag:2];
 //    model.PhoneNumber=[phonenumber.text length] >0? phonenumber.text :nil ;
        
         //Empty Validation and length validation
-    NSLog(@"pin length %i", [model.Pinno length]);
+   
     if(model.Pinno ==NULL)
     {
             //Enter PIN No.
@@ -567,7 +592,7 @@
         [alertMsg release];
         [pinno becomeFirstResponder];
     }
-    else if([model.PhoneNumber length] == 1)
+    else if([model.Pinno length] < 2)
     {
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"5"];
@@ -582,10 +607,10 @@ else{
             //Saved successfully
         [self savecallmeon];
         
-        
-         
+    
         [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
-    if([model.callemeon count]> 0){
+    NSLog(@"callme on after save %@",model.callemeon);
+    if([model.callemeon count]> 0 && [pinno.text length]>0 && isError==0){
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"4"];
         [alertMsg release];
@@ -606,6 +631,7 @@ else{
     
     NSMutableArray * phones=[[[NSMutableArray alloc]init]autorelease];
     [phones removeAllObjects];
+    
     if(![txtiPhoneNumber.text isEqualToString:@""] || ![txtMobileNumber.text isEqualToString:@""] || ![txtHomeNumber.text isEqualToString:@""] ||![txtWorkNumber.text isEqualToString:@""]){
      
     [phones addObject:[NSString stringWithFormat:@"%@", [txtiPhoneNumber.text length] > 1 ?  txtiPhoneNumber.text:nil]];
@@ -613,70 +639,129 @@ else{
     [phones addObject:[NSString stringWithFormat:@"%@", [txtHomeNumber.text length] > 1 ? txtHomeNumber.text:nil]];
     [phones addObject:[NSString stringWithFormat:@"%@",[txtWorkNumber.text length] > 1 ? txtWorkNumber.text:nil]];
     }
-    NSLog(@"phones %@",phones);
     
-    if([phones count]==0){
+   
+    if([model.Pinno length]>0 && [phones count]==0){
         //Enter Phone Number
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"2"];
         [alertMsg release];
        
     }
-    
+
 
     else
     {
+        
         [phones removeAllObjects];
     if(![txtiPhoneNumber.text isEqualToString:@""])
     {
+        if([txtiPhoneNumber.text length] >= 10){
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
         [callmeonModel setCallType:@"iPhone"];
-        [callmeonModel setCallPhoneNumber:txtiPhoneNumber.text?:@""];
+        [callmeonModel setCallPhoneNumber:txtiPhoneNumber.text];
         callmeonModel.isSelected=isPhoneChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
         [callmeonModel release];
+            isError=0;
+        }
+        else{
+            NSLog(@"textiphone length %@ , %i",txtiPhoneNumber.text,[txtiPhoneNumber.text length]);
+            CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+            [alertMsg CustomMessage:@"4" MessageNo:@"3"];
+            [alertMsg release];
+            [txtiPhoneNumber becomeFirstResponder];
+            isError=1;
+            return;
+        }
+
         
     }
-    if(![txtMobileNumber.text isEqualToString:@""])
+    if(![txtMobileNumber.text isEqualToString:@""] )
     {
+        if([txtMobileNumber.text length] >=10){
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
         [callmeonModel setCallType:@"Mobile"];
-        [callmeonModel setCallPhoneNumber:txtMobileNumber.text ?:@""];
+        [callmeonModel setCallPhoneNumber:txtMobileNumber.text];
         callmeonModel.isSelected=isMobileCheckd;
         [[[Model singleton]callemeon]addObject:callmeonModel];
         
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
         [callmeonModel release];
+            isError=0;
+        }
+    else{
+        
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"3"];
+        [alertMsg release];
+        [txtMobileNumber becomeFirstResponder];
+        isError=1;
+        return;
         
     }
-    if(![txtHomeNumber.text isEqualToString:@""])
+    }
+
+    if(![txtHomeNumber.text isEqualToString:@""] )
     {
+        if([txtHomeNumber.text length] >=10){
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
         [callmeonModel setCallType:@"Home"];
-        [callmeonModel setCallPhoneNumber:txtHomeNumber.text? :@""];
+        [callmeonModel setCallPhoneNumber:txtHomeNumber.text];
         callmeonModel.isSelected=isHomeChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-        
         [callmeonModel release];
+            isError=0;
+        }
+        else{
+            CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+            [alertMsg CustomMessage:@"4" MessageNo:@"3"];
+            [alertMsg release];
+            [txtHomeNumber becomeFirstResponder];
+            isError=1;
+            return;
+        }
         
     }
+    
+        
     if(![txtWorkNumber.text isEqualToString:@""])
     {
+        if([txtWorkNumber.text length] >=10){
         CallmeonModel *callmeonModel=[[CallmeonModel alloc]init];
         [callmeonModel setCallType:@"Work"];
-        [callmeonModel setCallPhoneNumber:txtWorkNumber.text ?: @""];
+        [callmeonModel setCallPhoneNumber:txtWorkNumber.text];
         callmeonModel.isSelected=isWorkChecked;
         [[[Model singleton]callemeon]addObject:callmeonModel];
         [(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
         [callmeonModel release];
+            isError=0;
+        }
+        
+    else{
+        CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+        [alertMsg CustomMessage:@"4" MessageNo:@"3"];
+        [alertMsg release];
+        [txtWorkNumber becomeFirstResponder];
+        isError=1;
+        return;
     }
         
-
+   
     }
-    NSLog(@"after save %@",model.callemeon);
-    
+if([model.callemeon count] ==1)
+{
+    NSLog(@"callme on %@",model.callemeon);
+    CallmeonModel *call=[model.callemeon objectAtIndex:0];
+    NSLog(@"seleced %d",call.isSelected);
+    call.isSelected=YES;
+    model.PhoneNumber=call.CallPhoneNumber;
+}
+
+
+}
 }
 
 @end

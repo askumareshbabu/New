@@ -16,7 +16,7 @@
 
 -(void)CustomMessage:(NSString *)ScreenName MessageNo:(NSString *)MessageNo
 {
-        // Screen Name 1 = MultiCall 2=Recents 3= Groups 4=Settings 5=Network 6=Dail Number
+        // Screen Name 1 = MultiCall 2=Recents 3= Groups 4=Settings 5=Network 6=Dail
     NSString * titleName=@"";
    
     if([ScreenName isEqualToString:@"1"])
@@ -45,8 +45,8 @@
         }
         else if([MessageNo isEqualToString:@"5"])
         {
-            titleName=@"Address Book";
-            MessageContent =@"Please give premission to open Contacts \n Go to Phone Settings -> privacy -> Contacts -> MultiCall -> slide to ON" ;
+            titleName=@"Contacts";
+            MessageContent =@"Please give permission to open Contacts \n Go to Phone Settings > privacy > Contacts > MultiCall > slide to ON" ;
         }
         
         
@@ -96,9 +96,10 @@
         else if([MessageNo isEqualToString:@"2"])
         {
             titleName=@"Settings";
-                // MessageContent =@"Please enter phone number.";
-            MessageContent =@"Please add Call me on phone number / select any one number";
+            MessageContent =@"Please add phone numbers.";
+                // MessageContent =@"Please select any one number";
         }
+        
         else if([MessageNo isEqualToString:@"3"])
         {
             titleName=@"Settings";
@@ -113,6 +114,11 @@
         {
             titleName=@"Settings";
             MessageContent =@"Invalid PIN";
+        }
+        else if([MessageNo isEqualToString:@"6"])
+        {
+            titleName=@"Call me on";
+            MessageContent =@"Please select any one number";
         }
 
         

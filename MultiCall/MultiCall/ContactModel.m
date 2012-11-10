@@ -73,6 +73,6 @@
 {
     self.formatter=[[[PhoneNumberFormatter alloc]init]autorelease];;
         //  NSLog(@"contact model description %@",[NSString stringWithFormat:@"%i %@ %@ %@",self.personId?:0,self.name?:@"",self.contactInfo,self.contactType?:@"unknown"]);
-    return [NSString stringWithFormat:@"%i %@ %@ %@",self.personId?:0,self.name?:@"",[self.formatter phonenumberformat:self.contactInfo withLocale:@"us"],self.contactType?:@"unknown"];
+    return [NSString stringWithFormat:@"%i %@ %@ %@",self.personId,self.name,[self.formatter phonenumberformat:self.contactInfo withLocale:@"us"],self.contactType];
 }
 @end

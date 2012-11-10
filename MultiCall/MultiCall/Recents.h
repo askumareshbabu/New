@@ -17,6 +17,7 @@
 
 {
     Model *model;
+    UIImageView *imgstartnewview;
     UINavigationController *callviewpicker;
     UINavigationController *recentviewpicker;
     UINavigationController *startMulticallPicker;

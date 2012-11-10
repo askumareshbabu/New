@@ -82,7 +82,7 @@
     if(isMultiCallActive)
     {
            
-            // if(multiCall){
+            //  if(multiCall){
             
         for (int i =0;i<[numbers count]; i++) {
                 //ContactModel *model = [numbers objectAtIndex:i];
@@ -93,10 +93,10 @@
             
         }
 
-               
-//                [self endCall];
-//                     }else
-//                     {
+            // [multiCall cancel];
+            // [self endCall];
+            // }else
+            // {
             //multicall res close
          Model *model = [Model singleton];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:C3WARE_MULTICALL_END]];
@@ -124,10 +124,8 @@
                                                      }
                                                       
   
-                                                     [multiCall cancel];
-                                                         // self.isErrorOccured=NO;
-                                                     [self endCall];
-                                                         //isMultiCallActive=NO;
+                                                        [multiCall cancel];
+                                                        [self endCall];
                                                      NSLog(@"call ended successful");
                                                 
                                                  }
@@ -152,7 +150,7 @@
                                                          // [self checkandProcessCallEnded];
                                                      
                                                  } timeout:60] autorelease];
-            //  }
+            // }
        
         
             //isMultiCallActive=NO;
@@ -213,6 +211,7 @@
                                   // if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"conference does not exist\""])
                                 if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"3\""])
                               {
+                                  NSLog(@"conference does not exist");
                                   CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
@@ -235,6 +234,7 @@
                                   // else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"Login id invalid\""]) //Login id invalid
                                 else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"2\""]) //Login id invalid
                               {
+                                  NSLog(@"Login ID Invalid");
                                   CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
@@ -581,11 +581,7 @@
     if([calls count]==0){
         isMultiCallActive=NO;
         dispatch_async( dispatch_get_main_queue(), ^{
-                // CallView *cal=[[CallView alloc]init];
-                //[cal callEnded];
-                //[cal release];
-            
-                [delegate callEnded];
+        [delegate callEnded];
             
         });
         [self cancelStatusConnection];

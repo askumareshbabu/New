@@ -53,7 +53,7 @@
         self.textFieldTagList=[[NSMutableArray alloc]init];
      if(!self.txtDialNumber)
          self.txtDialNumber =[[UITextField alloc]init];
-    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)]autorelease];
+        //self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)]autorelease];
     
         // [(UITableView *)self.view setEditing:YES animated:YES];
     // Do any additional setup after loading the view from its nib.
@@ -74,15 +74,30 @@
     [textFieldTagList release];
     [txtDialNumber release];
 }
--(void)viewDidAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardAppear) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(keyboardDisAppear) name:UIKeyboardDidHideNotification object:nil];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
     [super viewDidAppear:YES];
-//    if([self.saveDialArray count] > 0)
-//        self.navigationItem.rightBarButtonItem.enabled=YES;
-//    else
-//        self.navigationItem.rightBarButtonItem.enabled=NO;
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 
 }
-
+-(void)keyboardAppear
+{
+    self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)]autorelease];
+    self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
+}
+-(void)keyboardDisAppear
+{
+   
+        self.navigationItem.rightBarButtonItem =nil;
+    
+        // [self dismissModalViewControllerAnimated:YES];
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -114,10 +129,11 @@
             self.txtDialNumber.clearButtonMode=UITextFieldViewModeWhileEditing;
             self.txtDialNumber.placeholder=@"Add Phone Number";
             self.txtDialNumber.delegate=self;
-             txtDialNumber.text=@"";
+            self.txtDialNumber.text=@"";
              
             [cell.contentView addSubview:self.txtDialNumber];
-         }
+             
+        }
         self.txtDialNumber.tag=indexPath.row+1;
         
         if(![self.textFieldTagList containsObject:[NSString stringWithFormat:@"%i",self.txtDialNumber.tag]])
@@ -134,13 +150,14 @@
                 
                 if(![number isEqualToString:@""]){
                     
-                    [self.txtDialNumber setText:number];
+                    self.txtDialNumber.text=number;
                 }
                 
                 
             }
         }
     
+
     return cell;
 }
 -(BOOL)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -148,7 +165,7 @@
 
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex]-1;
-    NSLog(@"%i,%i,%i,%i",lastRowIndex,editingRowIndex,indexPath.row,self.txtDialNumber.tag);
+        //NSLog(@"%i,%i,%i,%i",lastRowIndex,editingRowIndex,indexPath.row,self.txtDialNumber.tag);
     if(editingRowIndex== indexPath.row)
         return UITableViewCellEditingStyleNone;
     else
@@ -166,14 +183,12 @@
 {
     if(editingStyle == UITableViewCellEditingStyleDelete)
     {
-        NSLog(@"before deleting save array %@,%i",self.saveDialArray,rowCount);
+       
 
         [self.saveDialArray removeObjectAtIndex:indexPath.row];
         rowCount--;
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath  indexPathForRow:indexPath.row inSection:0], nil]withRowAnimation:UITableViewRowAnimationAutomatic];
         [tableView reloadData];
-        
-              NSLog(@"deleting save array %@,%i",self.saveDialArray,rowCount);
         
             
     }
@@ -182,12 +197,12 @@
 - (void)textFieldDidChange:(UITextField *)source
 {
     NSString *str= source.text;
-    NSLog(@"txt %@",str);
+    
      NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[source superview] superview]];
     if(![str isEqualToString:@""]){
        
     [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
-    NSLog(@"replacing at %i = %@",indexpath.row,[self.saveDialArray objectAtIndex:indexpath.row]);
+            //NSLog(@"replacing at %i = %@",indexpath.row,[self.saveDialArray objectAtIndex:indexpath.row]);
     }
     
     
@@ -223,14 +238,12 @@
     NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
     NSInteger lastSectionIndex = [(UITableView *)self.view numberOfSections] - 1;
     NSInteger lastRowIndex = [(UITableView *)self.view numberOfRowsInSection:lastSectionIndex] - 1;
-    if([textField.text length] == 0)
+    
+        if([textField.text length] == 0)
     {
-        NSLog(@"rowcount lastrow %i,%i",rowCount,lastRowIndex);
-        if(lastRowIndex != rowCount +1 ){
-            NSLog(@"delte text %@ , %i",textField.text,indexpath.row);
-            
-       
-          rowCount--;
+        
+        if(lastRowIndex != rowCount){
+        rowCount--;
         [(UITableView *)self.view beginUpdates];
         
         [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
@@ -254,7 +267,7 @@
     }
         
     }
-    NSLog(@"savedial %@",self.saveDialArray);
+    
     self.txtDialNumber=nil;
 }
 
@@ -274,7 +287,7 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    if ([[textField text] length] + [string length] - range.length >= 16) {
+    if ([[textField text] length] + [string length] - range.length >= 20) {
         return NO;
     } 
     else {
@@ -285,26 +298,21 @@
 {
     int personid;
     NSString * number;
-
+    [(UITableView *)self.view scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
     for(NSUInteger i=0; i < rowCount; i++)
     {
         UITableViewCell* cell = [(UITableView *)self.view cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
         
-        
+            //NSLog(@"view cell %@",cell);
         for(UIView * view in cell.contentView.subviews)
         {
              UITextField *txtField=(UITextField *)view;
-            NSLog(@"view textvalue %@, %i",txtField.text,txtField.tag);
-            
-        //  NSLog(@"taglist %@",self.textFieldTagList);
-//        NSString * tagnum=[self.textFieldTagList objectAtIndex:i];
-//        NSLog(@"tag %@,%i,%i",tagnum,self.txtDialNumber.tag,indexpath.row);
-//        NSString *dialNumberValue = [((UITextField*)[self.view  viewWithTag:[tagnum intValue]]) text];
-//        NSLog(@"dailnumbervalue %@",dialNumberValue);
+                //  NSLog(@"view textvalue %@, %i",txtField.text,txtField.tag);
+        
             if(![txtField.text isEqualToString:@""])
             {
                 number=txtField.text;
-                    NSLog(@"number %@",number);
+                    //NSLog(@"number %@",number);
                 if([number length] > 4)
                     personid = [[number substringWithRange:NSMakeRange(number.length-5, 4)] intValue];
                 else
@@ -338,7 +346,6 @@
         
     }
     }
-    NSLog(@"after save array %@",self.arrayRowCount);
 }
 
 

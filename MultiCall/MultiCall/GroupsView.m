@@ -69,6 +69,20 @@
 }
 -(void)loadGroupIndex
 {
+    if(!isPickMode){
+        if([model.groups count] >0){
+        if(!((UITableView *)self.view).editing){
+          self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editGroup)]autorelease];
+        }
+        }
+    else{
+        
+        self.navigationItem.leftBarButtonItem=nil;
+        self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"New Group" style:UIBarButtonItemStyleDone target:self action:@selector(addGroup)]autorelease];
+            
+    }
+    }
+    
     [model sortGroups];
     
     groupindex=[[NSMutableArray alloc]init];
@@ -97,14 +111,11 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
+    [(UITableView *)self.view setEditing:NO animated:YES];
     if(!isPickMode){
         
         self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"New Group" style:UIBarButtonItemStyleDone target:self action:@selector(addGroup)]autorelease];
-        self.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editGroup)]autorelease];
-        if([[model groups] count]> 0)
-            self.navigationItem.leftBarButtonItem.enabled = YES;
-        else
-            self.navigationItem.leftBarButtonItem.enabled = NO;
+      
     }
     [self loadGroupIndex];
 }
@@ -147,7 +158,7 @@
     if(actionSheet.destructiveButtonIndex == buttonIndex)
     {
         [model.groups removeAllObjects];
-        
+        [(UITableView *)self.view setEditing:NO animated:YES];
         self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
         self.navigationItem.leftBarButtonItem.title=@"Edit";
         self.navigationItem.rightBarButtonItem.title=@"New Group";
@@ -182,7 +193,49 @@
     }
 
 }
+-(void)conformDeleteGroup{
+    
+        //GroupModel *groupcelltext=[[model groups] objectAtIndex:self.deleteIndexPath.row];
+    UITableViewCell *cell=[(UITableView *)self.view cellForRowAtIndexPath:self.deleteIndexPath];
+    
+    
+    int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+    GroupModel *gm=[[model groups] objectAtIndex:row];
 
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Groups" message:[NSString stringWithFormat:@"%@%@%@",@"Remove ",gm.groupName,@"?"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:@"Cancel", nil];
+    [alert show];
+    [alert release];
+}
+-(void)alertView :(UIAlertView*)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(buttonIndex ==0)
+    {
+            //[[model groups] removeObjectAtIndex:self.deleteIndexPath.row];
+        
+        UITableViewCell *cell=[(UITableView *)self.view cellForRowAtIndexPath:self.deleteIndexPath];
+        
+        
+        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
+        GroupModel *gm=[[model groups] objectAtIndex:row];
+        if([[model groups] count] >0)
+        {
+            [[model groups] removeObject:gm];
+            [groupNameArray removeObject:cell.textLabel.text];
+            [(UITableView *)self.view beginUpdates];
+            [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:self.deleteIndexPath.row inSection:self.deleteIndexPath.section]] withRowAnimation:UITableViewRowAnimationBottom];
+            [(UITableView *)self.view endUpdates];
+            [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject];; //force save
+        }
+        
+        
+
+    }
+    if([[model groups] count]==0)
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    else
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+[self loadGroupIndex];
+}
 
 #pragma TableView
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -261,34 +314,8 @@
 
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-    
-    
-    int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
-        //NSString * index=[NSString stringWithFormat:@"%@", [cell.textLabel.text substringToIndex: MIN(1, [cell.textLabel.text length])]];
-    GroupModel *gm=[[model groups] objectAtIndex:row];
-//    NSLog(@"cell text %@ %@",cell.textLabel.text,index);
-//    NSLog(@"indexpat.row %i,%i,%i",indexPath.section,indexPath.row,row);
-    if([[model groups] count] >0)
-    {
-            //     [tableView beginUpdates];
-       
-        [[model groups] removeObject:gm];
-        
-      
-        
-        
-        [groupNameArray removeObject:cell.textLabel.text];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]] withRowAnimation:UITableViewRowAnimationBottom];
-            //   [tableView endUpdates];
-        
-       
-
-             [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject];; //force save
-}
-
-       [self loadGroupIndex];
+    self.deleteIndexPath=indexPath;
+    [self conformDeleteGroup];
 }
 
 -(void)tableView :(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -315,11 +342,12 @@
         CallView *cview=[[CallView alloc]init];
         [cview selectedGroup:gm];
         callViewPicker=[[UINavigationController alloc]initWithRootViewController:cview];
-        cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+        cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
         callViewPicker.title=@"Add Participants";
         [self presentModalViewController:callViewPicker animated:YES];
         [callViewPicker release];
         [cview release];
+        
 //        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
 //        NewGroupView *groupView = [[NewGroupView alloc]init];
 //        groupView->isGroupViewMode=YES;

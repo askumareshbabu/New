@@ -40,7 +40,8 @@
 @synthesize groupNameExists;
 @synthesize isgroupNameExists;
 @synthesize formatter=_formatter;
-
+@synthesize placeMulitCall;
+@synthesize addMember;
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -69,11 +70,11 @@
     [super viewDidLoad];
     self.formatter=[[[PhoneNumberFormatter alloc]init]autorelease];
     self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editmode)]autorelease];
-    
+    self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
     // Do any additional setup after loading the view from its nib.
     if(!self.model)
     {
-            //  isGroupViewMode=NO;
+            isGroupViewMode=NO;
         GroupModel *mod = [[[GroupModel alloc]init]autorelease];
         self.model = mod;
         contactsTemp= [[NSMutableArray alloc]init];
@@ -91,7 +92,7 @@
     }
     if(isEditMode)
     {
-        self.title=self.model.groupName;
+            // self.title=self.model.groupName;
         
     }
     else
@@ -122,28 +123,51 @@
     [_buttonCell release];
     [super dealloc];
 }
+-(void)buttonEnable
+{
+    if(isGroupViewMode ==YES)
+    {
+        [self.addMember setEnabled:NO];
+    }
+    else
+    {
+        [self.addMember setEnabled:YES];
+    }
+    
+    if([contactsTemp count])
+    {
+        [self.placeMulitCall setEnabled:YES];
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem=nil;
+        [self.placeMulitCall setEnabled:NO];
+        
+    }
+}
 -(void)enableSave
 {
+    if(!isGroupViewMode){
          self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleBordered target:self action:@selector(done)]autorelease];
-    self.navigationItem.rightBarButtonItem.enabled=YES;
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
+        
+    }
 }
 -(void)disableSave
 {
+    if([contactsTemp count]>0){
     self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Edit" style:UIBarButtonItemStyleBordered target:self action:@selector(editmode)]autorelease];
-    self.navigationItem.rightBarButtonItem.enabled=NO;
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
+    }
 }
 -(void)viewWillAppear:(BOOL)animated
 {
-    if([contactsTemp count]){
-            if(isGroupViewMode ==YES)
-            [(UITableView *)self.view setEditing:YES animated:YES];
-        
+    if([contactsTemp count])
             [self enableSave];
-    }
        else
            [self disableSave];
     
-        
+         [self buttonEnable];
 }
 -(void)viewDidDisappear:(BOOL)animated
 {
@@ -153,11 +177,15 @@
 {
     UITextField *txtGroupName=(UITextField *)[_groupNameCell viewWithTag:1];
     txtGroupName.text=self.model.groupName ?:@"";
-    if(![txtGroupName.text isEqualToString:@""]){
-            // isGroupViewMode=YES;
-        self.groupNameExists=self.model.groupName;}
-    else
-        [txtGroupName becomeFirstResponder];
+    if(isGroupViewMode==YES)
+    {
+        self.groupNameExists=self.model.groupName;
+        txtGroupName.enabled=NO;
+    }
+    else{
+        txtGroupName.enabled=YES;
+    
+        [txtGroupName becomeFirstResponder];}
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
@@ -172,21 +200,24 @@
 }
 -(void)editmode
 {
-        // isGroupViewMode=NO;
+        isGroupViewMode=NO;
     if(((UITableView*)self.view).editing){
         
         [((UITableView*)self.view) setEditing: NO animated: YES];
         self.navigationItem.rightBarButtonItem.title=@"Edit";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
     }
     else{
        
         
         [((UITableView*)self.view) setEditing: YES animated: YES];
         self.navigationItem.rightBarButtonItem.title=@"Done";
+        self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
         [self enableSave];
-        [(UITableView *)self.view reloadData];
+        [self loadGroupName];
+            //[(UITableView *)self.view reloadData];
     }
-
+    [self buttonEnable];
 }
 -(void)done
 {
@@ -273,7 +304,7 @@
     CallView *cview=[[CallView alloc]init];
     [cview selectedPlaceGroup:contactsTemp];
     groupscallpicker=[[UINavigationController alloc]initWithRootViewController:cview];
-    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(groupscallpickerpickerdismiss)]autorelease];
+    cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(groupscallpickerpickerdismiss)]autorelease];
     groupscallpicker.title=@"Add Participants";
     [self presentModalViewController:groupscallpicker animated:YES];
     [groupscallpicker release];
@@ -291,10 +322,10 @@
 {
     UITableViewCell *cell=nil;
     UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
-    UILabel *lblName=[[UILabel alloc]initWithFrame:CGRectMake(5, 3, 150, 25)];
-    UILabel *lblnumber=[[UILabel alloc]initWithFrame:CGRectMake(5, 34, 180, 15)];
-    UILabel * lblContactType=[[UILabel alloc]initWithFrame:CGRectMake(200,10, 60, 20)];
-
+    UILabel *lblName=[[[UILabel alloc]init]autorelease];
+    UILabel *lblnumber=[[[UILabel alloc]init]autorelease];
+    UILabel * lblContactType=[[[UILabel alloc]init]autorelease];
+    
     switch (indexPath.section) {
         case 0:
         {
@@ -309,52 +340,47 @@
            
                 //Removing the border so i used this
          _buttonCell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
-            UIButton* addMember = [UIButton buttonWithType:UIButtonTypeCustom];
-            [addMember setFrame:CGRectMake(0, 0, 140, 45)];
             
-            UIButton* placeMulitCall =[UIButton buttonWithType:UIButtonTypeCustom];
-            [placeMulitCall setFrame:CGRectMake(160, 0, 140, 45)];
+            self.addMember = [UIButton buttonWithType:UIButtonTypeCustom];
+            [self.addMember setFrame:CGRectMake(0, 0, 140, 45)];
+            
+            self.placeMulitCall =[UIButton buttonWithType:UIButtonTypeCustom];
+            [self.placeMulitCall setFrame:CGRectMake(160, 0, 140, 45)];
             
                 // [addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
-            [addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal ];
+            [self.addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal ];
             
-            [placeMulitCall setBackgroundImage:[[UIImage imageNamed:@"Place_Multicall.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
-            [_buttonCell.contentView addSubview:addMember];
-            [_buttonCell.contentView addSubview:placeMulitCall];
-            [addMember addTarget:self action:@selector(addMemberClicked) forControlEvents:UIControlEventTouchUpInside];
-            [placeMulitCall addTarget:self action:@selector(placeMultiCallClicked) forControlEvents:UIControlEventTouchUpInside];
-            if(isGroupViewMode == NO)
-                [placeMulitCall setEnabled:NO];
-            else
-                [placeMulitCall setEnabled:YES];
-                //   [addMember release];
-                //  [placeMulitCall release];
+            [self.placeMulitCall setBackgroundImage:[[UIImage imageNamed:@"Place_Multicall.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
+            [_buttonCell.contentView addSubview:self.addMember];
+            [_buttonCell.contentView addSubview:self.placeMulitCall];
+            [self.addMember addTarget:self action:@selector(addMemberClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self.placeMulitCall addTarget:self action:@selector(placeMultiCallClicked) forControlEvents:UIControlEventTouchUpInside];
+            [self buttonEnable];
             break;
         }
         
         case 2:
             {
                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newGroup"];
-                if(cell == nil)
-                {
+                    // if(cell == nil)
+            
                     cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"newGroup"]autorelease];
-                    cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
-                    cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-                    cell.backgroundColor=[UIColor whiteColor];
-                    cell.detailTextLabel.textColor = defaultColor;
-                    cell.textLabel.textAlignment=UITextAlignmentLeft;
-                    cell.detailTextLabel.textAlignment=UITextAlignmentRight;
+                cell.backgroundColor=[UIColor whiteColor];
                     cell.selectionStyle=UITableViewCellSelectionStyleNone;
                    
-                }
+            
                 
-                lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:18.0];
-                lblnumber.font=[UIFont fontWithName:@"Helvetica" size:16.0];
+                lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+                lblnumber.font=[UIFont fontWithName:@"Helvetica" size:15.0];
                 lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:14.0];
                 lblName.textColor=defaultColor;
                 lblnumber.textColor=[UIColor blackColor];
-                
                 lblContactType.textColor=defaultColor;
+                
+                lblName.frame= CGRectMake(5, 3, 130, 25);
+                lblnumber.frame=CGRectMake(5, 34, 180, 15);
+                lblContactType.frame=CGRectMake(220,8, 70, 20);
+                
                 [viewcontact addSubview:lblName];
                 [viewcontact addSubview:lblnumber];
                 [viewcontact addSubview:lblContactType];
@@ -363,22 +389,20 @@
                 viewcontact.autoresizingMask=UIViewAutoresizingFlexibleWidth;
                     //lblName.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
                 lblnumber.autoresizingMask=UIViewAutoresizingFlexibleWidth;
-                lblContactType.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
+                lblContactType.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
                 ContactModel *contact = [contactsTemp objectAtIndex:indexPath.row];
-                NSLog(@"groups contacts temp %@",contact);
+               
                 if(contact)
                 {
                     lblName.text=contact.name ? :@"unknown";
                     lblnumber.text=[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"]; 
-                    lblContactType.text=contact.contactType;
-
-//                    cell.textLabel.text=contact.name ?:[self.formatter phonenumberformat:contact.contactInfo withLocale:@"us"];// contact.contactInfo;
-//                    cell.detailTextLabel.text=contact.contactType ?:@"unknown";
+                    lblContactType.text=contact.contactType ?:@"Dialed";
                 }
                 
                 break;
             }
         }
+     
     return cell;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -387,14 +411,14 @@
     switch (section) {
         case 0:
                 //  if(isGroupViewMode ==YES)
-//                return 0;
-//            else
+                // return 0;
+                // else
                 return 1;
            
         case 1:
-//            if(isGroupViewMode ==YES)
-//                return 0;
-//            else
+                // if(isGroupViewMode ==YES)
+                //   return 0;
+                //   else
                 
                 return 1;
         case 2:
@@ -436,10 +460,10 @@
         case 1:
             return UITableViewCellEditingStyleNone;
             case 2:
-                //if(!isGroupViewMode ==YES)
+                if(!isGroupViewMode ==YES)
             return UITableViewCellEditingStyleDelete;
-                // else
-                //   return UITableViewCellEditingStyleNone;
+                 else
+                   return UITableViewCellEditingStyleNone;
         default:
             return UITableViewCellEditingStyleDelete;
             break;
@@ -451,13 +475,8 @@
    
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:2]] withRowAnimation:UITableViewRowAnimationBottom];
    
-    if([contactsTemp count])
-    {
-        [self enableSave];
-    }
-    else
-        [self disableSave];
-    
+    NSLog(@"Removed contat temp %@",contactsTemp);
+    [self buttonEnable];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

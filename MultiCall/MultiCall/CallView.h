@@ -33,7 +33,7 @@
 {
     @public
     BOOL isViewMode;
-    NSIndexPath *Recentindexpath;
+    NSUInteger Recentindexpath;
    
     
     Model *model;
@@ -44,12 +44,10 @@
     
     BOOL iscontactclicked;
     BOOL callbuttonstatus;
-    BOOL isCallEnded;
+    int isCallEnded;
     UILabel * detailstext;
     NSDate *timersecondDate;
-    
    
-
 
 }
 
@@ -73,6 +71,7 @@
 @property (retain, nonatomic) IBOutlet UIButton *btnAddGroup;
 @property (retain, nonatomic) IBOutlet UIButton *btnAddNumber;
 @property (retain, nonatomic) IBOutlet UIButton *btnCallButton;
+
 
 
 

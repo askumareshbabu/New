@@ -58,9 +58,6 @@ static Model *sharedSingleton=nil;
             //[self.callemeon removeAllObjects];
             // NSLog(@"callmeon %@",self.callemeon);
         self.recentsCall=[coder decodeObjectForKey:@"recentsCalls"]?:[NSMutableArray array];
-        
-        
-        NSLog(@"recents calls %@",self.recentsCall);
         self.groups=[coder decodeObjectForKey:@"contactsGroups"]?:[NSMutableArray array];
         self.Pinno=[coder decodeObjectForKey:@"pinNo"]?:[NSString string];
         self.PhoneNumber=[coder decodeObjectForKey:@"PhoneNumber"]?:[NSString string];
@@ -99,7 +96,12 @@ static Model *sharedSingleton=nil;
          return ([self.Pinno length] >0 &&[self.callemeon count] >0);
   
 }
-
+-(bool)isPhonenumberPresent
+{
+    return ([self.PhoneNumber length] > 0);
+    
+    
+}
 -(void)addRecentscallLog:(CallModel *)cmodel
 {
         //NSLog(@"Recents callmodel %@",cmodel);
