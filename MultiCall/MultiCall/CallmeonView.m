@@ -102,12 +102,15 @@
     cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callmeon"];
     if(cell == nil) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callmeon"];
-        cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+        cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
         cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
         cell.backgroundColor=[UIColor whiteColor];
         cell.textLabel.textAlignment=UITextAlignmentLeft;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.detailTextLabel.textAlignment=UITextAlignmentRight;
+        UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+        vertLineView.backgroundColor = [UIColor lightGrayColor];
+        [cell.contentView addSubview:vertLineView];
     }
     CallmeonModel *callme=[model.callemeon objectAtIndex:indexPath.row];
     if(callme)

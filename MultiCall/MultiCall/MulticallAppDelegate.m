@@ -145,8 +145,11 @@
             if (![newVersion isEqualToString:currentVersion] || ![buildVersion isEqualToString:newBuildVersion]) {
                 [filepath retain];
                 NSLog(@"A new update is available");
-                    //  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:@"Not now" otherButtonTitles:@"UPDATE", nil];
-                    //  [alert show];
+                   
+                    // http://stackoverflow.com/questions/945082/uiwebview-in-multithread-viewcontroller
+                dispatch_async(dispatch_get_main_queue(), ^{
+                        // do work here
+                
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                                 message:@"\n\n\n\n\n\n\n\n"
                                                                delegate:self
@@ -161,6 +164,7 @@
                 [vi addSubview:txt];
                 [alert addSubview:vi];
                 [alert show];
+                    });
                     //[alert release];
             }
             else
@@ -169,7 +173,7 @@
     }
     [pool release];
 }
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) {
        

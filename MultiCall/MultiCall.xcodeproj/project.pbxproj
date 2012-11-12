@@ -77,11 +77,8 @@
 		1DEF509A15E8B8BE002B90DE /* Group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509915E8B8BE002B90DE /* Group.png */; };
 		1DEF509D15E8B8CE002B90DE /* Number.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509B15E8B8CE002B90DE /* Number.png */; };
 		1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */; };
-		1DF831241626B6E1001E885D /* Startnew.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF831231626B6E1001E885D /* Startnew.png */; };
 		1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */; };
 		1DFD002B1600B4CE00C38D8C /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00281600B4CE00C38D8C /* red.png */; };
-		1DFD00371600BBE100C38D8C /* red1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00361600BBE100C38D8C /* red1.png */; };
-		1DFD00391600BBE600C38D8C /* Green1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00381600BBE600C38D8C /* Green1.png */; };
 		1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003A1600C0F300C38D8C /* shad_01.png */; };
 		1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003B1600C0F300C38D8C /* shad_02.png */; };
 /* End PBXBuildFile section */
@@ -168,7 +165,7 @@
 		1DD9BD5B162559A30012D270 /* DateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTime.m; sourceTree = "<group>"; };
 		1DDCFD81161C2EAF0082FCC1 /* PhoneNumberFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneNumberFormatter.h; sourceTree = "<group>"; };
 		1DDCFD82161C2EAF0082FCC1 /* PhoneNumberFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneNumberFormatter.m; sourceTree = "<group>"; };
-		1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		1DEF507715E8B4B1002B90DE /* CallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallView.h; sourceTree = "<group>"; };
 		1DEF507815E8B4B1002B90DE /* CallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallView.m; sourceTree = "<group>"; };
 		1DEF507915E8B4B1002B90DE /* CallView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallView.xib; sourceTree = "<group>"; };
@@ -183,17 +180,14 @@
 		1DEF508B15E8B51B002B90DE /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		1DEF508C15E8B51B002B90DE /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		1DEF508D15E8B51B002B90DE /* SettingsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsView.xib; sourceTree = "<group>"; };
-		1DEF509015E8B561002B90DE /* Mainwindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Mainwindow.xib; sourceTree = "<group>"; };
+		1DEF509015E8B561002B90DE /* Mainwindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Mainwindow.xib; path = ../Mainwindow.xib; sourceTree = "<group>"; };
 		1DEF509515E8B899002B90DE /* Add_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Add_Multicall.png; sourceTree = "<group>"; };
 		1DEF509715E8B8A4002B90DE /* Contact.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Contact.png; sourceTree = "<group>"; };
 		1DEF509915E8B8BE002B90DE /* Group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Group.png; sourceTree = "<group>"; };
 		1DEF509B15E8B8CE002B90DE /* Number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Number.png; sourceTree = "<group>"; };
 		1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Place_Multicall.png; sourceTree = "<group>"; };
-		1DF831231626B6E1001E885D /* Startnew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Startnew.png; sourceTree = "<group>"; };
 		1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_but_w_txt.png; sourceTree = "<group>"; };
 		1DFD00281600B4CE00C38D8C /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
-		1DFD00361600BBE100C38D8C /* red1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red1.png; sourceTree = "<group>"; };
-		1DFD00381600BBE600C38D8C /* Green1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green1.png; sourceTree = "<group>"; };
 		1DFD003A1600C0F300C38D8C /* shad_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_01.png; sourceTree = "<group>"; };
 		1DFD003B1600C0F300C38D8C /* shad_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_02.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -243,8 +237,6 @@
 		1D6E75F415DF62F2004B4A4A = {
 			isa = PBXGroup;
 			children = (
-				1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */,
-				1DEF509015E8B561002B90DE /* Mainwindow.xib */,
 				1D6E760915DF62F3004B4A4A /* MultiCall */,
 				1D6E760215DF62F3004B4A4A /* Frameworks */,
 				1D6E760015DF62F3004B4A4A /* Products */,
@@ -282,40 +274,14 @@
 		1D6E760915DF62F3004B4A4A /* MultiCall */ = {
 			isa = PBXGroup;
 			children = (
+				1D8CB019164E9C990092BB34 /* Views */,
+				1D8CB017164E9BBE0092BB34 /* StoryBoard */,
 				1D7784F6161EBD870041F5A1 /* NetWork */,
-				1DD7AA4215FF5E0700A581BD /* PeoplePickerNavigationController.h */,
-				1DD7AA4315FF5E0700A581BD /* PeoplePickerNavigationController.m */,
 				1D733AEB15F5E239006AFC0D /* Utils */,
 				1D59D2FD15F21A2700175BFD /* Model */,
+				1D6E760A15DF62F3004B4A4A /* Supporting Files */,
 				1D6E761215DF62F3004B4A4A /* MulticallAppDelegate.h */,
 				1D6E761315DF62F3004B4A4A /* MulticallAppDelegate.m */,
-				1D6E761B15DF62F3004B4A4A /* first.png */,
-				1D6E761D15DF62F3004B4A4A /* first@2x.png */,
-				1D6E762215DF62F3004B4A4A /* second.png */,
-				1D6E762415DF62F3004B4A4A /* second@2x.png */,
-				1D6E760A15DF62F3004B4A4A /* Supporting Files */,
-				1D4C960C15E74C690057C130 /* Entitlements.plist */,
-				1DEF507715E8B4B1002B90DE /* CallView.h */,
-				1DEF507815E8B4B1002B90DE /* CallView.m */,
-				1DEF507C15E8B4D8002B90DE /* Recents.h */,
-				1DEF507915E8B4B1002B90DE /* CallView.xib */,
-				1DEF507D15E8B4D8002B90DE /* Recents.m */,
-				1DEF507E15E8B4D8002B90DE /* Recents.xib */,
-				1DEF508115E8B4F1002B90DE /* GroupsView.h */,
-				1DEF508215E8B4F1002B90DE /* GroupsView.m */,
-				1DEF508315E8B4F1002B90DE /* GroupsView.xib */,
-				1DEF508615E8B504002B90DE /* NewGroupView.h */,
-				1DEF508715E8B504002B90DE /* NewGroupView.m */,
-				1D73F58D161335C500C3C66D /* NewGroupView.xib */,
-				1DEF508B15E8B51B002B90DE /* SettingsView.h */,
-				1DEF508C15E8B51B002B90DE /* SettingsView.m */,
-				1DEF508D15E8B51B002B90DE /* SettingsView.xib */,
-				1D5A459115EDEC64006F3906 /* CallmeonView.h */,
-				1D5A459215EDEC64006F3906 /* CallmeonView.m */,
-				1D5A459315EDEC64006F3906 /* CallmeonView.xib */,
-				1D88705716304E4E00CC060C /* DialNumberView.h */,
-				1D88705816304E4E00CC060C /* DialNumberView.m */,
-				1D88705916304E4E00CC060C /* DialNumberView.xib */,
 			);
 			path = MultiCall;
 			sourceTree = "<group>";
@@ -326,6 +292,7 @@
 				1DEF509215E8B84A002B90DE /* Images */,
 				1D6E760B15DF62F3004B4A4A /* MultiCall-Info.plist */,
 				1D6E760C15DF62F3004B4A4A /* InfoPlist.strings */,
+				1D4C960C15E74C690057C130 /* Entitlements.plist */,
 				1D6E760F15DF62F3004B4A4A /* main.m */,
 				1D6E761115DF62F3004B4A4A /* MultiCall-Prefix.pch */,
 			);
@@ -335,13 +302,15 @@
 		1D733AEB15F5E239006AFC0D /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1DD7AA4315FF5E0700A581BD /* PeoplePickerNavigationController.m */,
+				1DD7AA4215FF5E0700A581BD /* PeoplePickerNavigationController.h */,
 				1DD9BD5A162559A30012D270 /* DateTime.h */,
+				1DD9BD5B162559A30012D270 /* DateTime.m */,
 				1DDCFD81161C2EAF0082FCC1 /* PhoneNumberFormatter.h */,
 				1D778504161EBDF50041F5A1 /* NSURLConnectionExt.h */,
 				1D778505161EBDF50041F5A1 /* NSURLConnectionExt.m */,
 				1D7784FA161EBDE00041F5A1 /* NSURLConnection+Blocks.h */,
 				1D7784FB161EBDE00041F5A1 /* NSURLConnection+Blocks.m */,
-				1DD9BD5B162559A30012D270 /* DateTime.m */,
 				1D7784FC161EBDE00041F5A1 /* Reachability.h */,
 				1D7784FD161EBDE00041F5A1 /* Reachability.m */,
 				1D7784FE161EBDE00041F5A1 /* NSDateConvertor.h */,
@@ -369,6 +338,42 @@
 			name = NetWork;
 			sourceTree = "<group>";
 		};
+		1D8CB017164E9BBE0092BB34 /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				1DEF507915E8B4B1002B90DE /* CallView.xib */,
+				1DEF507E15E8B4D8002B90DE /* Recents.xib */,
+				1D73F58D161335C500C3C66D /* NewGroupView.xib */,
+				1DEF508D15E8B51B002B90DE /* SettingsView.xib */,
+				1DEF508315E8B4F1002B90DE /* GroupsView.xib */,
+				1D5A459315EDEC64006F3906 /* CallmeonView.xib */,
+				1D88705916304E4E00CC060C /* DialNumberView.xib */,
+				1DEF509015E8B561002B90DE /* Mainwindow.xib */,
+			);
+			name = StoryBoard;
+			sourceTree = "<group>";
+		};
+		1D8CB019164E9C990092BB34 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1DEF507715E8B4B1002B90DE /* CallView.h */,
+				1DEF507815E8B4B1002B90DE /* CallView.m */,
+				1DEF507C15E8B4D8002B90DE /* Recents.h */,
+				1DEF507D15E8B4D8002B90DE /* Recents.m */,
+				1DEF508115E8B4F1002B90DE /* GroupsView.h */,
+				1DEF508215E8B4F1002B90DE /* GroupsView.m */,
+				1DEF508615E8B504002B90DE /* NewGroupView.h */,
+				1DEF508715E8B504002B90DE /* NewGroupView.m */,
+				1DEF508B15E8B51B002B90DE /* SettingsView.h */,
+				1DEF508C15E8B51B002B90DE /* SettingsView.m */,
+				1D5A459115EDEC64006F3906 /* CallmeonView.h */,
+				1D5A459215EDEC64006F3906 /* CallmeonView.m */,
+				1D88705716304E4E00CC060C /* DialNumberView.h */,
+				1D88705816304E4E00CC060C /* DialNumberView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
 		1DD3CBC915EF508B00779E9C /* Icon Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -382,14 +387,16 @@
 		1DEF509215E8B84A002B90DE /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				1DFD00361600BBE100C38D8C /* red1.png */,
+				1D6E762415DF62F3004B4A4A /* second@2x.png */,
+				1D6E762215DF62F3004B4A4A /* second.png */,
+				1D6E761D15DF62F3004B4A4A /* first@2x.png */,
+				1D6E761B15DF62F3004B4A4A /* first.png */,
+				1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */,
 				1DFD003A1600C0F300C38D8C /* shad_01.png */,
 				1D553AD6163030CB00A086BF /* MCall_02.png */,
 				1D92B716162C2235000FFA36 /* start-new.png */,
 				1DFD003B1600C0F300C38D8C /* shad_02.png */,
-				1DF831231626B6E1001E885D /* Startnew.png */,
 				1D73F58B161329C300C3C66D /* Add-Member-Butt.png */,
-				1DFD00381600BBE600C38D8C /* Green1.png */,
 				1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */,
 				1DFD00281600B4CE00C38D8C /* red.png */,
 				1DD3CBC915EF508B00779E9C /* Icon Files */,
@@ -486,14 +493,11 @@
 				1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */,
 				1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */,
 				1DFD002B1600B4CE00C38D8C /* red.png in Resources */,
-				1DFD00371600BBE100C38D8C /* red1.png in Resources */,
-				1DFD00391600BBE600C38D8C /* Green1.png in Resources */,
 				1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */,
 				1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */,
 				1D73F58C161329C300C3C66D /* Add-Member-Butt.png in Resources */,
 				1D73F58E161335C500C3C66D /* NewGroupView.xib in Resources */,
 				1DDCFD85161C6D140082FCC1 /* Default-568h@2x.png in Resources */,
-				1DF831241626B6E1001E885D /* Startnew.png in Resources */,
 				1D92B717162C2235000FFA36 /* start-new.png in Resources */,
 				1D553AD7163030CB00A086BF /* MCall_02.png in Resources */,
 				1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */,

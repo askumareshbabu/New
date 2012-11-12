@@ -330,6 +330,9 @@
         case 0:
         {
             cell =_groupNameCell;
+            UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+            vertLineView.backgroundColor = [UIColor lightGrayColor];
+            [cell.contentView addSubview:vertLineView];
             break;
         
             

@@ -301,7 +301,7 @@ ABAddressBookRef ab;
                     lblDate.textColor=[UIColor blackColor];
                     lblDate.textAlignment=UITextAlignmentRight;
                     lblDate.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin;
-                    lblDate.frame=CGRectMake(200, 4, 120, 20);
+                    lblDate.frame=CGRectMake(180, 4, 120, 20);
                     
                     [cell.contentView addSubview:lblParticipants];
                     [cell.contentView addSubview:lblTimeMin];

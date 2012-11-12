@@ -88,6 +88,7 @@
     txtMobileNumber.delegate=self;
     txtHomeNumber.delegate=self;
     txtWorkNumber.delegate=self;
+   
         //UITextField *txtPhoneNumber=(UITextField *)[_addPhoneNumber viewWithTag:2];
     NSLog(@"callme on %@",model.callemeon);
         //[model.callemeon removeAllObjects];
@@ -221,6 +222,9 @@
 {
     UITableViewCell *cell=nil;
     tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+    vertLineView.backgroundColor = [UIColor lightGrayColor];
+    
        switch (indexPath.section) {
         case 0:{
             switch (indexPath.row) {
@@ -239,6 +243,7 @@
                        
         case 0:
             cell=addiPhoneNumber;
+            
         if(cell.accessoryType == UITableViewCellAccessoryCheckmark)
         {
             self.checkedIndexPath=indexPath;
@@ -270,6 +275,7 @@
             break;
         }
     }
+    [cell.contentView addSubview:vertLineView];
      cell.backgroundColor=[UIColor whiteColor];
        return cell;
 }
