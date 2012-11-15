@@ -536,7 +536,11 @@
 }
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
-    [model.callemeon removeObject:[NSString stringWithFormat:@"%@",textField.text]];
+    CallmeonModel *Call=[[CallmeonModel alloc]init];
+    if([Call.CallPhoneNumber isEqualToString:textField.text])
+    {
+    [model.callemeon removeObject:[NSString stringWithFormat:@"%@",Call.CallPhoneNumber]];
+    }
      [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
     return YES;
 }

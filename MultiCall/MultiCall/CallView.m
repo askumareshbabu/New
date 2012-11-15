@@ -92,7 +92,7 @@ ABAddressBookRef ab;
 -(void)disableCalling
 {
     _bottomToolbar.hidden=YES;
-    
+    [_bottomToolbar removeFromSuperview];
     self.navigationItem.rightBarButtonItem=nil;
         //self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleBordered;
         // self.navigationItem.rightBarButtonItem.title=@"Edit";
@@ -762,7 +762,7 @@ ABAddressBookRef ab;
             SettingsView * sview=[[SettingsView alloc]init];
             settingsViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
             sview ->isUpdateView=YES;
-            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(callviewpickerdismiss)]autorelease];
+            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(settingsViewPickerDismiss)]autorelease];
             sview.title=@"Settings";
             [self presentModalViewController:settingsViewpicker animated:YES];
        
@@ -778,7 +778,7 @@ ABAddressBookRef ab;
             
             CallmeonView * sview=[[CallmeonView alloc]init];
             callmeonViewpicker=[[UINavigationController alloc]initWithRootViewController:sview];
-            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(callviewpickerdismiss)]autorelease];
+            sview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(CallmeonViewpickerdismiss)]autorelease];
             sview.title=@"Call me on";
             [self presentModalViewController:callmeonViewpicker animated:YES];
             
@@ -787,31 +787,32 @@ ABAddressBookRef ab;
         }
         else
         {
-//            if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
-//            {
-//                
-//                CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
-//                [alertMsg CustomMessage:@"1" MessageNo:@"3"];
-//                [alertMsg release];
-//            }
-//            else
-//            {
-//            
+            if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
+            {
+                
+                CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
+                [alertMsg CustomMessage:@"1" MessageNo:@"3"];
+                [alertMsg release];
+            }
+            else
+            {
+            
                     //  timersecondDate =[[NSDate date] retain];
             
                 // durationTimer=[NSTimer scheduledTimerWithTimeInterval:1.0/10.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
                 [self initateMultiCall];
-                // }
+                }
         }
     }
 }
--(void)callviewpickerdismiss
-{
-    [callmeonViewpicker dismissModalViewControllerAnimated:YES];
-}
+
 -(void)CallmeonViewpickerdismiss
 {
     [callmeonViewpicker dismissModalViewControllerAnimated:YES];
+}
+-(void)settingsViewPickerDismiss
+{
+    [settingsViewpicker dismissModalViewControllerAnimated:YES];
 }
   
     
@@ -827,7 +828,7 @@ ABAddressBookRef ab;
     self.tabBarController.tabBar.userInteractionEnabled=NO;
     
    
-    [self changeButton:@"red.png" selector:@selector(btnMakeMultiCall:)];
+    [self changeButton:@"EndCallButton.png" selector:@selector(btnMakeMultiCall:)];
     
     
     NSMutableArray *numbers=[NSMutableArray array];
@@ -901,7 +902,7 @@ ABAddressBookRef ab;
 
         
    [self saveModel];
-    [self changeButton:@"red.png" selector:nil];
+    [self changeButton:@"EndCallButton.png" selector:nil];
     [self performSelector:@selector(cancelCall) withObject:self afterDelay:3.0];
         self.navigationItem.leftBarButtonItem.title=@"Cancel";
     [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:2.0];
@@ -964,7 +965,7 @@ ABAddressBookRef ab;
 }
 -(void)changeButton:(NSString *)imagePath selector:(SEL)selector
 {
-    if([imagePath isEqualToString:@"red.png"])
+    if([imagePath isEqualToString:@"EndCallButton.png"])
         callbuttonstatus=YES;
     else
         callbuttonstatus=NO;

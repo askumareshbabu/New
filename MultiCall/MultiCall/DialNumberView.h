@@ -12,6 +12,7 @@
 {
     int rowCount;
     int rowstyle;
+    int textControlEvent;
 }
 @property(nonatomic,retain)id delegate;
 @property(nonatomic,retain)NSMutableArray *arrayRowCount;

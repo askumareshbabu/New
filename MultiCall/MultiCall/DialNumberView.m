@@ -110,6 +110,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
+    NSLog(@"rowcount %i",rowCount);
     
     return rowCount;
     
@@ -127,10 +128,10 @@
             self.txtDialNumber.keyboardType=UIKeyboardTypePhonePad;
             self.txtDialNumber.textAlignment=UITextAlignmentLeft;
             self.txtDialNumber.clearButtonMode=UITextFieldViewModeWhileEditing;
-            self.txtDialNumber.placeholder=@"Add Phone Number";
+            self.txtDialNumber.placeholder=@"Add a Number";
             self.txtDialNumber.delegate=self;
             self.txtDialNumber.text=@"";
-             
+             self.txtDialNumber.rightViewMode=UITextFieldViewModeWhileEditing;
             [cell.contentView addSubview:self.txtDialNumber];
              
         }
@@ -156,7 +157,10 @@
                 
             }
         }
-    
+    if(indexPath.row ==0)
+    {
+        [self.txtDialNumber becomeFirstResponder];
+    }
 
     return cell;
 }
@@ -202,54 +206,61 @@
     if(![str isEqualToString:@""]){
        
     [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
-            //NSLog(@"replacing at %i = %@",indexpath.row,[self.saveDialArray objectAtIndex:indexpath.row]);
+        
     }
     
     
 }
-
+-(void)textFieldEditing:(UITextField *)textField
+{
+    
+    if([textField.text length] == 2 && textControlEvent==0){
+            rowCount ++;
+               [(UITableView *)self.view beginUpdates];
+        
+               [(UITableView *)self.view insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:rowCount-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [(UITableView *)self.view endUpdates];
+            
+    }
+}
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
      NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
-    editingRowIndex=indexpath.row;
-  
+       editingRowIndex=indexpath.row;
+
     if(![textField.text length])
     {
-    
-        rowCount ++;
-        [(UITableView *)self.view beginUpdates];
-                    
-        [(UITableView *)self.view insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:rowCount-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
-        [(UITableView *)self.view endUpdates];
-            
+ 
+            textControlEvent=0;
+            [textField addTarget:self action:@selector(textFieldEditing:) forControlEvents:UIControlEventAllEditingEvents];
+        
+        
     }
     else
     {
-        
+        textControlEvent=1;
         [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
     }
     
-    [textField becomeFirstResponder];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
     NSInteger lastSectionIndex = [(UITableView *)self.view numberOfSections] - 1;
-    NSInteger lastRowIndex = [(UITableView *)self.view numberOfRowsInSection:lastSectionIndex] - 1;
+    NSInteger lastRowIndex = [(UITableView *)self.view numberOfRowsInSection:lastSectionIndex]-1;
     
-        if([textField.text length] == 0)
+    if([textField.text length] == 0)
     {
-        
-        if(lastRowIndex != rowCount){
+        if(indexpath.row !=lastRowIndex){
         rowCount--;
         [(UITableView *)self.view beginUpdates];
         
-        [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row inSection:0], nil] withRowAnimation:UITableViewRowAnimationBottom];
+        [(UITableView *)self.view deleteRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:indexpath.row inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
         [(UITableView *)self.view endUpdates];
         
-        }
+            }
 
     }
     
@@ -287,6 +298,8 @@
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
+    
+     
     if ([[textField text] length] + [string length] - range.length >= 20) {
         return NO;
     } 

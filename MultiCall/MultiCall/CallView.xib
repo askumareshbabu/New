@@ -194,7 +194,7 @@
 					<object class="IBUIButton" id="622516896">
 						<reference key="NSNextResponder" ref="310800979"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{12, -1}, {290, 45}}</string>
+						<string key="NSFrame">{{12, -1}, {300, 45}}</string>
 						<reference key="NSSuperview" ref="310800979"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -210,7 +210,7 @@
 						</object>
 						<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">Green_but_w_txt.png</string>
+							<string key="NSResourceName">StartCallButton.png</string>
 						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="385749969">
 							<int key="type">2</int>
@@ -395,14 +395,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">btnCallButton</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="622516896"/>
-					</object>
-					<int key="connectionID">110</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">buttonviewCell</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="487515245"/>
@@ -432,6 +424,14 @@
 						<reference key="destination" ref="126696344"/>
 					</object>
 					<int key="connectionID">108</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">btnCallButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="622516896"/>
+					</object>
+					<int key="connectionID">110</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -541,19 +541,6 @@
 						<reference key="parent" ref="312444616"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">92</int>
-						<reference key="object" ref="207893694"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="622516896"/>
-						</array>
-						<reference key="parent" ref="310800979"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">91</int>
-						<reference key="object" ref="622516896"/>
-						<reference key="parent" ref="207893694"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">112</int>
 						<reference key="object" ref="487515245"/>
 						<array class="NSMutableArray" key="children">
@@ -588,6 +575,19 @@
 						<int key="objectID">114</int>
 						<reference key="object" ref="223557622"/>
 						<reference key="parent" ref="688754085"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">92</int>
+						<reference key="object" ref="207893694"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="622516896"/>
+						</array>
+						<reference key="parent" ref="310800979"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">91</int>
+						<reference key="object" ref="622516896"/>
+						<reference key="parent" ref="207893694"/>
 					</object>
 				</array>
 			</object>
@@ -702,9 +702,9 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="Contact.png">{192, 80}</string>
-			<string key="Green_but_w_txt.png">{303, 45}</string>
 			<string key="Group.png">{192, 80}</string>
 			<string key="Number.png">{192, 80}</string>
+			<string key="StartCallButton.png">{606, 90}</string>
 			<string key="shad_02.png">{320, 65}</string>
 		</dictionary>
 		<string key="IBCocoaTouchPluginVersion">1926</string>

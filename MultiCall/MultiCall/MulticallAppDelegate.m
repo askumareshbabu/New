@@ -9,6 +9,7 @@
 #import "MulticallAppDelegate.h"
 #import "Model.h"
 #import "Reachability.h"
+#import <BugSense-iOS/BugSenseController.h>
 @implementation MulticallAppDelegate
 
 @synthesize window = _window;
@@ -31,21 +32,13 @@
         self.window.rootViewController=self.tabBarController;
        
     [self.tabBarController setSelectedIndex:1];
-     
+    
     [self.window makeKeyAndVisible];
-    
-        //this is only in-house app distributon purpose. must remove this for app submission to appstore
-//   NSString *strUDID= [[UIDevice currentDevice]uniqueIdentifier];
-//    NSString *strname= [[UIDevice currentDevice]name];
-//    NSString *strmodal= [[UIDevice currentDevice]model];
-//    NSString *strOSVersion= [[UIDevice currentDevice]systemVersion];
-//    NSString *strlocalizedmodal= [[UIDevice currentDevice]localizedModel];
-//   NSString *num = [[NSUserDefaults standardUserDefaults] stringForKey:@"SBFormattedPhoneNumber"];
-//    NSString *deviceDetails=[NSString stringWithFormat:@"UDID: %@, name: %@, modal: %@, iOSver: %@, localized: %@, num: %@",strUDID,strname,strmodal,strOSVersion,strlocalizedmodal,num];
-//    NSLog(@"deive details %@",deviceDetails);
-    
-        //in -house distribution purpose
     // Override point for customization after application launch.
+   // [BugSenseController sharedControllerWithBugSenseAPIKey:@"2877294f"];
+    [BugSenseController sharedControllerWithBugSenseAPIKey:@"2877294f"
+                                            userDictionary:nil
+                                           sendImmediately:YES];
     return YES;
 }
 
@@ -133,7 +126,8 @@
             NSString * newVersion = [metaData objectForKey:@"bundle-version"];
             NSString *newBuildVersion=[metaData objectForKey:@"Build-version"];
             
-            NSString *title = [NSString stringWithFormat:@"MultiCall new version %@ now available", newVersion];
+                //  NSString *title = [NSString stringWithFormat:@"MultiCall new version %@ now available", newVersion];
+            NSString *title = [NSString stringWithFormat:@"New version of MultiCall now available"];
             NSString *releaseNotes=[metaData objectForKey:@"releasenotes"];
             NSString *message = [NSString stringWithFormat:@"New in this version:\n%@", releaseNotes];
             NSString *URL=[metaData objectForKey:@"filepath"];

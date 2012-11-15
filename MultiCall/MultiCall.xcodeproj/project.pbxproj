@@ -8,18 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		1D317474160B618E00ADE1B6 /* DialNumberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D317473160B618E00ADE1B6 /* DialNumberModel.m */; };
-		1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */; };
-		1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */; };
-		1D35063915E8EDCC007608E5 /* Settings_Disable 30X30.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */; };
+		1D35063715E8EDCC007608E5 /* Multicall_Disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063415E8EDCC007608E5 /* Multicall_Disable.png */; };
+		1D35063815E8EDCC007608E5 /* Groups_Disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063515E8EDCC007608E5 /* Groups_Disable.png */; };
+		1D35063915E8EDCC007608E5 /* Settings_Disable.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063615E8EDCC007608E5 /* Settings_Disable.png */; };
 		1D35063D15E8EDD4007608E5 /* Multicall_Disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063A15E8EDD3007608E5 /* Multicall_Disable@2x.png */; };
 		1D35063E15E8EDD4007608E5 /* Settings_Disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063B15E8EDD3007608E5 /* Settings_Disable@2x.png */; };
 		1D35063F15E8EDD4007608E5 /* Groups_Disable@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D35063C15E8EDD3007608E5 /* Groups_Disable@2x.png */; };
 		1D4C960D15E74C6A0057C130 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D4C960C15E74C690057C130 /* Entitlements.plist */; };
-		1D553AD7163030CB00A086BF /* MCall_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D553AD6163030CB00A086BF /* MCall_02.png */; };
 		1D59D30015F21AA500175BFD /* Model.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59D2FF15F21AA500175BFD /* Model.m */; };
 		1D59D30315F2340800175BFD /* CallmeonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D59D30215F2340800175BFD /* CallmeonModel.m */; };
+		1D59F3151654BC85004948EF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D59F3141654BC85004948EF /* libz.dylib */; };
+		1D59F31D165523F6004948EF /* StartNew.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D59F31C165523F6004948EF /* StartNew.png */; };
 		1D5A459415EDEC64006F3906 /* CallmeonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5A459215EDEC64006F3906 /* CallmeonView.m */; };
 		1D5A459515EDEC64006F3906 /* CallmeonView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D5A459315EDEC64006F3906 /* CallmeonView.xib */; };
+		1D6D6EF4165573ED00FDE80E /* BugSense-iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6D6EF3165573ED00FDE80E /* BugSense-iOS.framework */; };
+		1D6D6EF816557EA300FDE80E /* StartCallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6D6EF716557EA300FDE80E /* StartCallButton.png */; };
+		1D6D6EFA165581F100FDE80E /* EndCallButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6D6EF9165581F100FDE80E /* EndCallButton.png */; };
 		1D6E760415DF62F3004B4A4A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760315DF62F3004B4A4A /* UIKit.framework */; };
 		1D6E760615DF62F3004B4A4A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760515DF62F3004B4A4A /* Foundation.framework */; };
 		1D6E760815DF62F3004B4A4A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D6E760715DF62F3004B4A4A /* CoreGraphics.framework */; };
@@ -49,7 +53,6 @@
 		1D77851C161ED3EE0041F5A1 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D778503161EBDE00041F5A1 /* JSONKit.m */; };
 		1D88705A16304E4E00CC060C /* DialNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88705816304E4E00CC060C /* DialNumberView.m */; };
 		1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D88705916304E4E00CC060C /* DialNumberView.xib */; };
-		1D92B717162C2235000FFA36 /* start-new.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D92B716162C2235000FFA36 /* start-new.png */; };
 		1DD3CBCC15EF50BC00779E9C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCA15EF50BC00779E9C /* Icon.png */; };
 		1DD3CBCD15EF50BC00779E9C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCB15EF50BC00779E9C /* Icon@2x.png */; };
 		1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */; };
@@ -77,8 +80,6 @@
 		1DEF509A15E8B8BE002B90DE /* Group.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509915E8B8BE002B90DE /* Group.png */; };
 		1DEF509D15E8B8CE002B90DE /* Number.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509B15E8B8CE002B90DE /* Number.png */; };
 		1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */; };
-		1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */; };
-		1DFD002B1600B4CE00C38D8C /* red.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD00281600B4CE00C38D8C /* red.png */; };
 		1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003A1600C0F300C38D8C /* shad_01.png */; };
 		1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFD003B1600C0F300C38D8C /* shad_02.png */; };
 /* End PBXBuildFile section */
@@ -86,21 +87,25 @@
 /* Begin PBXFileReference section */
 		1D317472160B618E00ADE1B6 /* DialNumberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberModel.h; sourceTree = "<group>"; };
 		1D317473160B618E00ADE1B6 /* DialNumberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberModel.m; sourceTree = "<group>"; };
-		1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable 30x30.png"; sourceTree = "<group>"; };
-		1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Groups_Disable 30X30.png"; sourceTree = "<group>"; };
-		1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings_Disable 30X30.png"; sourceTree = "<group>"; };
+		1D35063415E8EDCC007608E5 /* Multicall_Disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Multicall_Disable.png; sourceTree = "<group>"; };
+		1D35063515E8EDCC007608E5 /* Groups_Disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Groups_Disable.png; sourceTree = "<group>"; };
+		1D35063615E8EDCC007608E5 /* Settings_Disable.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Settings_Disable.png; sourceTree = "<group>"; };
 		1D35063A15E8EDD3007608E5 /* Multicall_Disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Multicall_Disable@2x.png"; sourceTree = "<group>"; };
 		1D35063B15E8EDD3007608E5 /* Settings_Disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Settings_Disable@2x.png"; sourceTree = "<group>"; };
 		1D35063C15E8EDD3007608E5 /* Groups_Disable@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Groups_Disable@2x.png"; sourceTree = "<group>"; };
 		1D4C960C15E74C690057C130 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
-		1D553AD6163030CB00A086BF /* MCall_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MCall_02.png; sourceTree = "<group>"; };
 		1D59D2FE15F21AA500175BFD /* Model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model.h; sourceTree = "<group>"; };
 		1D59D2FF15F21AA500175BFD /* Model.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Model.m; sourceTree = "<group>"; };
 		1D59D30115F2340800175BFD /* CallmeonModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallmeonModel.h; sourceTree = "<group>"; };
 		1D59D30215F2340800175BFD /* CallmeonModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallmeonModel.m; sourceTree = "<group>"; };
+		1D59F3141654BC85004948EF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		1D59F31C165523F6004948EF /* StartNew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartNew.png; sourceTree = "<group>"; };
 		1D5A459115EDEC64006F3906 /* CallmeonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallmeonView.h; sourceTree = "<group>"; };
 		1D5A459215EDEC64006F3906 /* CallmeonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallmeonView.m; sourceTree = "<group>"; };
 		1D5A459315EDEC64006F3906 /* CallmeonView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CallmeonView.xib; sourceTree = "<group>"; };
+		1D6D6EF3165573ED00FDE80E /* BugSense-iOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "BugSense-iOS.framework"; path = "../../../BugSense-iOS.framework"; sourceTree = "<group>"; };
+		1D6D6EF716557EA300FDE80E /* StartCallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StartCallButton.png; sourceTree = "<group>"; };
+		1D6D6EF9165581F100FDE80E /* EndCallButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EndCallButton.png; sourceTree = "<group>"; };
 		1D6E75FF15DF62F3004B4A4A /* MultiCall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiCall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6E760315DF62F3004B4A4A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		1D6E760515DF62F3004B4A4A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -146,7 +151,6 @@
 		1D88705716304E4E00CC060C /* DialNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DialNumberView.h; sourceTree = "<group>"; };
 		1D88705816304E4E00CC060C /* DialNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialNumberView.m; sourceTree = "<group>"; };
 		1D88705916304E4E00CC060C /* DialNumberView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DialNumberView.xib; sourceTree = "<group>"; };
-		1D92B716162C2235000FFA36 /* start-new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "start-new.png"; sourceTree = "<group>"; };
 		1DD3CBCA15EF50BC00779E9C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1DD3CBCB15EF50BC00779E9C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		1DD3CBCE15EF50C700779E9C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
@@ -186,8 +190,6 @@
 		1DEF509915E8B8BE002B90DE /* Group.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Group.png; sourceTree = "<group>"; };
 		1DEF509B15E8B8CE002B90DE /* Number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Number.png; sourceTree = "<group>"; };
 		1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Place_Multicall.png; sourceTree = "<group>"; };
-		1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Green_but_w_txt.png; sourceTree = "<group>"; };
-		1DFD00281600B4CE00C38D8C /* red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = red.png; sourceTree = "<group>"; };
 		1DFD003A1600C0F300C38D8C /* shad_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_01.png; sourceTree = "<group>"; };
 		1DFD003B1600C0F300C38D8C /* shad_02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shad_02.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -197,6 +199,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D6D6EF4165573ED00FDE80E /* BugSense-iOS.framework in Frameworks */,
+				1D59F3151654BC85004948EF /* libz.dylib in Frameworks */,
 				1D778515161ED0A00041F5A1 /* AudioToolbox.framework in Frameworks */,
 				1D778513161ECBB30041F5A1 /* EventKitUI.framework in Frameworks */,
 				1D778511161ECBA80041F5A1 /* EventKit.framework in Frameworks */,
@@ -237,6 +241,8 @@
 		1D6E75F415DF62F2004B4A4A = {
 			isa = PBXGroup;
 			children = (
+				1D6D6EF3165573ED00FDE80E /* BugSense-iOS.framework */,
+				1D59F3141654BC85004948EF /* libz.dylib */,
 				1D6E760915DF62F3004B4A4A /* MultiCall */,
 				1D6E760215DF62F3004B4A4A /* Frameworks */,
 				1D6E760015DF62F3004B4A4A /* Products */,
@@ -389,24 +395,23 @@
 			children = (
 				1D6E762415DF62F3004B4A4A /* second@2x.png */,
 				1D6E762215DF62F3004B4A4A /* second.png */,
+				1D6D6EF716557EA300FDE80E /* StartCallButton.png */,
 				1D6E761D15DF62F3004B4A4A /* first@2x.png */,
 				1D6E761B15DF62F3004B4A4A /* first.png */,
+				1D59F31C165523F6004948EF /* StartNew.png */,
 				1DDCFD84161C6D140082FCC1 /* Default-568h@2x.png */,
 				1DFD003A1600C0F300C38D8C /* shad_01.png */,
-				1D553AD6163030CB00A086BF /* MCall_02.png */,
-				1D92B716162C2235000FFA36 /* start-new.png */,
 				1DFD003B1600C0F300C38D8C /* shad_02.png */,
 				1D73F58B161329C300C3C66D /* Add-Member-Butt.png */,
-				1DFD00261600B4CE00C38D8C /* Green_but_w_txt.png */,
-				1DFD00281600B4CE00C38D8C /* red.png */,
+				1D6D6EF9165581F100FDE80E /* EndCallButton.png */,
 				1DD3CBC915EF508B00779E9C /* Icon Files */,
 				1DEF509B15E8B8CE002B90DE /* Number.png */,
-				1D35063415E8EDCC007608E5 /* Multicall_Disable 30x30.png */,
+				1D35063415E8EDCC007608E5 /* Multicall_Disable.png */,
 				1D35063A15E8EDD3007608E5 /* Multicall_Disable@2x.png */,
 				1D35063B15E8EDD3007608E5 /* Settings_Disable@2x.png */,
 				1D35063C15E8EDD3007608E5 /* Groups_Disable@2x.png */,
-				1D35063515E8EDCC007608E5 /* Groups_Disable 30X30.png */,
-				1D35063615E8EDCC007608E5 /* Settings_Disable 30X30.png */,
+				1D35063515E8EDCC007608E5 /* Groups_Disable.png */,
+				1D35063615E8EDCC007608E5 /* Settings_Disable.png */,
 				1DEF509C15E8B8CE002B90DE /* Place_Multicall.png */,
 				1DEF509915E8B8BE002B90DE /* Group.png */,
 				1DEF509715E8B8A4002B90DE /* Contact.png */,
@@ -481,9 +486,9 @@
 				1DEF509A15E8B8BE002B90DE /* Group.png in Resources */,
 				1DEF509D15E8B8CE002B90DE /* Number.png in Resources */,
 				1DEF509E15E8B8CE002B90DE /* Place_Multicall.png in Resources */,
-				1D35063715E8EDCC007608E5 /* Multicall_Disable 30x30.png in Resources */,
-				1D35063815E8EDCC007608E5 /* Groups_Disable 30X30.png in Resources */,
-				1D35063915E8EDCC007608E5 /* Settings_Disable 30X30.png in Resources */,
+				1D35063715E8EDCC007608E5 /* Multicall_Disable.png in Resources */,
+				1D35063815E8EDCC007608E5 /* Groups_Disable.png in Resources */,
+				1D35063915E8EDCC007608E5 /* Settings_Disable.png in Resources */,
 				1D35063D15E8EDD4007608E5 /* Multicall_Disable@2x.png in Resources */,
 				1D35063E15E8EDD4007608E5 /* Settings_Disable@2x.png in Resources */,
 				1D35063F15E8EDD4007608E5 /* Groups_Disable@2x.png in Resources */,
@@ -491,16 +496,15 @@
 				1DD3CBCC15EF50BC00779E9C /* Icon.png in Resources */,
 				1DD3CBCD15EF50BC00779E9C /* Icon@2x.png in Resources */,
 				1DD3CBCF15EF50C700779E9C /* iTunesArtwork.png in Resources */,
-				1DFD00291600B4CE00C38D8C /* Green_but_w_txt.png in Resources */,
-				1DFD002B1600B4CE00C38D8C /* red.png in Resources */,
 				1DFD003C1600C0F300C38D8C /* shad_01.png in Resources */,
 				1DFD003D1600C0F300C38D8C /* shad_02.png in Resources */,
 				1D73F58C161329C300C3C66D /* Add-Member-Butt.png in Resources */,
 				1D73F58E161335C500C3C66D /* NewGroupView.xib in Resources */,
 				1DDCFD85161C6D140082FCC1 /* Default-568h@2x.png in Resources */,
-				1D92B717162C2235000FFA36 /* start-new.png in Resources */,
-				1D553AD7163030CB00A086BF /* MCall_02.png in Resources */,
 				1D88705B16304E4E00CC060C /* DialNumberView.xib in Resources */,
+				1D59F31D165523F6004948EF /* StartNew.png in Resources */,
+				1D6D6EF816557EA300FDE80E /* StartCallButton.png in Resources */,
+				1D6D6EFA165581F100FDE80E /* EndCallButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -603,6 +607,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../..\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
@@ -617,6 +625,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../..\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
@@ -651,6 +663,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Telekonnectors Limited";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../..\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";

@@ -104,7 +104,7 @@
     if(count ==0){
         
             if(!imgstartnewview)
-        imgstartnewview=[[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"start-new.png"]]autorelease];
+        imgstartnewview=[[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"StartNew.png"]]autorelease];
     
         if(!self.starNewView)
         self.starNewView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)]autorelease];
@@ -112,7 +112,7 @@
         
             // starNewView.backgroundColor=[UIColor whiteColor];
         
-        [imgstartnewview setFrame:CGRectMake(60, 0, 234, 128)];
+        [imgstartnewview setFrame:CGRectMake(30, 0, 250, 135)];
         [starNewView addSubview:imgstartnewview];
         self.starNewView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.7];
         [self.view addSubview:starNewView];
