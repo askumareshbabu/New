@@ -607,6 +607,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: kumaresh babu santharam (ZY6496HJS4)";
+				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../..\"",
@@ -615,6 +616,11 @@
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
@@ -633,6 +639,11 @@
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
@@ -671,6 +682,11 @@
 				GCC_PREFIX_HEADER = "MultiCall/MultiCall-Prefix.pch";
 				INFOPLIST_FILE = "MultiCall/MultiCall-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "9F0FA251-F22D-4940-94AB-33A3A719A398";
 				WRAPPER_EXTENSION = app;
