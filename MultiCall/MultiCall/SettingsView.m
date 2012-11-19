@@ -88,12 +88,7 @@
     txtMobileNumber.delegate=self;
     txtHomeNumber.delegate=self;
     txtWorkNumber.delegate=self;
-   
-        //UITextField *txtPhoneNumber=(UITextField *)[_addPhoneNumber viewWithTag:2];
-    NSLog(@"callme on %@",model.callemeon);
-        //[model.callemeon removeAllObjects];
-        //[(MulticallAppDelegate*)[[UIApplication sharedApplication] delegate]saveCustomeObject];
-    
+
     if([model.callemeon count]>0)
     {
         for (NSInteger i=0; i <[model.callemeon count]; i++) {
@@ -115,8 +110,6 @@
                     
                 }
             }
-            
-            
             
             
             if([Callmeonmodel.CallType isEqualToString:@"Mobile"])
@@ -210,7 +203,6 @@
     [_addPinNo release];
     [_addPhoneNumber release];
     model=nil;
-        //checkedIndexPath=nil;
     [addiPhoneNumber release];
     [addMobileNumber release];
     [addHomeNumber release];
@@ -222,7 +214,7 @@
 {
     UITableViewCell *cell=nil;
     tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-    UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+    UIView* vertLineView = [[[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)]autorelease];
     vertLineView.backgroundColor = [UIColor lightGrayColor];
     
        switch (indexPath.section) {
@@ -296,10 +288,10 @@
         //http://iphonedevsdk.com/forum/iphone-sdk-development/5172-font-sizecolor-of-tableview-header.html
     
         // create the parent view that will hold header Label
-	UIView* customView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, 300.0, 44.0)];
+	UIView* customView = [[[UIView alloc] initWithFrame:CGRectMake(10.0, 0.0, 300.0, 44.0)]autorelease];
 	
         // create the button object
-	UILabel * headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+	UILabel * headerLabel = [[[UILabel alloc] initWithFrame:CGRectZero]autorelease];
 	headerLabel.backgroundColor = [UIColor clearColor];
 	headerLabel.opaque = NO;
 	headerLabel.textColor = defaultColor;
@@ -308,14 +300,13 @@
 	headerLabel.frame = CGRectMake(10.0, 0.0, 300.0, 44.0);
     headerLabel.text = @"Call me on"; 
 	[customView addSubview:headerLabel];
-    switch (section) {
-        case 0:
-            return nil;
-        case 1:
-            return customView;
-        default:
-            return nil;
+
+    if(section ==1)
+    {
+        return customView;
     }
+    else
+        return nil;
 	
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -331,8 +322,7 @@
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    
-        // Return the number of sections.
+   
     return 2;
 }
 -(CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -494,7 +484,7 @@
         } //for
         
     }//else
-     //NSLog(@"pin no %@",model.Pinno);
+     
     if(![model.Pinno isEqualToString:@""] &&[model.callemeon count]> 0)
     [self savecallmeon];
     }
@@ -516,8 +506,6 @@
 {
     if(!isUpdateView)
             self.navigationItem.rightBarButtonItem=nil;
-        //    else
-                    // [self dismissModalViewControllerAnimated:YES];
 }
 - (void)textFieldDidChange:(UITextField *)source
 {
@@ -536,7 +524,7 @@
 }
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
-    CallmeonModel *Call=[[CallmeonModel alloc]init];
+    CallmeonModel *Call=[[[CallmeonModel alloc]init]autorelease];
     if([Call.CallPhoneNumber isEqualToString:textField.text])
     {
     [model.callemeon removeObject:[NSString stringWithFormat:@"%@",Call.CallPhoneNumber]];
@@ -585,14 +573,9 @@
  */
 -(void)save
 {
-        //Model *model =[Model singleton];
     UITextField *pinno = (UITextField*)[_addPinNo viewWithTag:1];
     model.Pinno=[pinno.text length] >0 ? pinno.text :nil;
-    ;
-//    UITextField *phonenumber = (UITextField*)[_addPhoneNumber viewWithTag:2];
-//    model.PhoneNumber=[phonenumber.text length] >0? phonenumber.text :nil ;
-       
-        //Empty Validation and length validation
+    //Empty Validation and length validation
    
     if(model.Pinno ==NULL)
     {
@@ -610,10 +593,7 @@
         [pinno becomeFirstResponder];
     }
   
-
-        
-    
-else{
+    else{
             //Saved successfully
         [self savecallmeon];
         

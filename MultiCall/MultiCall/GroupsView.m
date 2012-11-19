@@ -119,11 +119,6 @@
     }
     [self loadGroupIndex];
 }
--(void)viewDidAppear:(BOOL)animated
-{
-    
-   
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -145,6 +140,7 @@
         
         [clearSheet addSubview:msg];
         [clearSheet showInView:self.tabBarController.view];
+        [msg release];
         [clearSheet release];
     }
     else{
@@ -195,10 +191,8 @@
 }
 -(void)conformDeleteGroup{
     
-        //GroupModel *groupcelltext=[[model groups] objectAtIndex:self.deleteIndexPath.row];
     UITableViewCell *cell=[(UITableView *)self.view cellForRowAtIndexPath:self.deleteIndexPath];
-    
-    
+
     int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
     GroupModel *gm=[[model groups] objectAtIndex:row];
 
@@ -210,10 +204,7 @@
 {
     if(buttonIndex ==0)
     {
-            //[[model groups] removeObjectAtIndex:self.deleteIndexPath.row];
-        
         UITableViewCell *cell=[(UITableView *)self.view cellForRowAtIndexPath:self.deleteIndexPath];
-        
         
         int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
         GroupModel *gm=[[model groups] objectAtIndex:row];
@@ -247,18 +238,15 @@
         cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"groupView"]autorelease];
         cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:18.0];
         cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
-        cell.backgroundColor=[[UIColor whiteColor]autorelease];
+        cell.backgroundColor=[UIColor whiteColor];
         cell.detailTextLabel.textColor = defaultColor;
         cell.textLabel.textAlignment=UITextAlignmentLeft;
         cell.detailTextLabel.textAlignment=UITextAlignmentRight;
-            // cell.selectionStyle=UITableViewCellSelectionStyleNone;
         if(!isPickMode)
         cell.accessoryType=UITableViewCellAccessoryDetailDisclosureButton;
         
     }
            
-    
-  
     NSString *alphabet=nil;
     alphabet = [groupindex objectAtIndex:[indexPath section]];
     
@@ -269,7 +257,7 @@
     if([states count]>0){
         NSString *cellValue = [states objectAtIndex:indexPath.row];
    
-        cell.textLabel.text=cellValue;//gModel.groupName;
+        cell.textLabel.text=cellValue;
      int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
        GroupModel *gModel=[[model groups]objectAtIndex:row];
         
@@ -302,9 +290,7 @@
     //---set the number of sections in the table---
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
-   
     return [groupindex count];
-    
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -326,9 +312,6 @@
         
     int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
     GroupModel *gm=[[model groups] objectAtIndex:row];
-    
-        //  NSLog(@"group Array %u, %@",[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]],[[model groups] objectAtIndex:row]);
-    
     if(isPickMode)
     {
       
@@ -347,18 +330,9 @@
         [self presentModalViewController:callViewPicker animated:YES];
         [callViewPicker release];
         [cview release];
-        
-//        UITableViewCell *cell=[tableView cellForRowAtIndexPath:indexPath];
-//        NewGroupView *groupView = [[NewGroupView alloc]init];
-//        groupView->isGroupViewMode=YES;
-//        int row=[groupNameArray indexOfObject:[NSString stringWithFormat:@"%@", cell.textLabel.text]];
-//        groupView.model = [[model groups] objectAtIndex:row];
-//        [self.navigationController pushViewController:groupView animated:YES];
-//        [groupView release];
+
     }
-    
-   
-   
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -366,9 +340,7 @@
 {
     
     [callViewPicker dismissModalViewControllerAnimated:YES];
-    
 }
-
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {

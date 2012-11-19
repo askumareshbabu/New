@@ -23,7 +23,6 @@
     bool isEditMode;
     
 	/**< Last Row selected  */
-        // NSIndexPath *lastSelIndexPath;
 	/**<  Store contacts temporarily. For saving purposes  */
     NSMutableArray *contactsTemp; //store the editing contact temporarily. for saving purposes
     GroupModel *groupModel;
@@ -50,8 +49,6 @@
 @property(retain,nonatomic)PhoneNumberFormatter *formatter;
 @property(retain,nonatomic)UIButton *placeMulitCall;
 @property(retain,nonatomic)UIButton* addMember;
-
--(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType;
 
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId;
 /**

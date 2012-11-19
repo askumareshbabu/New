@@ -52,26 +52,8 @@
 {
     [super viewDidLoad];
     model=[Model singleton];
-    // Do any additional setup after loading the view from its nib.
-    //self.navigationItem.rightBarButtonItem=self.editButtonItem;
-//    if(!self.callmeonModel)
-//    {
-//        CallmeonModel * callme=[[CallmeonModel alloc]init];
-//        self.callmeonModel=callme;
-//        [callme release];
-//        
-//    }
-
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-        //  self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(saveModel)]autorelease];
-}
-
--(void)viewDidDisappear:(BOOL)animated
-{
-}
 - (void)viewDidUnload
 {
     [self setAddiPhoneNumber:nil];
@@ -98,17 +80,17 @@
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell=nil;
-    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callmeon"];
+   
+    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callmeon"];
     if(cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callmeon"];
+        cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callmeon"]autorelease];
         cell.textLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
         cell.detailTextLabel.font= [UIFont fontWithName:@"Helvetica-Bold" size:15.0];
         cell.backgroundColor=[UIColor whiteColor];
         cell.textLabel.textAlignment=UITextAlignmentLeft;
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
         cell.detailTextLabel.textAlignment=UITextAlignmentRight;
-        UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+        UIView* vertLineView = [[[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)]autorelease];
         vertLineView.backgroundColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:vertLineView];
     }

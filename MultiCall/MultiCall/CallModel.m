@@ -29,7 +29,6 @@
 }
 -(BOOL)isEqual:(id)object
 {
-        // NSLog(@"recents log contcts %@,%@",self.contacts ,((CallModel *)object).contacts);
     if([self.contacts isEqual:((CallModel *)object).contacts])
         return YES;
     else

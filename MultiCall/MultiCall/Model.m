@@ -104,11 +104,8 @@ static Model *sharedSingleton=nil;
 }
 -(void)addRecentscallLog:(CallModel *)cmodel
 {
-        //NSLog(@"Recents callmodel %@",cmodel);
-   
     for(NSInteger i=0; i< [self.recentsCall count]; i++)
     {
-            //NSLog(@"Recents call %@",self.recentsCall);
         if([[self.recentsCall objectAtIndex:i] isEqual:cmodel])
         {
             [self.recentsCall removeObjectAtIndex:i];

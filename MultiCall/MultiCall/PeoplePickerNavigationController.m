@@ -646,7 +646,7 @@ UISearchDisplayController *searchController ;
         
         cell.textLabel.text=(NSString *)ABRecordCopyCompositeName(person);
        
-                         
+        
     }
     
     return cell;
@@ -761,13 +761,14 @@ if(multiValues)
                 ABRecordID iden = ABRecordGetRecordID(cell.person);
             NSMutableArray *arr=[NSMutableArray arrayWithObjects:(NSString *)compositeName,[self.formatter phonenumberformat:(NSString *)value withLocale:@"us"],(NSString *)phoneType, nil];
            
+           
+            
+                [self.selectedValues setObject:arr  forKey:KEY_FOR_SELECTION(iden)];
             if(value)CFRelease(value);
             if(compositeName)CFRelease(compositeName);
             if(phoneType)CFRelease(phoneType);
             
             if(multiValue)CFRelease(multiValue);
-            
-                [self.selectedValues setObject:arr  forKey:KEY_FOR_SELECTION(iden)];
           }
     }
 

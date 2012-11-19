@@ -105,7 +105,8 @@
 {
        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSLog(@"checking for update");
-        NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://mindssoft.net/MultiCall_Test/iPhone/MultiCallUpdateChecker.plist"]];
+        //  NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://mindssoft.net/MultiCall_Test/iPhone/MultiCallUpdateChecker.plist"]];
+     NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://122.165.33.168/iphoneMC/MultiCallUpdateChecker.plist"]];
     
     if (plistData) {
         NSLog(@"finished checking for update");
@@ -114,7 +115,7 @@
         NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:&format error:&error];
         if (plist) {
             NSArray *items = [plist valueForKey:@"items"];
-            NSDictionary *dictionary;
+            NSDictionary *dictionary=[[[NSDictionary alloc]init]autorelease];
             if ([items count] > 0) {
                 dictionary = [items objectAtIndex:0];
             }
@@ -127,9 +128,9 @@
             NSString *newBuildVersion=[metaData objectForKey:@"Build-version"];
             
                 //  NSString *title = [NSString stringWithFormat:@"MultiCall new version %@ now available", newVersion];
-            NSString *title = [NSString stringWithFormat:@"New version of MultiCall now available"];
+            NSString *title = [NSString stringWithFormat:@"New version of MultiCall is available"];
             NSString *releaseNotes=[metaData objectForKey:@"releasenotes"];
-            NSString *message = [NSString stringWithFormat:@"New in this version:\n%@", releaseNotes];
+            NSString *message = [NSString stringWithFormat:@"What's New:\n%@", releaseNotes];
             NSString *URL=[metaData objectForKey:@"filepath"];
             
             filepath=[NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@",URL];
@@ -138,14 +139,14 @@
             NSLog(@"newVersion: %@, currentVersion: %@ ,%@ ", newVersion, currentVersion,buildVersion);
             if (![newVersion isEqualToString:currentVersion] || ![buildVersion isEqualToString:newBuildVersion]) {
                 [filepath retain];
-                NSLog(@"A new update is available");
+                    //NSLog(@"A new update is available");
                    
                     // http://stackoverflow.com/questions/945082/uiwebview-in-multithread-viewcontroller
                 dispatch_async(dispatch_get_main_queue(), ^{
                         // do work here
                 
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                                message:@"\n\n\n\n\n\n\n\n"
+                                                                message:@"\n\n\n\n\n\n\n\n Do you want to update ? "
                                                                delegate:self
                                                       cancelButtonTitle:@"Not Now"
                                                       otherButtonTitles:@"Update", nil];
@@ -158,11 +159,12 @@
                 [vi addSubview:txt];
                 [alert addSubview:vi];
                 [alert show];
+                    [alert release];
                     });
-                    //[alert release];
+                
             }
-            else
-            NSLog(@"app uptodate");
+                //else
+                    // NSLog(@"app uptodate");
         }
     }
     [pool release];
@@ -172,7 +174,7 @@
     if (buttonIndex == 1) {
        
             
-            NSLog(@"downloading full update URL %@",filepath);
+            //NSLog(@"downloading full update URL %@",filepath);
             //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-services://?action=download-manifest&url=http://www.mindssoft.net/MultiCall_Test/iPhone/MultiCall_Inhouse.plist"]];
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:filepath]];
             [filepath release];

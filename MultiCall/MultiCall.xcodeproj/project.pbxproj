@@ -241,8 +241,6 @@
 		1D6E75F415DF62F2004B4A4A = {
 			isa = PBXGroup;
 			children = (
-				1D6D6EF3165573ED00FDE80E /* BugSense-iOS.framework */,
-				1D59F3141654BC85004948EF /* libz.dylib */,
 				1D6E760915DF62F3004B4A4A /* MultiCall */,
 				1D6E760215DF62F3004B4A4A /* Frameworks */,
 				1D6E760015DF62F3004B4A4A /* Products */,
@@ -260,6 +258,8 @@
 		1D6E760215DF62F3004B4A4A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1D59F3141654BC85004948EF /* libz.dylib */,
+				1D6D6EF3165573ED00FDE80E /* BugSense-iOS.framework */,
 				1DD9BD53162512720012D270 /* OpenGLES.framework */,
 				1D778514161ED0A00041F5A1 /* AudioToolbox.framework */,
 				1D778512161ECBB30041F5A1 /* EventKitUI.framework */,

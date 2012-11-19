@@ -77,7 +77,6 @@
 {
     [super dealloc];
     model=nil;
-    
     [_recentview release];
     [_lblRecentContacts release];
     [_lblParticipants release];
@@ -108,16 +107,10 @@
     
         if(!self.starNewView)
         self.starNewView=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 400)]autorelease];
-        
-        
-            // starNewView.backgroundColor=[UIColor whiteColor];
-        
         [imgstartnewview setFrame:CGRectMake(30, 0, 250, 135)];
         [starNewView addSubview:imgstartnewview];
         self.starNewView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.7];
         [self.view addSubview:starNewView];
-            //[self.starNewView release];
-            //[imgstartnewview release];
     }
     
 }
@@ -143,13 +136,9 @@
         self.navigationItem.rightBarButtonItem.title=@"Start New";
         
     }
-        
-        //[(UITableView *)self.view reloadData];
+
 }
--(void)viewDidAppear:(BOOL)animated
-{
-       
-}
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -172,14 +161,14 @@
         
         [clearSheet addSubview:msg];
         [clearSheet showInView:self.tabBarController.view];
+        [msg release];
         [clearSheet release];
     }
     else{
     CallView *cview=[[[CallView alloc]init]autorelease];
     startMulticallPicker=[[[UINavigationController alloc]initWithRootViewController:cview]autorelease];
     cview.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(startMulticallPickerdismiss)]autorelease];
-            // startMulticallPicker.title=@"Add Participants";
-        [self presentModalViewController:startMulticallPicker animated:YES];
+    [self presentModalViewController:startMulticallPicker animated:YES];
     }
     
 }
@@ -189,23 +178,20 @@
     {
         [model.recentsCall removeAllObjects];
         [(UITableView *)self.view setEditing:NO animated:YES];
-         [self enablebuttons];
+        [self enablebuttons];
         [(UITableView *)self.view reloadData];
-    
-    [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
+        [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
     }
 }
 -(void)startMulticallPickerdismiss
 {
-  
     [startMulticallPicker dismissModalViewControllerAnimated:YES];
-    
 }
 -(void) Edit
 {
     if(((UITableView *)self.view).editing)
     {
-         self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
+        self.navigationItem.leftBarButtonItem.style=UIBarButtonItemStyleBordered;
         self.navigationItem.leftBarButtonItem.title=@"Edit";
         self.navigationItem.rightBarButtonItem.style=UIBarButtonItemStyleDone;
         self.navigationItem.rightBarButtonItem.title=@"Start New";
@@ -228,26 +214,21 @@
 {
           
     UITableViewCell *cell=nil;
-    
-      cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Recent"];
-        // if(cell == nil) {
-        cell=  [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:@"Recent"]autorelease];
-        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-        cell.backgroundColor=[[UIColor whiteColor]autorelease];
-        
-
     self.recentview=[[[UIView alloc]init]autorelease];
     self.lblRecentContacts=[[[UILabel alloc]init]autorelease];
     self.lblParticipants=[[[UILabel alloc]init]autorelease];
     self.lblDate=[[[UILabel alloc]init]autorelease];
-
-               
-       self.recentview.autoresizingMask=UIViewAutoresizingFlexibleWidth;
+        cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Recent"];
+        cell=  [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:@"Recent"];
+        cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+        cell.backgroundColor=[UIColor whiteColor];
+              
+        self.recentview.autoresizingMask=UIViewAutoresizingFlexibleWidth;
         self.recentview.frame=CGRectMake(0, 0, cell.frame.size.width, 55);
         
         
-       self.lblRecentContacts.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
-       self.lblRecentContacts.textColor=[UIColor blackColor];
+        self.lblRecentContacts.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
+        self.lblRecentContacts.textColor=[UIColor blackColor];
         self.lblRecentContacts.textAlignment=UITextAlignmentLeft;
         self.lblRecentContacts.autoresizingMask=UIViewAutoresizingFlexibleWidth;
         self.lblRecentContacts.lineBreakMode=UILineBreakModeTailTruncation;
@@ -272,25 +253,20 @@
         [cell.contentView addSubview:self.lblDate];
         [cell.contentView addSubview:self.recentview];
        
-        
-        //}
-      
     CallModel *callmo=[model.recentsCall objectAtIndex:indexPath.row];
    if(callmo)
    {
     
        self.starNewView=nil;
-           self.lblRecentContacts.text=[NSString stringWithFormat:@"%@",[self formatName:callmo]];;
-           //cell.textLabel.text=[self formatName:callmo];
+       self.lblRecentContacts.text=[NSString stringWithFormat:@"%@",[self formatName:callmo]];;
     
     if(callmo.dateTime)
        {
-           self.lblParticipants.text=@"";
-           NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
+        self.lblParticipants.text=@"";
+        NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
        self.lblParticipants.text=[NSString stringWithFormat:@" %i Participants",[callmo.contacts count]];
           [formatter setDateFormat:@"dd/MM/YYYY"];
-               // cell.detailTextLabel.text=[NSString stringWithFormat:@" %i Participants %@",[callmo.contacts count],[formatter stringFromDate:callmo.dateTime]];
-           [self.lblParticipants setNeedsDisplay];
+        [self.lblParticipants setNeedsDisplay];
         NSDate *yesterday=[[NSDate date] dateByAddingDays:-1];
         NSDate *day2=[[NSDate date] dateByAddingDays:-2];
         NSDate *day3=[[NSDate date] dateByAddingDays:-3];      
@@ -416,15 +392,9 @@
     CallView *call = [[[CallView alloc]init]autorelease];
     CallModel *recent_call =[model.recentsCall objectAtIndex:indexPath.row];
     call.contacts =[NSMutableArray arrayWithArray:recent_call.contacts];
-        //NSDateFormatter *formatter = [[[NSDateFormatter alloc] init]autorelease];
-        //[formatter setDateFormat:@"dd MMM YYYY HH:mm:ss"];
-    call.title =@"info"; //[formatter stringFromDate:recent_call.dateTime];
-        // call.title=[recent_call.dateTime stringFromDateWithFormat:DATE_TIME];
+    call.title =@"info"; 
     call->isViewMode=YES;
-        // call->Recentindexpath=nil;
     call->Recentindexpath=indexPath.row;
-        //call.navigationItem.leftBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"MultiCalls" style:UIBarButtonItemStyleBordered target:self action:@selector(recentviewpickerdismiss)]autorelease];
-        //recentviewpicker=[[[UINavigationController alloc]initWithRootViewController:call]autorelease];
     [self.navigationController pushViewController:call animated:YES];
     
       [tableView deselectRowAtIndexPath:indexPath animated:YES] ;
@@ -446,7 +416,6 @@
     
     if(editingStyle == UITableViewCellEditingStyleDelete)
     {
-        
         [model.recentsCall removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
     }

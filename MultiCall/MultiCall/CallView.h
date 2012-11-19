@@ -96,7 +96,6 @@
 -(void)editMode;
 -(void)saveModel;
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId;
--(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType;
 
 -(void)callEnded;
 

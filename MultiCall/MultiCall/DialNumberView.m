@@ -46,17 +46,14 @@
     if(!rowCount)
         rowCount=1;
     if(!self.arrayRowCount)
-        self.arrayRowCount=[[NSMutableArray alloc]init];
+        self.arrayRowCount=[[[NSMutableArray alloc]init]autorelease];
     if(!self.saveDialArray)
-        self.saveDialArray=[[NSMutableArray alloc]init];
+        self.saveDialArray=[[[NSMutableArray alloc]init]autorelease];
     if(!self.textFieldTagList)
-        self.textFieldTagList=[[NSMutableArray alloc]init];
+        self.textFieldTagList=[[[NSMutableArray alloc]init]autorelease];
      if(!self.txtDialNumber)
-         self.txtDialNumber =[[UITextField alloc]init];
-        //self.navigationItem.rightBarButtonItem=[[[UIBarButtonItem alloc]initWithTitle:@"Done" style:UIBarButtonItemStyleDone target:self action:@selector(done)]autorelease];
-    
-        // [(UITableView *)self.view setEditing:YES animated:YES];
-    // Do any additional setup after loading the view from its nib.
+         self.txtDialNumber =[[[UITextField alloc]init]autorelease];
+      // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -93,10 +90,7 @@
 }
 -(void)keyboardDisAppear
 {
-   
         self.navigationItem.rightBarButtonItem =nil;
-    
-        // [self dismissModalViewControllerAnimated:YES];
 }
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -110,18 +104,20 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 
-    NSLog(@"rowcount %i",rowCount);
+        // NSLog(@"rowcount %i",rowCount);
     
     return rowCount;
     
 }
 -(UITableViewCell *)tableView :(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    UITableViewCell *cell=nil;//(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     tableView.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
-       UITableViewCell *cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
-    self.txtDialNumber=[[UITextField alloc]initWithFrame:CGRectMake(10, 10, 250, 30)];
-         if(cell == nil) {
-            cell=  [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:nil];
+    self.txtDialNumber=[[[UITextField alloc]initWithFrame:CGRectMake(10, 10, 250, 30)]autorelease];
+        if(cell == nil) {
+            cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"DialNumber"];
+         cell=  [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:@"DialNumber"]autorelease];
              cell.backgroundColor=[UIColor whiteColor];
              tableView.backgroundColor=[UIColor whiteColor];
              cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -129,9 +125,8 @@
             self.txtDialNumber.textAlignment=UITextAlignmentLeft;
             self.txtDialNumber.clearButtonMode=UITextFieldViewModeWhileEditing;
             self.txtDialNumber.placeholder=@"Add a Number";
+    self.txtDialNumber.text=@"";
             self.txtDialNumber.delegate=self;
-            self.txtDialNumber.text=@"";
-             self.txtDialNumber.rightViewMode=UITextFieldViewModeWhileEditing;
             [cell.contentView addSubview:self.txtDialNumber];
              
         }
@@ -141,23 +136,20 @@
         {
         [self.textFieldTagList addObject:[NSString stringWithFormat:@"%i",self.txtDialNumber.tag]];
         }
-    
+        //  NSLog(@"save dial %@",saveDialArray);
     if(self.saveDialArray)
         for(int i=0; i <[saveDialArray count]; i++){
-            if(i == indexPath.row)
-            {
-                    //NSLog(@"i %i,row %i",i,indexPath.row);
+                if(i == indexPath.row)
+                 {
                 NSString *number=[self.saveDialArray objectAtIndex:indexPath.row];
-                
-                if(![number isEqualToString:@""]){
-                    
+                    //NSLog(@"number %@",number);
+                if(![number isEqualToString:@""] ){
                     self.txtDialNumber.text=number;
-                }
-                
-                
+                         }
+    
             }
         }
-    if(indexPath.row ==0)
+    if(indexPath.row ==0 &&[saveDialArray count] ==0)
     {
         [self.txtDialNumber becomeFirstResponder];
     }
@@ -169,7 +161,6 @@
 
     NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
     NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex]-1;
-        //NSLog(@"%i,%i,%i,%i",lastRowIndex,editingRowIndex,indexPath.row,self.txtDialNumber.tag);
     if(editingRowIndex== indexPath.row)
         return UITableViewCellEditingStyleNone;
     else
@@ -200,44 +191,54 @@
 
 - (void)textFieldDidChange:(UITextField *)source
 {
+    NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[source superview] superview]];
+   
     NSString *str= source.text;
     
-     NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[source superview] superview]];
-    if(![str isEqualToString:@""]){
-       
-    [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
-        
+    if(![str isEqualToString:@""]  &&  textControlEvent==1){
+            [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
     }
+//    else if(![str isEqualToString:@""] && textControlEvent==2){
+//            
+//         [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
+//        
+//    }
     
     
 }
 -(void)textFieldEditing:(UITextField *)textField
 {
+    NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+    NSInteger lastSectionIndex = [(UITableView *)self.view numberOfSections] - 1;
+    NSInteger lastRowIndex = [(UITableView *)self.view numberOfRowsInSection:lastSectionIndex]-1;
+
     
-    if([textField.text length] == 2 && textControlEvent==0){
+    if([textField.text length] == 2 && textControlEvent==0 && indexpath.row ==lastRowIndex){
             rowCount ++;
-               [(UITableView *)self.view beginUpdates];
+            [(UITableView *)self.view beginUpdates];
         
-               [(UITableView *)self.view insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:rowCount-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [(UITableView *)self.view insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:rowCount-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
             [(UITableView *)self.view endUpdates];
-            
+        
     }
 }
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
      NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
        editingRowIndex=indexpath.row;
-
+    
     if(![textField.text length])
     {
- 
+       
             textControlEvent=0;
-            [textField addTarget:self action:@selector(textFieldEditing:) forControlEvents:UIControlEventAllEditingEvents];
+            //[textField addTarget:self action:@selector(textFieldEditing:) forControlEvents:UIControlEventEditingChanged];
         
         
     }
     else
     {
+       
         textControlEvent=1;
         [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
 
@@ -274,7 +275,7 @@
     }
     else
     {
-        NSLog(@"this number already exists %@",textField.text);
+            //  NSLog(@"this number already exists %@",textField.text);
     }
         
     }
@@ -285,9 +286,12 @@
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
-    
-    [self.saveDialArray removeObject:[NSString stringWithFormat:@"%@",textField.text]];
-
+        NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+        //textControlEvent =2;
+    [self.saveDialArray removeObjectAtIndex:indexpath.row];
+        //  [self.saveDialArray removeObject:[NSString stringWithFormat:@"%@",textField.text]];
+        // [self.saveDialArray insertObject:@"" atIndex:indexpath.row];
+        //NSLog(@"clear save array %@",self.saveDialArray);
     return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
@@ -299,7 +303,20 @@
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     
-     
+    NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+    NSInteger lastSectionIndex = [(UITableView *)self.view numberOfSections] - 1;
+    NSInteger lastRowIndex = [(UITableView *)self.view numberOfRowsInSection:lastSectionIndex]-1;
+    
+        //  NSLog(@"%i,%i",indexpath.row,lastRowIndex);
+    if([textField.text length] == 1 && indexpath.row==lastRowIndex){
+        rowCount ++;
+        [(UITableView *)self.view beginUpdates];
+        
+        [(UITableView *)self.view insertRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:rowCount-1 inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [(UITableView *)self.view endUpdates];
+        
+    }
     if ([[textField text] length] + [string length] - range.length >= 20) {
         return NO;
     } 
@@ -315,17 +332,13 @@
     for(NSUInteger i=0; i < rowCount; i++)
     {
         UITableViewCell* cell = [(UITableView *)self.view cellForRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        
-            //NSLog(@"view cell %@",cell);
         for(UIView * view in cell.contentView.subviews)
         {
              UITextField *txtField=(UITextField *)view;
-                //  NSLog(@"view textvalue %@, %i",txtField.text,txtField.tag);
         
             if(![txtField.text isEqualToString:@""])
             {
                 number=txtField.text;
-                    //NSLog(@"number %@",number);
                 if([number length] > 4)
                     personid = [[number substringWithRange:NSMakeRange(number.length-5, 4)] intValue];
                 else

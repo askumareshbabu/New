@@ -16,11 +16,6 @@
 
 #define defaultColor [UIColor colorWithRed:.196 green:0.3098 blue:0.52 alpha:1.0 ];
 @interface NewGroupView()
-
-
-
-
-    //- (void)didEnterNumber:(NSString*)number;
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker;
 - (void)cePeoplePickerNavigationController:(CEPeoplePickerNavigationController *)peoplePicker didFinishPickingPeople:(NSArray *)people values:(NSDictionary *)valuesArg;
 
@@ -169,10 +164,7 @@
     
          [self buttonEnable];
 }
--(void)viewDidDisappear:(BOOL)animated
-{
-   
-}
+
 -(void)loadGroupName
 {
     UITextField *txtGroupName=(UITextField *)[_groupNameCell viewWithTag:1];
@@ -321,7 +313,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell=nil;
-    UIView * viewcontact=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UIView * viewcontact=[[[UIView alloc]initWithFrame:CGRectMake(0, 0, 320, 50)]autorelease];
     UILabel *lblName=[[[UILabel alloc]init]autorelease];
     UILabel *lblnumber=[[[UILabel alloc]init]autorelease];
     UILabel * lblContactType=[[[UILabel alloc]init]autorelease];
@@ -330,7 +322,7 @@
         case 0:
         {
             cell =_groupNameCell;
-            UIView* vertLineView = [[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)];
+            UIView* vertLineView = [[[UIView alloc] initWithFrame:CGRectMake(70, 0, 1, 44)]autorelease];
             vertLineView.backgroundColor = [UIColor lightGrayColor];
             [cell.contentView addSubview:vertLineView];
             break;
@@ -342,15 +334,13 @@
             cell=_buttonCell;
            
                 //Removing the border so i used this
-         _buttonCell.backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+         _buttonCell.backgroundView = [[[UIView alloc] initWithFrame:CGRectZero]autorelease];
             
             self.addMember = [UIButton buttonWithType:UIButtonTypeCustom];
             [self.addMember setFrame:CGRectMake(0, 0, 140, 45)];
             
             self.placeMulitCall =[UIButton buttonWithType:UIButtonTypeCustom];
             [self.placeMulitCall setFrame:CGRectMake(160, 0, 140, 45)];
-            
-                // [addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0] forState:UIControlStateNormal];
             [self.addMember setBackgroundImage:[[UIImage imageNamed:@"Add-Member-Butt.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal ];
             
             [self.placeMulitCall setBackgroundImage:[[UIImage imageNamed:@"Place_Multicall.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0] forState:UIControlStateNormal];
@@ -365,14 +355,10 @@
         case 2:
             {
                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newGroup"];
-                    // if(cell == nil)
-            
-                    cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"newGroup"]autorelease];
+                cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"newGroup"]autorelease];
                 cell.backgroundColor=[UIColor whiteColor];
-                    cell.selectionStyle=UITableViewCellSelectionStyleNone;
+                cell.selectionStyle=UITableViewCellSelectionStyleNone;
                    
-            
-                
                 lblName.font=[UIFont fontWithName:@"Helvetica-Bold" size:16.0];
                 lblnumber.font=[UIFont fontWithName:@"Helvetica" size:15.0];
                 lblContactType.font=[UIFont fontWithName:@"Helvetica-Bold" size:14.0];
@@ -390,7 +376,6 @@
                 [cell.contentView addSubview:viewcontact];
                 lblName.lineBreakMode=UILineBreakModeTailTruncation;
                 viewcontact.autoresizingMask=UIViewAutoresizingFlexibleWidth;
-                    //lblName.autoresizingMask=UIViewAutoresizingFlexibleRightMargin;
                 lblnumber.autoresizingMask=UIViewAutoresizingFlexibleWidth;
                 lblContactType.autoresizingMask=UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
                 ContactModel *contact = [contactsTemp objectAtIndex:indexPath.row];
@@ -413,20 +398,13 @@
     
     switch (section) {
         case 0:
-                //  if(isGroupViewMode ==YES)
-                // return 0;
-                // else
+              
                 return 1;
            
         case 1:
-                // if(isGroupViewMode ==YES)
-                //   return 0;
-                //   else
-                
                 return 1;
         case 2:
             
-            NSLog(@"count %i",[contactsTemp count]);
                 return [contactsTemp count];
        
         default:
@@ -474,11 +452,8 @@
 }
 -(void)tableView :(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        [contactsTemp removeObjectAtIndex:indexPath.row];
-   
+    [contactsTemp removeObjectAtIndex:indexPath.row];
     [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:2]] withRowAnimation:UITableViewRowAnimationBottom];
-   
-    NSLog(@"Removed contat temp %@",contactsTemp);
     [self buttonEnable];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -494,7 +469,6 @@
 }
 
 - (void)cePeoplePickerNavigationControllerDidCancel:(CEPeoplePickerNavigationController *)peoplePicker
-//- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker
 {
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -507,79 +481,28 @@
     
     [contactsTemp removeAllObjects];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationLeft];
-    
-        // NSArray *people=peopleArg;
-    
-    NSLog(@"grpoups people %@",peopleArg);
-//    if([people count])
-//    {
-//        NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
-//        NSLog(@"groups value arg %@",values);
-//        for(int i=0; i<[people count]; i++)
-//        {
-//            ABRecordRef person=[people objectAtIndex:i];
-//            ABRecordID iden=ABRecordGetRecordID(person);
-//            
-//                //NSString * key=KEY_FOR_SELECTION(iden);
-//            NSString * key=KEY_FOR_SELECTION(iden);
-//            
-//            NSMutableArray * dictkeys=[values objectForKey:key];
-//            NSString *name=[dictkeys objectAtIndex:0];
-//            NSString *value=[dictkeys objectAtIndex:1];
-//            NSString * phoneType=[dictkeys objectAtIndex:2];
-//            
-//                //add Contact;
-//                // [self modifyContact:person property:kABPersonPhoneProperty value:value phoneType:phoneType];
-//            [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];
-//            [values removeObjectForKey:key];
-//        }
-//            // [values release];
-//    }
-    if([valuesArg count])
+     if([valuesArg count])
     {
         NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
         NSLog(@"value arg %@",values);
         NSString *value;NSString * phoneType;NSString *name;
         for(id key in [values allKeys])
         {
-                //NSLog(@"key %@",key);
             NSMutableArray * dictkeys=[values objectForKey:key];
-                // NSLog(@"dicts %@",dictkeys);
-        
-                name=[dictkeys objectAtIndex:0];
-                value=[dictkeys objectAtIndex:1];
-                phoneType=[dictkeys objectAtIndex:2];
-                
-            
+            name=[dictkeys objectAtIndex:0];
+            value=[dictkeys objectAtIndex:1];
+            phoneType=[dictkeys objectAtIndex:2];
             [self addContactToModel:name contactInfo:[self.formatter phonenumberformat:value withLocale:@"us"] contactType:phoneType personId:[key intValue]];  
         }
         [values release];
     }
     [peoplePicker dismissModalViewControllerAnimated:YES];
     [(UITableView *)self.view reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationLeft];
-        //[(UITableView *)self.view setEditing:YES animated:YES];
-        //[self.view performSelector:@selector(editmode)];
 }
 /**
  Save contact details to model
  */
--(void)modifyContact:(ABRecordRef)person property:(ABPropertyID)property value:(NSString *)value phoneType:(NSString *)phoneType
-{
-    CFStringRef firstName, lastName;
-    
-    firstName = ABRecordCopyValue(person, kABPersonFirstNameProperty);
-    
-    lastName  = ABRecordCopyValue(person, kABPersonLastNameProperty)   ;
-    ABRecordID iden = ABRecordGetRecordID(person);
-    NSString *name=[NSString stringWithFormat:@"%@ %@",firstName?:(CFStringRef)@"",lastName?:(CFStringRef)@""];
-    NSString *trimmedName = [name stringByTrimmingCharactersInSet:
-                             [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    [self addContactToModel:trimmedName contactInfo:value contactType:phoneType personId:iden];
-    if(firstName)
-        CFRelease(firstName);
-    if(lastName)
-        CFRelease(lastName);
-}
+
 -(void)addContactToModel:(NSString *)name contactInfo:(NSString *)contactInfo contactType:(NSString *)contactType personId:(int)personId
 {
     ContactModel *contact = [[[ContactModel alloc]init]autorelease];
@@ -616,11 +539,8 @@
         
     }
     if(self.groupNameExists)
-        [groupName removeObject:self.groupNameExists];
-     NSLog(@"group array %@",groupName);
-    
-    
-    if([trimmedName length] > 0)
+    [groupName removeObject:self.groupNameExists];
+     if([trimmedName length] > 0)
     {
         self.model.groupName=trimmedName;
         
@@ -665,10 +585,6 @@
         [self.model.contacts setArray:contactsTemp];
         
         [self saveModel];
-        
-            //self.navigationItem.prompt =@"Group already exists.";
-            // [self performSelector:@selector(hidePrompt) withObject:self afterDelay:3.0];
-        
     }
     else
     {
@@ -681,7 +597,6 @@
 
 -(void)saveModel
 {
-        //NSString *message;
     if(isEditMode){
             //  message= @"Group modified successfully";
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
@@ -700,7 +615,6 @@
     }
      
     [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
-    NSLog(@"self.groups %@",self.model.contacts);
     [self.navigationController popViewControllerAnimated:YES ];
 }
 
