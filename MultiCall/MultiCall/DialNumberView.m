@@ -128,27 +128,33 @@
     self.txtDialNumber.text=@"";
             self.txtDialNumber.delegate=self;
             [cell.contentView addSubview:self.txtDialNumber];
-             
+            
         }
         self.txtDialNumber.tag=indexPath.row+1;
         
         if(![self.textFieldTagList containsObject:[NSString stringWithFormat:@"%i",self.txtDialNumber.tag]])
         {
         [self.textFieldTagList addObject:[NSString stringWithFormat:@"%i",self.txtDialNumber.tag]];
+        
         }
-        //  NSLog(@"save dial %@",saveDialArray);
-    if(self.saveDialArray)
-        for(int i=0; i <[saveDialArray count]; i++){
+    
+       
+  
+    if(self.saveDialArray){
+       if([self.saveDialArray containsObject:@"@"])
+       {
+           [self.saveDialArray removeObject:@"@"];
+       }
+        for(int i=0; i <[self.saveDialArray count]; i++){
                 if(i == indexPath.row)
                  {
-                NSString *number=[self.saveDialArray objectAtIndex:indexPath.row];
-                    //NSLog(@"number %@",number);
-                if(![number isEqualToString:@""] ){
-                    self.txtDialNumber.text=number;
-                         }
-    
-            }
+                     NSString *number=[self.saveDialArray objectAtIndex:indexPath.row];
+                     self.txtDialNumber.text=number;
+                     
+                 }
         }
+    }
+     
     if(indexPath.row ==0 &&[saveDialArray count] ==0)
     {
         [self.txtDialNumber becomeFirstResponder];
@@ -198,12 +204,7 @@
     if(![str isEqualToString:@""]  &&  textControlEvent==1){
             [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
     }
-//    else if(![str isEqualToString:@""] && textControlEvent==2){
-//            
-//         [self.saveDialArray replaceObjectAtIndex:indexpath.row withObject:str];
-//        
-//    }
-    
+
     
 }
 -(void)textFieldEditing:(UITextField *)textField
@@ -270,28 +271,29 @@
     if(![self.saveDialArray containsObject:[NSString stringWithFormat:@"%@",textField.text]])
     { 
              
-            [self.saveDialArray addObject:[NSString stringWithFormat:@"%@",textField.text]];
-        
+        [self.saveDialArray addObject:[NSString stringWithFormat:@"%@",textField.text]];
+       
     }
     else
     {
             //  NSLog(@"this number already exists %@",textField.text);
+         
     }
         
     }
     
-    self.txtDialNumber=nil;
 }
 
 
 -(BOOL)textFieldShouldClear:(UITextField *)textField
 {
-        NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
-        //textControlEvent =2;
-    [self.saveDialArray removeObjectAtIndex:indexpath.row];
-        //  [self.saveDialArray removeObject:[NSString stringWithFormat:@"%@",textField.text]];
-        // [self.saveDialArray insertObject:@"" atIndex:indexpath.row];
-        //NSLog(@"clear save array %@",self.saveDialArray);
+    NSIndexPath *  indexpath=[(UITableView *)self.view indexPathForCell:(UITableViewCell*)[[textField superview] superview]];
+    
+    if([self.saveDialArray count] > 0){
+    [self.saveDialArray removeObject:textField.text];
+        [self.saveDialArray insertObject:@"@" atIndex:indexpath.row];
+    }
+    
     return YES;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
