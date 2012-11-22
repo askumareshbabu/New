@@ -84,7 +84,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"Succeeded! Received %d bytes of data",[receivedData length]);
+        // NSLog(@"Succeeded! Received %d bytes of data",[receivedData length]);
     [connection release];
     successBlock(receivedData,response);
 }

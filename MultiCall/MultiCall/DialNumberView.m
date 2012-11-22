@@ -115,9 +115,11 @@
     UITableViewCell *cell=nil;//(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
     tableView.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
     self.txtDialNumber=[[[UITextField alloc]initWithFrame:CGRectMake(10, 10, 250, 30)]autorelease];
-        if(cell == nil) {
-            cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"DialNumber"];
-         cell=  [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:@"DialNumber"]autorelease];
+        
+            cell=(UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+    if(cell == nil) {
+         cell=  [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:nil]autorelease];
+    }
              cell.backgroundColor=[UIColor whiteColor];
              tableView.backgroundColor=[UIColor whiteColor];
              cell.selectionStyle=UITableViewCellSelectionStyleNone;
@@ -125,11 +127,11 @@
             self.txtDialNumber.textAlignment=UITextAlignmentLeft;
             self.txtDialNumber.clearButtonMode=UITextFieldViewModeWhileEditing;
             self.txtDialNumber.placeholder=@"Add a Number";
-    self.txtDialNumber.text=@"";
+            self.txtDialNumber.text=@"";
             self.txtDialNumber.delegate=self;
             [cell.contentView addSubview:self.txtDialNumber];
             
-        }
+        
         self.txtDialNumber.tag=indexPath.row+1;
         
         if(![self.textFieldTagList containsObject:[NSString stringWithFormat:@"%i",self.txtDialNumber.tag]])

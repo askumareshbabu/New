@@ -87,7 +87,7 @@
         for (int i =0;i<[numbers count]; i++) {
                 //ContactModel *model = [numbers objectAtIndex:i];
             NSString * squenceNumber=[numbers objectAtIndex:i];
-                NSLog(@"numberes %@",squenceNumber);
+                // NSLog(@"numberes %@",squenceNumber);
                 //[self passMessageToDelegate:model.contactInfo status:@"disconnecting.."];
             [self passMessageToDelegate:squenceNumber status:@"disconnecting.."];
             
@@ -116,7 +116,7 @@
                                                      
                                                      for (int i =0;i<[numbers count]; i++) {
                                                          NSString * squenceNumber=[numbers objectAtIndex:i];
-                                                         NSLog(@"numberes %@",squenceNumber);
+                                                        
                                                            
                                                          [self passMessageToDelegate:squenceNumber status:@"disconnected.."];
                                                              // [self passMessageToDelegate:model.contactInfo status:@"disconnected.."];
@@ -126,11 +126,11 @@
   
                                                         [multiCall cancel];
                                                         [self endCall];
-                                                     NSLog(@"call ended successful");
+                                                         // NSLog(@"call ended successful");
                                                 
                                                  }
                                                  failure:^(NSError *error) {
-                                                     NSLog(@"Error in ending call %@",error); 
+                                                         // NSLog(@"Error in ending call %@",error);
                                                      if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] == NotReachable )
                                                      {
                                                      CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
@@ -144,7 +144,7 @@
                                                          [alertMsg release];
                                                          }
                                                      }
-                                                     NSLog(@"iserror %d",isErrorOccured);
+                                                         //NSLog(@"iserror %d",isErrorOccured);
                                                            [self endCall];
                                                          //self.isErrorOccured=YES;
                                                          // [self checkandProcessCallEnded];
@@ -168,21 +168,22 @@
     NSMutableString *numbersToCall =[NSMutableString string];
     for (int i =0;i<[numbers count]; i++) {
         ContactModel *model = [numbers objectAtIndex:i];
-        NSLog(@"numbers %@",numbers);
+            //NSLog(@"numbers %@",model);
                         if(i!=0) //the first number is the userphone. add it only to the call monitering list
             
                        [numbersToCall appendFormat:@"%@,%@,", [model.name STRIP_TO_NAME]?:@"",[self.formatter format:[[model.contactInfo prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"]];
         
             // NSString *PhoneNumber=[self.formatter format:[[model.contactInfo prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"];
-        NSString * phoneNumberwithID=[NSString stringWithFormat:@"%i",i+1];
-             NSLog(@"model.contactinfo %@",phoneNumberwithID);
+        NSString * phoneNumberwithID=[[NSString alloc]initWithFormat:@"%i",i+1];
+            // NSString * phoneNumberwithID=[NSString stringWithFormat:@"%i",i+1];
+           
             // [calls addObject:[self.formatter phonenumberformat:model.contactInfo withLocale:@"us"]];//do not format this, as this holds the exact phone nos as in callview to identify the call
             // [calls addObject:model.contactInfo];
             [calls addObject:phoneNumberwithID];
+        [phoneNumberwithID release];
     }
-    NSLog(@"beofre numbersToCall %@",numbersToCall);
+   
     [numbersToCall deleteCharactersInRange:NSMakeRange([numbersToCall length]-1, 1)];
-         NSLog(@"numbersToCall %@",numbersToCall);
     //return;
     if([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable )
     {
@@ -191,7 +192,7 @@
         [request setHTTPMethod:@"POST"];
         NSString *bodyString = [NSString stringWithFormat:@"pin=%@&userphone=Chairperson,%@&phone=%@",
                                 model.Pinno,[self.formatter format:[[model.PhoneNumber prefixContactForTwilio] STRIP_TO_PHONE_NOS] withLocale:@"us"],numbersToCall]; //emailid
-        NSLog(@"BodyString %@",bodyString);
+                                                                                                                                                                     //  NSLog(@"BodyString %@",bodyString);
             // NSLog(@"model.contactinfo %@",model.phoneNos);
         [request setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
             // NSLog(@"making call resquest %@",request);
@@ -207,11 +208,11 @@
                       if(jsonObject==nil){
                           if([resp length]>0)
                           {
-                              NSLog(@"Making Call resp %@",resp);
+                                  //NSLog(@"Making Call resp %@",resp);
                                   // if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"conference does not exist\""])
                                 if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"3\""])
                               {
-                                  NSLog(@"conference does not exist");
+                                      // NSLog(@"conference does not exist");
                                   CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
@@ -234,7 +235,7 @@
                                   // else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"Login id invalid\""]) //Login id invalid
                                 else if([[resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@"\"2\""]) //Login id invalid
                               {
-                                  NSLog(@"Login ID Invalid");
+                                      //NSLog(@"Login ID Invalid");
                                   CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                                   [alertMsg CustomMessage:@"5" MessageNo:@"1"];
                                   [alertMsg release];
@@ -280,7 +281,7 @@
                               }
                           }
                           
-                          NSLog(@"multiCallResponseURL %@ ",multiCallResponseURL);
+                              //NSLog(@"multiCallResponseURL %@ ",multiCallResponseURL);
                           if(multiCallResponseURL!=nil)
                               [self performSelectorOnMainThread:@selector(checkForStatus) withObject:nil waitUntilDone:NO];
                               //else
@@ -295,8 +296,8 @@
 //                       [NSString stringWithFormat:@"Could not connect. Reason: %@",[error localizedDescription]]];
 //                      [self endCall];
 //                      multiCall=nil;
-                      NSLog(@"could not connect reason : %@",[error localizedDescription]);
-                      NSLog(@"iserror %d",isErrorOccured);
+// NSLog(@"could not connect reason : %@",[error localizedDescription]);
+// NSLog(@"iserror %d",isErrorOccured);
                       
                       CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
                       [alertMsg CustomMessage:@"5" MessageNo:@"3"];
@@ -396,7 +397,7 @@
                                                                 //http://stackoverflow.com/questions/1449035/how-do-i-use-nstimer
                                                                 NSRunLoop *runner = [NSRunLoop currentRunLoop];
                                                                 [runner addTimer:self.timer forMode: NSDefaultRunLoopMode];
-                                                                NSLog(@"Failure in multicall response %@",error);
+                                                                    //NSLog(@"Failure in multicall response %@",error);
                                                                 
                                                                     //[alertMsg CustomMessage:@"5" MessageNo:@"3"];
                                                                     //[alertMsg release];
@@ -412,15 +413,15 @@
    
     
     NSString *res = [resp stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSLog(@"resp first %@",resp);
+        //  NSLog(@"resp first %@",resp);
     if([res length]>0)
     {        
         NSArray *respData =(NSArray *) [res objectFromJSONString];
-        NSLog(@"updateStatus %@",respData);
+            //NSLog(@"updateStatus %@",respData);
         //json cannot parse plain string, it returns nil
         if(respData==nil) //c3ware sends string like 'conference ended' for error in initation 
         {
-            NSLog(@"resposne %@ ",res);
+                //NSLog(@"resposne %@ ",res);
             
                 // if([res isEqualToString:@"\"conference ended\""])
                 if([res isEqualToString:@"\"7\""])
@@ -433,23 +434,23 @@
             if(arr && [arr count]>0)
             {
                 [arr removeObjectAtIndex:0];//specific c3ware data structure
-                NSLog(@"arr %@",arr);
+                                            // NSLog(@"arr %@",arr);
                 for (NSArray *array in arr) 
                 {
-                    NSLog(@"array %@",array);
+                        // NSLog(@"array %@",array);
                         // NSString *numbers = [array objectAtIndex:0];
                     NSString *numbers = [array objectAtIndex:0]; //array parts ID 0-ID,1-PhoneNumber 2- Status
                     NSString *number=numbers;
-                    NSLog(@"correct number %@",number);
+                        // NSLog(@"correct number %@",number);
                         //if([number length]>10)
                         //number = [number substringFromIndex:[number length]-10];
-                    NSLog(@"--%@-- ",number); 
+                        //NSLog(@"--%@-- ",number);
 
                         
                         //  NSPredicate *query = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",number];
                     NSPredicate *query = [NSPredicate predicateWithFormat:@"SELF contains[cd] %@",[NSString stringWithFormat:@"%@",number]];
-                    NSLog(@"guery %@",query);
-                    NSLog(@"calls %@",calls);
+                        // NSLog(@"guery %@",query);
+                        //  NSLog(@"calls %@",calls);
                                         
                    
 //                    for(NSString *number in [ calls filteredArrayUsingPredicate:query])
@@ -457,13 +458,13 @@
                     
                     for(NSString *number in [calls filteredArrayUsingPredicate:query])
                     {
-                      NSLog(@" for guery %@",query);
+                            // NSLog(@" for guery %@",query);
                             // NSString *number=[NSString stringWithFormat:@"%@",number];
                         
-                        NSLog(@"--Found %@-- ",number);
+                            // NSLog(@"--Found %@-- ",number);
                             // NSString *callstatus= [array objectAtIndex:1];
                         NSString *callstatus= [array objectAtIndex:2];
-                        NSLog(@"Call Status from server : %@",callstatus);
+                            //NSLog(@"Call Status from server : %@",callstatus);
                         callStatusFromServer=callstatus;
 //                        NSString *phNumber=@"";
 //                        NSMutableArray *pharray=[NSMutableArray arrayWithArray:calls];
@@ -480,7 +481,7 @@
                                                         
                             
                             callStatusFromServer=@"inprogress";
-                             NSLog(@"Message passing inprogress number %@",number);
+                                // NSLog(@"Message passing inprogress number %@",number);
                             [self passMessageToDelegate:number status:callStatusFromServer]; 
                             
                         }
@@ -488,7 +489,7 @@
                         else if([callstatus isEqualToString:@"24"]) //exit
                         {
                             callStatusFromServer=@"exit";
-                            NSLog(@"Message passing exit number %@",number);
+                                //NSLog(@"Message passing exit number %@",number);
                             [calls removeObject:number];
                             
                             [self passMessageToDelegate:number status:callStatusFromServer];
@@ -499,14 +500,14 @@
                         {
 
                             callStatusFromServer=@"conference";
-                                NSLog(@"Message passing conference number %@",number);
+                                //NSLog(@"Message passing conference number %@",number);
                             [self passMessageToDelegate:number status:callStatusFromServer]; 
                         }
                             // else if([callstatus isEqualToString:@"rejected"]) //Rejected
                         else if([callstatus isEqualToString:@"30"]) //Rejected
                         {
                             callStatusFromServer=@"rejected";
-                                 NSLog(@"Message passing rejected number %@",number);
+                                // NSLog(@"Message passing rejected number %@",number);
                             
                                   [calls removeObject:number];
                             
@@ -525,6 +526,7 @@
             //NSLog(@"%@ remobving number---------",calls);
         }
     }
+    
 }
 
 
@@ -598,6 +600,6 @@
 }
 
 -(void)callEnded{
-    NSLog(@"call end twilio");
+        // NSLog(@"call end twilio");
 }
 @end

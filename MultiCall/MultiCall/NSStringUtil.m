@@ -68,7 +68,7 @@
         }
     }*/
     
-    NSLog(@"dialed nos: %@",contact);
+        // NSLog(@"dialed nos: %@",contact);
     return contact;
 }
 -(NSString*)prefixrevertContactForTwilio

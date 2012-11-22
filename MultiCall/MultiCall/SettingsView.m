@@ -168,9 +168,8 @@
     }
     if([model.callemeon count] ==1)
     {
-        NSLog(@"callme on %@",model.callemeon);
+        
         CallmeonModel *call=[model.callemeon objectAtIndex:0];
-        NSLog(@"seleced %d",call.isSelected);
         call.isSelected=YES;
         model.PhoneNumber=call.CallPhoneNumber;
     }
@@ -599,8 +598,7 @@
         
     
         [(MulticallAppDelegate *)[[UIApplication sharedApplication] delegate]saveCustomeObject]; //force save
-    NSLog(@"callme on after save %@",model.callemeon);
-    if([model.callemeon count]> 0 && [pinno.text length]>0 && isError==0){
+        if([model.callemeon count]> 0 && [pinno.text length]>0 && isError==0){
         CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
         [alertMsg CustomMessage:@"4" MessageNo:@"4"];
         [alertMsg release];
@@ -657,7 +655,6 @@
             isError=0;
         }
         else{
-            NSLog(@"textiphone length %@ , %i",txtiPhoneNumber.text,[txtiPhoneNumber.text length]);
             CustomMessageClass *alertMsg=[[CustomMessageClass alloc]init];
             [alertMsg CustomMessage:@"4" MessageNo:@"3"];
             [alertMsg release];
@@ -743,9 +740,8 @@
     }
 if([model.callemeon count] ==1)
 {
-    NSLog(@"callme on %@",model.callemeon);
+    
     CallmeonModel *call=[model.callemeon objectAtIndex:0];
-    NSLog(@"seleced %d",call.isSelected);
     call.isSelected=YES;
     model.PhoneNumber=call.CallPhoneNumber;
 }

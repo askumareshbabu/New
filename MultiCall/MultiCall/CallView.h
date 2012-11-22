@@ -41,12 +41,14 @@
     UINavigationController *dialNUmberpicker;
     UINavigationController *settingsViewpicker;
     UINavigationController *callmeonViewpicker;
-    
+    BOOL isCallEndCalled;
     BOOL iscontactclicked;
     BOOL callbuttonstatus;
     int isCallEnded;
     UILabel * detailstext;
     NSDate *timersecondDate;
+    NSDate * callTime;
+    UIImageView *back;
    
 
 }

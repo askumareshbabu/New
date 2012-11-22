@@ -305,7 +305,7 @@ UISearchDisplayController *searchController ;
     
     // Debug
     if (NO) {
-        NSLog(@"Sorted people with boundaries:");
+            //NSLog(@"Sorted people with boundaries:");
         for (id personObj in sortedPeopleWithBoundaries) {
             ABRecordRef person = (ABRecordRef)personObj;
             
@@ -434,8 +434,8 @@ UISearchDisplayController *searchController ;
 
 {
          NSArray *people = [self.selectedPeople allObjects];
-    NSLog(@"done action %@",self.selectedPeople);
-    NSLog(@"seleced Values %@",self.selectedValues);
+        //NSLog(@"done action %@",self.selectedPeople);
+        // NSLog(@"seleced Values %@",self.selectedValues);
     NSArray *sortedPeople = [people sortedArrayUsingFunction:(NSInteger (*)(id, id, void *))ABPersonComparePeopleByName context:(void *)ABPersonGetSortOrdering()];
    
     
@@ -495,7 +495,7 @@ UISearchDisplayController *searchController ;
 
  - (void)viewWillAppear:(BOOL)animated {
  [super viewWillAppear:animated];
-     NSLog(@"page appear");
+
  }
  
 

@@ -54,7 +54,8 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    [self.addMember release];
+    [self.placeMulitCall release];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -83,7 +84,7 @@
        
         contactsTemp = [[NSMutableArray alloc]initWithArray:self.model.contacts];
         [self loadGroupName];
-        NSLog(@"ContactsTemp %@",contactsTemp);
+        
     }
     if(isEditMode)
     {
@@ -291,7 +292,7 @@
 }
 -(IBAction)placeMultiCallClicked
 {
-    NSLog(@"place multicall clicked");
+   
     
     CallView *cview=[[CallView alloc]init];
     [cview selectedPlaceGroup:contactsTemp];
@@ -355,7 +356,9 @@
         case 2:
             {
                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newGroup"];
+                if(cell==nil){
                 cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"newGroup"]autorelease];
+                }
                 cell.backgroundColor=[UIColor whiteColor];
                 cell.selectionStyle=UITableViewCellSelectionStyleNone;
                    
@@ -484,7 +487,7 @@
      if([valuesArg count])
     {
         NSMutableDictionary * values=[[NSMutableDictionary alloc]initWithDictionary:valuesArg];
-        NSLog(@"value arg %@",values);
+       
         NSString *value;NSString * phoneType;NSString *name;
         for(id key in [values allKeys])
         {

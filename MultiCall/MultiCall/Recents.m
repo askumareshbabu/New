@@ -51,7 +51,7 @@
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    [imgstartnewview release];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -218,11 +218,13 @@
     self.lblRecentContacts=[[[UILabel alloc]init]autorelease];
     self.lblParticipants=[[[UILabel alloc]init]autorelease];
     self.lblDate=[[[UILabel alloc]init]autorelease];
-        cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"Recent"];
-        cell=  [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:@"Recent"];
+        cell= (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+    if(cell==nil){
+        cell=  [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle  reuseIdentifier:nil]autorelease];
+    
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
         cell.backgroundColor=[UIColor whiteColor];
-              
+    }
         self.recentview.autoresizingMask=UIViewAutoresizingFlexibleWidth;
         self.recentview.frame=CGRectMake(0, 0, cell.frame.size.width, 55);
         
@@ -247,12 +249,13 @@
         self.lblDate.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
     
         self.lblDate.frame=CGRectMake(180, 25, cell.frame.size.width-220, 20);
-         
+    
+    
         [cell.contentView addSubview:self.lblRecentContacts];
         [cell.contentView addSubview:self.lblParticipants];
         [cell.contentView addSubview:self.lblDate];
         [cell.contentView addSubview:self.recentview];
-       
+    
     CallModel *callmo=[model.recentsCall objectAtIndex:indexPath.row];
    if(callmo)
    {

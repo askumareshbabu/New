@@ -35,10 +35,10 @@
     
     [self.window makeKeyAndVisible];
     // Override point for customization after application launch.
-   // [BugSenseController sharedControllerWithBugSenseAPIKey:@"2877294f"];
-    [BugSenseController sharedControllerWithBugSenseAPIKey:@"2877294f"
-                                            userDictionary:nil
-                                           sendImmediately:YES];
+   
+//   [BugSenseController sharedControllerWithBugSenseAPIKey:@"2877294f"
+//                                            userDictionary:nil
+//                                           sendImmediately:YES];
     return YES;
 }
 
@@ -104,12 +104,12 @@
 -(void)updateChecker
 {
        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSLog(@"checking for update");
+        //NSLog(@"checking for update");
         //  NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://mindssoft.net/MultiCall_Test/iPhone/MultiCallUpdateChecker.plist"]];
      NSData *plistData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://122.165.33.168/iphoneMC/MultiCallUpdateChecker.plist"]];
     
     if (plistData) {
-        NSLog(@"finished checking for update");
+            // NSLog(@"finished checking for update");
         NSError *error;
         NSPropertyListFormat format;
         NSDictionary *plist = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:&format error:&error];
@@ -136,7 +136,7 @@
             filepath=[NSString stringWithFormat:@"itms-services://?action=download-manifest&url=%@",URL];
                 //  NSLog(@"filepath %@",filepath);
             
-            NSLog(@"newVersion: %@, currentVersion: %@ ,%@ ", newVersion, currentVersion,buildVersion);
+                // NSLog(@"newVersion: %@, currentVersion: %@ ,%@ ", newVersion, currentVersion,buildVersion);
             if (![newVersion isEqualToString:currentVersion] || ![buildVersion isEqualToString:newBuildVersion]) {
                 [filepath retain];
                     //NSLog(@"A new update is available");

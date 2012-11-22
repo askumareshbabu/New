@@ -63,6 +63,7 @@ ABAddressBookRef ab;
     if (self) {
         // Custom initialization
         isCallEnded=0;
+        isCallEndCalled=0;
     }
     return self;
 }
@@ -76,7 +77,7 @@ ABAddressBookRef ab;
 {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
+    [back release];
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -204,6 +205,7 @@ ABAddressBookRef ab;
     [self setButtonviewCell:nil];
     [super viewDidUnload];
     [_bottomToolbar removeFromSuperview];
+    [callTime release];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
@@ -267,7 +269,7 @@ ABAddressBookRef ab;
                 cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"recentView"]autorelease];
                     cell.backgroundView =[[[UIView alloc] initWithFrame:CGRectZero] autorelease];
                    
-                    UIImageView *back=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shad_02.png"]];
+                    back=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"shad_02.png"]];
                    back.frame=CGRectMake(cell.frame.origin.x-10, 0, 320, 65);
                   
                     [cell.contentView addSubview:back];
@@ -331,8 +333,10 @@ ABAddressBookRef ab;
             break;
         }
         case CONTACT_SEC_INDEX:{
-                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"callView"];
-                 cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:@"callView"]autorelease];
+                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:nil];
+            if(cell==nil){
+                 cell = [[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:nil]autorelease];
+            }
                     cell.backgroundColor=[UIColor whiteColor];
                 cell.selectionStyle=UITableViewCellSelectionStyleNone;  
             ContactModel *contact=[self.contacts objectAtIndex:indexPath.row];
@@ -375,7 +379,7 @@ ABAddressBookRef ab;
             CGRect rect= CGRectMake(cellframe.size.width - 110, cellframe.origin.y - 5, 110, cellframe.size.height - 10);
             [but setFrame:rect];
             cell.accessoryView = but;
-            lblName.lineBreakMode=UILineBreakModeTailTruncation;
+            lblName.autoresizingMask=UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleRightMargin;
             lblContactType.text=nil;
             
         }
@@ -686,6 +690,9 @@ ABAddressBookRef ab;
 
 - (void)btnMakeMultiCall:(id)sender {
     self.title =@"Participants";
+    
+    callTime = [NSDate date];
+    [callTime retain];
     [(UITableView *)self.view setEditing:NO animated:YES];
     [self enableCalling];
     if([self.twilio_adaptor isCallActive])
@@ -840,13 +847,13 @@ ABAddressBookRef ab;
 -(void)callEnded
 
 {
-
-        
+    if(isCallEndCalled ==0){
    [self saveModel];
     [self changeButton:@"EndCallButton.png" selector:nil];
     [self performSelector:@selector(cancelCall) withObject:self afterDelay:3.0];
         self.navigationItem.leftBarButtonItem.title=@"Cancel";
     [self performSelector:@selector(endModelviewcontroller) withObject:self afterDelay:2.0];
+    }
    
 }
 -(void)endModelviewcontroller
@@ -859,12 +866,14 @@ ABAddressBookRef ab;
     
     if(self.twilio_adaptor.isErrorOccured==NO)
     {
+        
         [self performSelector:@selector(clearData) withObject:self afterDelay:2.0];
         
         [self performSelector:@selector(disableCalling) withObject:self afterDelay:2.0];
     }
     else
     {
+        
         [self performSelector:@selector(clearData) withObject:self];
         [self performSelector:@selector(enableCalling) withObject:self afterDelay:2.0];
         
@@ -883,7 +892,7 @@ ABAddressBookRef ab;
     else
     {
             //remove chairperson only.
-        
+       
         if([self.contacts count] >0)
         {
             ContactModel *cmodel = [self.contacts objectAtIndex:0];
@@ -894,8 +903,8 @@ ABAddressBookRef ab;
         }
         
     }
-    
-    [((UITableView *)self.view)reloadData];
+isCallEndCalled=1;
+        //[((UITableView *)self.view)reloadData];
     
 }
 -(void)changeButton:(NSString *)imagePath selector:(SEL)selector
@@ -934,9 +943,10 @@ if([status isEqualToString:@"conference"])
  */
 -(void)saveModel
 {
+    
     if([self.contacts count]>0){
     CallModel *cmodel = [[CallModel alloc] init];
-    cmodel.dateTime = [NSDate date];
+        cmodel.dateTime =callTime;//[NSDate date];
     cmodel.Callduration=[self updateTime];
           
     /* Remove Chairperson to avoid showing in recents list */
